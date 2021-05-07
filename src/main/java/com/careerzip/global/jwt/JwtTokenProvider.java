@@ -47,8 +47,10 @@ public class JwtTokenProvider {
                 // TODO: 커스텀 에러 상세 정의
                 throw new JwtValidationException();
             }
+
+            return true;
         }
 
-        return true;
+        throw new JwtValidationException();
     }
 }
