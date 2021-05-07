@@ -20,7 +20,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
     AccountRepository accountRepository;
 
     @Test
-    @DisplayName("성공 - Account 생성시 기본 값이(submitCount, deleted) 설정되는 테스트")
+    @DisplayName("성공 - Account 생성 기본 값(submitCount, deleted) 설정 테스트")
     void accountDefaultValueTest() {
         // given
         int defaultSubmitCount = 0;
