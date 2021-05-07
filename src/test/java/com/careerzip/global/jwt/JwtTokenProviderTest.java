@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Import;
 import java.util.stream.Stream;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
+import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtProperties;
+import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtProperties;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -41,32 +43,22 @@ class JwtTokenProviderTest {
     void validateAuthorizationTokenTest() {
         // given
         Account account = createMember();
+        JwtProperties validProperties = createValidJwtProperties();
 
         // when
         when(mockAccount.getId()).thenReturn(account.getId());
         when(mockAccount.getEmail()).thenReturn(account.getEmail());
         when(mockAccount.getRole()).thenReturn(account.getRole());
 
-        when(jwtProperties.getIssuer()).thenReturn("Test Issuer");
-        when(jwtProperties.getExpiration()).thenReturn(10000L);
-        when(jwtProperties.getSecretKey()).thenReturn("Test Secret Key");
+        when(jwtProperties.getIssuer()).thenReturn(validProperties.getIssuer());
+        when(jwtProperties.getExpiration()).thenReturn(validProperties.getExpiration());
+        when(jwtProperties.getSecretKey()).thenReturn(validProperties.getSecretKey());
 
         String jwtToken = jwtTokenProvider.issueToken(mockAccount);
         String header = "Bearer " + jwtToken;
 
         // then
         assertThatCode(() -> jwtTokenProvider.validateAuthorizationToken(header)).doesNotThrowAnyException();
-    }
-
-    @ParameterizedTest
-    @MethodSource("invalidAuthorizationHeaderParameters")
-    @DisplayName("에러 - 유효하지 않은 Authorization 헤더로 요청 했을 때 실패하는 테스트")
-    void invalidAuthorizationHeaderTest(String wrongHeader) {
-        // when
-
-        // then
-        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(wrongHeader))
-                .isInstanceOf(JwtValidationException.class);
     }
 
     @Test
@@ -78,13 +70,6 @@ class JwtTokenProviderTest {
         // when
         when(jwtProperties.getSecretKey()).thenReturn("Different key");
 
-        Account account = createMember();
-
-        // when
-        when(mockAccount.getId()).thenReturn(account.getId());
-        when(mockAccount.getEmail()).thenReturn(account.getEmail());
-        when(mockAccount.getRole()).thenReturn(account.getRole());
-
         // then
         assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(invalidToken))
                 .isInstanceOf(JwtValidationException.class);
@@ -94,16 +79,13 @@ class JwtTokenProviderTest {
     @DisplayName("에러 - 만료된 인증 토큰으로 요청하는 경우 실패하는 테스트")
     void expiredTokenTest() {
         // given
-        String secretKey = "Secret Key";
-        String issuer = "Test Issuer";
-        long expiration = 10L;
-
+        JwtProperties expiredProperties = createExpiredJwtProperties();
         Account account = createMember();
 
         // when
-        when(jwtProperties.getSecretKey()).thenReturn(secretKey);
-        when(jwtProperties.getIssuer()).thenReturn(issuer);
-        when(jwtProperties.getExpiration()).thenReturn(expiration);
+        when(jwtProperties.getSecretKey()).thenReturn(expiredProperties.getSecretKey());
+        when(jwtProperties.getIssuer()).thenReturn(expiredProperties.getIssuer());
+        when(jwtProperties.getExpiration()).thenReturn(expiredProperties.getExpiration());
 
         // when
         when(mockAccount.getId()).thenReturn(account.getId());
@@ -115,6 +97,16 @@ class JwtTokenProviderTest {
 
         // then
         assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(authorizationHeader));
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidAuthorizationHeaderParameters")
+    @DisplayName("에러 - 유효하지 않은 Authorization 헤더로 요청 했을 때 실패하는 테스트")
+    void invalidAuthorizationHeaderTest(String wrongHeader) {
+
+        // then
+        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(wrongHeader))
+                .isInstanceOf(JwtValidationException.class);
     }
 
     private static Stream<Arguments> invalidAuthorizationHeaderParameters() {
