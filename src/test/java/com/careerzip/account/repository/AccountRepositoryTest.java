@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
+import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,15 +23,8 @@ class AccountRepositoryTest extends BaseRepositoryTest {
     @DisplayName("성공 - Account 생성시 기본 값이(submitCount, deleted) 설정되는 테스트")
     void accountDefaultValueTest() {
         // given
-        Account account = Account.builder()
-                                 .oauthId("OAuth ID")
-                                 .provider(Provider.GOOGLE)
-                                 .name("Account Name")
-                                 .email("Email")
-                                 .avatarUrl("https://avatarUrl")
-                                 .role(Role.MEMBER)
-                                 .build();
         int defaultSubmitCount = 0;
+        Account account = createMember();
 
         // when
         Account savedAccount = accountRepository.save(account);
@@ -44,14 +38,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
     @DisplayName("성공 - Account 생성 시간 (Jpa Auditing) 테스트")
     void jpaAuditingTest() {
         // given
-        Account account = Account.builder()
-                                 .oauthId("OAuth ID")
-                                 .provider(Provider.GOOGLE)
-                                 .name("Account Name")
-                                 .email("Email")
-                                 .avatarUrl("https://avatarUrl")
-                                 .role(Role.MEMBER)
-                                 .build();
+        Account account = createMember();
 
         // when
         LocalDateTime testTime = LocalDateTime.now();
