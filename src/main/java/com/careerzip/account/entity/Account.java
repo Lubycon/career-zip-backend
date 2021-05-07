@@ -55,5 +55,12 @@ public class Account {
         this.submitCount = submitCount;
         this.deleted = deleted;
     }
+
+    @PrePersist
+    public void prePersist() {
+        // 새로운 계정 생성시 커리어 레터 제출 횟수에 대한 기본 값은 0 입니다.
+        this.submitCount = 0;
+        this.deleted = false;
+    }
 }
 
