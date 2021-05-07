@@ -2,6 +2,9 @@ package com.careerzip.global.jwt;
 
 import com.careerzip.account.entity.Account;
 import com.careerzip.global.error.exception.JwtValidationException;
+import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
+import com.careerzip.global.error.exception.jwt.JwtExpirationException;
+import com.careerzip.global.error.response.ErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,6 +64,7 @@ class JwtTokenProviderTest {
     @DisplayName("에러 - Secret Key가 일치하지 않을 경우 실패하는 테스트")
     void invalidSecretKeyTest() {
         // given
+        ErrorCode invalidJwtTokenError = ErrorCode.JWT_INVALIDATION_ERROR;
         String invalidToken = "Bearer " + "Secret key";
 
         // when
@@ -68,13 +72,16 @@ class JwtTokenProviderTest {
 
         // then
         assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(invalidToken))
-                .isInstanceOf(JwtValidationException.class);
+                .isExactlyInstanceOf(InvalidJwtTokenException.class)
+                .isInstanceOf(JwtValidationException.class)
+                .hasMessage(invalidJwtTokenError.getMessage());
     }
 
     @Test
     @DisplayName("에러 - 만료된 인증 토큰으로 요청하는 경우 실패하는 테스트")
     void expiredTokenTest() {
         // given
+        ErrorCode jwtExpiredError = ErrorCode.JWT_EXPIRED_ERROR;
         JwtProperties expiredProperties = createExpiredJwtProperties();
         Account account = createMember();
 
@@ -92,17 +99,24 @@ class JwtTokenProviderTest {
         String authorizationHeader = "Bearer " + jwtToken;
 
         // then
-        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(authorizationHeader));
+        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(authorizationHeader))
+                .isExactlyInstanceOf(JwtExpirationException.class)
+                .isInstanceOf(JwtValidationException.class)
+                .hasMessage(jwtExpiredError.getMessage());
     }
 
     @ParameterizedTest
     @MethodSource("invalidAuthorizationHeaderParameters")
     @DisplayName("에러 - 유효하지 않은 Authorization 헤더로 요청 했을 때 실패하는 테스트")
     void invalidAuthorizationHeaderTest(String wrongHeader) {
+        // given
+        ErrorCode invalidJwtTokenError = ErrorCode.JWT_INVALIDATION_ERROR;
 
         // then
         assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(wrongHeader))
-                .isInstanceOf(JwtValidationException.class);
+                .isExactlyInstanceOf(InvalidJwtTokenException.class)
+                .isInstanceOf(JwtValidationException.class)
+                .hasMessage(invalidJwtTokenError.getMessage());
     }
 
     private static Stream<Arguments> invalidAuthorizationHeaderParameters() {
