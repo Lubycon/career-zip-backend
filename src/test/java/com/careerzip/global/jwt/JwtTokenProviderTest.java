@@ -69,6 +69,20 @@ class JwtTokenProviderTest {
                 .isInstanceOf(JwtValidationException.class);
     }
 
+    @Test
+    @DisplayName("에러 - Secret Key가 일치하지 않을 경우 실패하는 테스트")
+    void invalidSecretKeyTest() {
+        // given
+        String invalidToken = "Bearer " + "Secret key";
+
+        // when
+        when(jwtProperties.getSecretKey()).thenReturn("Different key");
+
+        // then
+        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(invalidToken))
+                .isInstanceOf(JwtValidationException.class);
+    }
+
     private static Stream<Arguments> invalidAuthorizationHeaderParameters() {
         return Stream.of(
                 Arguments.of("Wrong Header"), Arguments.of("Bearer")
