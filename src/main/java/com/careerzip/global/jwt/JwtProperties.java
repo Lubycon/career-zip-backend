@@ -1,6 +1,7 @@
 package com.careerzip.global.jwt;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
@@ -11,7 +12,8 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
 
+    private final String issuer;
     private final String secretKey;
-    private final String expiration;
-    private final Long prefix;
+    private final Long expiration;
+    private final String prefix;
 }

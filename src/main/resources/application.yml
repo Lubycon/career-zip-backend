@@ -25,6 +25,7 @@ spring:
         format_sql: true
 
 jwt:
+  issuer: ${JWT_ISSUER}
   secretKey: ${JWT_SECRET_KEY}
   expiration: ${JWT_EXPIRATION}
   prefix: ${JWT_PREFIX}
