@@ -78,9 +78,43 @@ class JwtTokenProviderTest {
         // when
         when(jwtProperties.getSecretKey()).thenReturn("Different key");
 
+        Account account = createMember();
+
+        // when
+        when(mockAccount.getId()).thenReturn(account.getId());
+        when(mockAccount.getEmail()).thenReturn(account.getEmail());
+        when(mockAccount.getRole()).thenReturn(account.getRole());
+
         // then
         assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(invalidToken))
                 .isInstanceOf(JwtValidationException.class);
+    }
+
+    @Test
+    @DisplayName("에러 - 만료된 인증 토큰으로 요청하는 경우 실패하는 테스트")
+    void expiredTokenTest() {
+        // given
+        String secretKey = "Secret Key";
+        String issuer = "Test Issuer";
+        long expiration = 10L;
+
+        Account account = createMember();
+
+        // when
+        when(jwtProperties.getSecretKey()).thenReturn(secretKey);
+        when(jwtProperties.getIssuer()).thenReturn(issuer);
+        when(jwtProperties.getExpiration()).thenReturn(expiration);
+
+        // when
+        when(mockAccount.getId()).thenReturn(account.getId());
+        when(mockAccount.getEmail()).thenReturn(account.getEmail());
+        when(mockAccount.getRole()).thenReturn(account.getRole());
+
+        String jwtToken = jwtTokenProvider.issueToken(mockAccount);
+        String authorizationHeader = "Bearer " + jwtToken;
+
+        // then
+        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(authorizationHeader));
     }
 
     private static Stream<Arguments> invalidAuthorizationHeaderParameters() {
