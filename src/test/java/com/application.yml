@@ -1,0 +1,9 @@
+spring:
+  profiles: test
+  h2:
+    console:
+      enable: true
+  datasource:
+    username: sa
+    password:
+
