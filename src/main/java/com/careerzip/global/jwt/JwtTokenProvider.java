@@ -32,24 +32,30 @@ public class JwtTokenProvider {
     }
 
     public boolean validateAuthorizationToken(String header) {
-        String headerPrefix = "Bearer ";
-
-        if (header.startsWith(headerPrefix)) {
-            String token = header.substring(headerPrefix.length());
-
-            try {
-                Jwts.parser()
-                        .setSigningKey(jwtProperties.getSecretKey())
-                        .parse(token);
-            } catch (ExpiredJwtException exception) {
-                throw new JwtExpirationException();
-            } catch (JwtException exception) {
-                throw new InvalidJwtTokenException();
-            }
-
-            return true;
+        if (isInvalidHeader(header)) {
+            throw new InvalidJwtTokenException();
         }
 
-        throw new InvalidJwtTokenException();
+        String token = extractToken(header);
+
+        try {
+            Jwts.parser()
+                .setSigningKey(jwtProperties.getSecretKey())
+                .parse(token);
+        } catch (ExpiredJwtException exception) {
+            throw new JwtExpirationException();
+        } catch (JwtException exception) {
+            throw new InvalidJwtTokenException();
+        }
+
+        return true;
+    }
+
+    private boolean isInvalidHeader(String header) {
+        return !header.startsWith("Bearer ");
+    }
+
+    private String extractToken(String header) {
+        return header.substring("Bearer ".length());
     }
 }
