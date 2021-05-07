@@ -1,13 +1,11 @@
 package com.careerzip.global.jwt;
 
 import com.careerzip.account.entity.Account;
-import com.careerzip.global.error.jwt.JwtValidationException;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.careerzip.global.error.exception.JwtValidationException;
+import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
+import com.careerzip.global.error.exception.jwt.JwtExpirationException;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -41,16 +39,17 @@ public class JwtTokenProvider {
 
             try {
                 Jwts.parser()
-                    .setSigningKey(jwtProperties.getSecretKey())
-                    .parse(token);
+                        .setSigningKey(jwtProperties.getSecretKey())
+                        .parse(token);
+            } catch (ExpiredJwtException exception) {
+                throw new JwtExpirationException();
             } catch (JwtException exception) {
-                // TODO: 커스텀 에러 상세 정의
-                throw new JwtValidationException();
+                throw new InvalidJwtTokenException();
             }
 
             return true;
         }
 
-        throw new JwtValidationException();
+        throw new InvalidJwtTokenException();
     }
 }

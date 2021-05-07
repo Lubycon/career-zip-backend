@@ -1,7 +1,7 @@
 package com.careerzip.global.jwt;
 
 import com.careerzip.account.entity.Account;
-import com.careerzip.global.error.jwt.JwtValidationException;
+import com.careerzip.global.error.exception.JwtValidationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,10 +10,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 
 import java.util.stream.Stream;
 
@@ -21,7 +18,6 @@ import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtProperties;
 import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtProperties;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
