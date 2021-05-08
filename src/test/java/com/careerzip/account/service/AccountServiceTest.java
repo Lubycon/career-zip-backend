@@ -5,6 +5,9 @@ import com.careerzip.account.dto.request.AccountRequestBuilder;
 import com.careerzip.account.entity.Account;
 import com.careerzip.account.entity.Provider;
 import com.careerzip.account.repository.AccountRepository;
+import com.careerzip.global.error.exception.AuthException;
+import com.careerzip.global.error.exception.auth.InvalidOAuthProviderException;
+import com.careerzip.global.error.response.ErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -49,5 +53,25 @@ class AccountServiceTest {
 
         // then
         assertThat(foundAccount).usingRecursiveComparison().isEqualTo(account);
+    }
+
+    @Test
+    @DisplayName("에러 - 인증시 존재하지 않는 Provider 데이터가 DTO에 포함될 경우 요청이 실패하는 테스트")
+    void findAccountWhenInvalidOAuthProviderTest() {
+        // given
+        ErrorCode invalidOAuthProviderError = ErrorCode.INVALID_OAUTH_PROVIDER_ERROR;
+        AccountRequest accountRequest = AccountRequestBuilder.newBuilder()
+                                                             .provider("NotProvider")
+                                                             .oAuthId("OAuthID")
+                                                             .name("Username")
+                                                             .email("account@email.com")
+                                                             .avatarUrl("https://avatarUrl")
+                                                             .build();
+
+        // then
+        assertThatThrownBy(() -> accountService.find(accountRequest))
+                .isExactlyInstanceOf(InvalidOAuthProviderException.class)
+                .isInstanceOf(AuthException.class)
+                .hasMessage(invalidOAuthProviderError.getMessage());
     }
 }
