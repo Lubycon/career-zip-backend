@@ -46,8 +46,10 @@ public class Account extends BaseTimeEntity {
     private boolean deleted;
 
     @Builder
-    private Account(String oauthId, Provider provider, String name, String email, String avatarUrl, Role role,
+    private Account(Long id, String oauthId, Provider provider, String name, String email, String avatarUrl, Role role,
                    int submitCount, boolean deleted) {
+        // NOTICE: 오직 ID 값이 필요한 테스트 객체를 위한 코드이며, 테스트가 아닌 환경에서 모든 객체는 빌더가 아닌 정적 팩토리 메서드를 통해서만 생성해야 합니다.
+        this.id = id;
         this.oauthId = oauthId;
         this.provider = provider;
         this.name = name;
