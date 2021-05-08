@@ -1,5 +1,7 @@
 package com.careerzip.testobject.account;
 
+import com.careerzip.account.dto.request.AccountRequest;
+import com.careerzip.account.dto.request.AccountRequestBuilder;
 import com.careerzip.account.entity.Account;
 import com.careerzip.account.entity.Provider;
 import com.careerzip.account.entity.Role;
@@ -20,7 +22,7 @@ public class AccountFactory {
      *
      */
 
-    // Role - MEMBER
+    // Account - MEMBER
     public static Account createMember() {
         return Account.builder()
                       .oauthId("OAuth ID")
@@ -30,5 +32,26 @@ public class AccountFactory {
                       .avatarUrl("https://avatarUrl")
                       .role(Role.MEMBER)
                       .build();
+    }
+
+    // AccountRequest
+    public static AccountRequest createAccountRequest() {
+        return AccountRequestBuilder.newBuilder()
+                                    .provider("GOOGLE")
+                                    .oAuthId("OAuthID")
+                                    .name("Username")
+                                    .email("account@email.com")
+                                    .avatarUrl("https://avatarUrl")
+                                    .build();
+    }
+
+    public static AccountRequest createAccountRequestOf(String provider) {
+        return AccountRequestBuilder.newBuilder()
+                                    .provider(provider)
+                                    .oAuthId("OAuthID")
+                                    .name("Username")
+                                    .email("account@email.com")
+                                    .avatarUrl("https://avatarUrl")
+                                    .build();
     }
 }

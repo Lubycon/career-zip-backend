@@ -17,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static com.careerzip.testobject.account.AccountFactory.createAccountRequest;
+import static com.careerzip.testobject.account.AccountFactory.createAccountRequestOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,13 +38,7 @@ class AccountServiceTest {
     @DisplayName("성공 - 요청 받은 AccountRequest DTO를 바탕으로 Account를 반환하는 테스트")
     void findAccountTest() {
         // given
-        AccountRequest accountRequest = AccountRequestBuilder.newBuilder()
-                                                             .provider("GOOGLE")
-                                                             .oAuthId("OAuthID")
-                                                             .name("Username")
-                                                             .email("account@email.com")
-                                                             .avatarUrl("https://avatarUrl")
-                                                             .build();
+        AccountRequest accountRequest = createAccountRequest();
         Account account = Account.from(accountRequest);
 
         // when
@@ -60,13 +56,7 @@ class AccountServiceTest {
     void findAccountWhenInvalidOAuthProviderTest() {
         // given
         ErrorCode invalidOAuthProviderError = ErrorCode.INVALID_OAUTH_PROVIDER_ERROR;
-        AccountRequest accountRequest = AccountRequestBuilder.newBuilder()
-                                                             .provider("NotProvider")
-                                                             .oAuthId("OAuthID")
-                                                             .name("Username")
-                                                             .email("account@email.com")
-                                                             .avatarUrl("https://avatarUrl")
-                                                             .build();
+        AccountRequest accountRequest = createAccountRequestOf("InvalidProvider");
 
         // then
         assertThatThrownBy(() -> accountService.find(accountRequest))

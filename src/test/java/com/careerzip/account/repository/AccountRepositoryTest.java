@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
+import static com.careerzip.testobject.account.AccountFactory.createAccountRequest;
 import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,13 +56,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
     @DisplayName("OAuth 관련 데이터로 사용자를 조회하는 메서드 테스트")
     void findByOAuthTest() {
         // given
-        AccountRequest accountRequest = AccountRequestBuilder.newBuilder()
-                                                             .provider("GOOGLE")
-                                                             .oAuthId("OAuthID")
-                                                             .name("Username")
-                                                             .email("account@email.com")
-                                                             .avatarUrl("https://avatarUrl")
-                                                             .build();
+        AccountRequest accountRequest = createAccountRequest();
 
         Account account = Account.from(accountRequest);
         Account newAccount = accountRepository.save(account);
