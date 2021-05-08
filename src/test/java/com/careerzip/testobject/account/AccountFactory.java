@@ -2,7 +2,7 @@ package com.careerzip.testobject.account;
 
 import com.careerzip.account.dto.request.AccountRequest;
 import com.careerzip.account.dto.request.AccountRequestBuilder;
-import com.careerzip.account.dto.response.AccountSummaryResponse;
+import com.careerzip.account.dto.response.AccountSummary;
 import com.careerzip.account.entity.Account;
 import com.careerzip.account.entity.Provider;
 import com.careerzip.account.entity.Role;
@@ -81,13 +81,13 @@ public class AccountFactory {
     }
 
     // AccountSummaryResponse
-    public static AccountSummaryResponse createAccountSummaryResponse() {
-        return AccountSummaryResponse.builder()
-                                     .id(1L)
-                                     .name("Username")
-                                     .email("account@email.com")
-                                     .avatarUrl("https://avatarUrl")
-                                     .role("MEMBER")
-                                     .build();
+    public static AccountSummary createAccountSummaryResponse() {
+        return AccountSummary.builder()
+                             .id(1L)
+                             .name("Username")
+                             .email("account@email.com")
+                             .avatarUrl("https://avatarUrl")
+                             .role("MEMBER")
+                             .build();
     }
 }

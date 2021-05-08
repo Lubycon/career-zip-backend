@@ -1,6 +1,6 @@
 package com.careerzip.global.jwt;
 
-import com.careerzip.account.dto.response.AccountSummaryResponse;
+import com.careerzip.account.dto.response.AccountSummary;
 import com.careerzip.account.entity.Account;
 import com.careerzip.global.error.exception.JwtValidationException;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.stream.Stream;
 
-import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static com.careerzip.testobject.account.AccountFactory.createMemberOf;
 import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtProperties;
 import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtProperties;
@@ -48,7 +47,7 @@ class JwtTokenProviderTest {
         when(jwtProperties.getExpiration()).thenReturn(validProperties.getExpiration());
         when(jwtProperties.getSecretKey()).thenReturn(validProperties.getSecretKey());
 
-        String jwtToken = jwtTokenProvider.issueToken(AccountSummaryResponse.from(account));
+        String jwtToken = jwtTokenProvider.issueToken(AccountSummary.from(account));
         String header = "Bearer " + jwtToken;
 
         // then
@@ -85,7 +84,7 @@ class JwtTokenProviderTest {
         when(jwtProperties.getIssuer()).thenReturn(expiredProperties.getIssuer());
         when(jwtProperties.getExpiration()).thenReturn(expiredProperties.getExpiration());
 
-        String jwtToken = jwtTokenProvider.issueToken(AccountSummaryResponse.from(account));
+        String jwtToken = jwtTokenProvider.issueToken(AccountSummary.from(account));
         String authorizationHeader = "Bearer " + jwtToken;
 
         // then

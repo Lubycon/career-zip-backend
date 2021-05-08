@@ -1,8 +1,7 @@
 package com.careerzip.account.service;
 
 import com.careerzip.account.dto.request.AccountRequest;
-import com.careerzip.account.dto.request.AccountRequestBuilder;
-import com.careerzip.account.dto.response.AccountSummaryResponse;
+import com.careerzip.account.dto.response.AccountSummary;
 import com.careerzip.account.entity.Account;
 import com.careerzip.account.entity.Provider;
 import com.careerzip.account.repository.AccountRepository;
@@ -45,7 +44,7 @@ class AccountServiceTest {
         when(accountRepository.findByOAuth(Provider.valueOf(accountRequest.getProvider()), accountRequest.getOAuthId()))
                 .thenReturn(Optional.of(account));
 
-        AccountSummaryResponse foundAccount = accountService.find(accountRequest);
+        AccountSummary foundAccount = accountService.find(accountRequest);
 
         // then
         assertAll(

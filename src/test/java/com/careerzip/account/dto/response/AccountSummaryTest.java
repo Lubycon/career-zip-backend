@@ -4,12 +4,11 @@ import com.careerzip.account.entity.Account;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static com.careerzip.testobject.account.AccountFactory.createMemberOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class AccountSummaryResponseTest {
+class AccountSummaryTest {
 
     @Test
     @DisplayName("Account를 받아서 정적 팩토리 메서드로부터 DTO를 생성하는 테스트")
@@ -18,7 +17,7 @@ class AccountSummaryResponseTest {
         Account account = createMemberOf(1L);
 
         // when
-        AccountSummaryResponse response = AccountSummaryResponse.from(account);
+        AccountSummary response = AccountSummary.from(account);
 
         // then
         assertAll(

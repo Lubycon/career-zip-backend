@@ -1,7 +1,7 @@
 package com.careerzip.account.service;
 
 import com.careerzip.account.dto.request.AccountRequest;
-import com.careerzip.account.dto.response.AccountSummaryResponse;
+import com.careerzip.account.dto.response.AccountSummary;
 import com.careerzip.account.entity.Account;
 import com.careerzip.account.entity.Provider;
 import com.careerzip.account.repository.AccountRepository;
@@ -18,7 +18,7 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     @Transactional
-    public AccountSummaryResponse find(AccountRequest accountRequest) {
+    public AccountSummary find(AccountRequest accountRequest) {
         if (Provider.isInvalidProvider(accountRequest.getProvider())) {
             throw new InvalidOAuthProviderException();
         }
@@ -29,6 +29,6 @@ public class AccountService {
                                                return accountRepository.save(newAccount);
                                            });
 
-        return AccountSummaryResponse.from(account);
+        return AccountSummary.from(account);
     }
 }
