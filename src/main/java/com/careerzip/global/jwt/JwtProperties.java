@@ -13,6 +13,6 @@ public class JwtProperties {
 
     private final String issuer;
     private final String secretKey;
-    private final Long expiration;
-    private final String prefix;
+    private final String expiration;
+    private final String cookieName;
 }
