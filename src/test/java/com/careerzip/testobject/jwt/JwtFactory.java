@@ -25,6 +25,11 @@ public class JwtFactory {
         return new JwtProperties("TestIssuer", "TestSecretKey", "10000", "jwt");
     }
 
+    // JwtProperties - Invalid
+    public static JwtProperties createInValidJwtProperties() {
+        return new JwtProperties("Invalid Issuer", "Invalid Secret Key", "10000", "jwt");
+    }
+
     // JwtProperties - Expired
     public static JwtProperties createExpiredJwtProperties() {
         return new JwtProperties("Valid Issuer", "Valid Secret Key", "10", "jwtToken");
@@ -33,6 +38,13 @@ public class JwtFactory {
     // JwtToken - Valid
     public static String createValidJwtTokenOf(AccountSummary account) {
         JwtProperties jwtProperties = createValidJwtProperties();
+        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
+        return jwtTokenProvider.issueToken(account);
+    }
+
+    // JwtToken - Invalid
+    public static String createInValidJwtTokenOf(AccountSummary account) {
+        JwtProperties jwtProperties = createInValidJwtProperties();
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
         return jwtTokenProvider.issueToken(account);
     }
