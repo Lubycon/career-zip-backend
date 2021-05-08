@@ -2,6 +2,7 @@ package com.careerzip.account.service;
 
 import com.careerzip.account.dto.request.AccountRequest;
 import com.careerzip.account.dto.request.AccountRequestBuilder;
+import com.careerzip.account.dto.response.AccountSummaryResponse;
 import com.careerzip.account.entity.Account;
 import com.careerzip.account.entity.Provider;
 import com.careerzip.account.repository.AccountRepository;
@@ -17,8 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static com.careerzip.testobject.account.AccountFactory.createAccountRequest;
-import static com.careerzip.testobject.account.AccountFactory.createAccountRequestOf;
+import static com.careerzip.testobject.account.AccountFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,16 +39,22 @@ class AccountServiceTest {
     void findAccountTest() {
         // given
         AccountRequest accountRequest = createAccountRequest();
-        Account account = Account.from(accountRequest);
+        Account account = createMemberOf(accountRequest);
 
         // when
         when(accountRepository.findByOAuth(Provider.valueOf(accountRequest.getProvider()), accountRequest.getOAuthId()))
                 .thenReturn(Optional.of(account));
 
-        Account foundAccount = accountService.find(accountRequest);
+        AccountSummaryResponse foundAccount = accountService.find(accountRequest);
 
         // then
-        assertThat(foundAccount).usingRecursiveComparison().isEqualTo(account);
+        assertAll(
+                () -> assertThat(foundAccount.getId()).isEqualTo(account.getId()),
+                () -> assertThat(foundAccount.getName()).isEqualTo(account.getName()),
+                () -> assertThat(foundAccount.getEmail()).isEqualTo(account.getEmail()),
+                () -> assertThat(foundAccount.getAvatarUrl()).isEqualTo(account.getAvatarUrl()),
+                () -> assertThat(foundAccount.getRole()).isEqualTo(account.getRole().name())
+        );
     }
 
     @Test

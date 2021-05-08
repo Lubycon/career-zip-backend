@@ -2,6 +2,7 @@ package com.careerzip.testobject.account;
 
 import com.careerzip.account.dto.request.AccountRequest;
 import com.careerzip.account.dto.request.AccountRequestBuilder;
+import com.careerzip.account.dto.response.AccountSummaryResponse;
 import com.careerzip.account.entity.Account;
 import com.careerzip.account.entity.Provider;
 import com.careerzip.account.entity.Role;
@@ -34,6 +35,30 @@ public class AccountFactory {
                       .build();
     }
 
+    public static Account createMemberOf(Long id) {
+        return Account.builder()
+                      .id(id)
+                      .oauthId("OAuth ID")
+                      .provider(Provider.GOOGLE)
+                      .name("Account Name")
+                      .email("Email")
+                      .avatarUrl("https://avatarUrl")
+                      .role(Role.MEMBER)
+                      .build();
+    }
+
+    public static Account createMemberOf(AccountRequest accountRequest) {
+        return Account.builder()
+                      .id(1L)
+                      .oauthId(accountRequest.getOAuthId())
+                      .provider(Provider.valueOf(accountRequest.getProvider()))
+                      .name(accountRequest.getName())
+                      .email(accountRequest.getEmail())
+                      .avatarUrl(accountRequest.getAvatarUrl())
+                      .role(Role.MEMBER)
+                      .build();
+    }
+
     // AccountRequest
     public static AccountRequest createAccountRequest() {
         return AccountRequestBuilder.newBuilder()
@@ -53,5 +78,16 @@ public class AccountFactory {
                                     .email("account@email.com")
                                     .avatarUrl("https://avatarUrl")
                                     .build();
+    }
+
+    // AccountSummaryResponse
+    public static AccountSummaryResponse createAccountSummaryResponse() {
+        return AccountSummaryResponse.builder()
+                                     .id(1L)
+                                     .name("Username")
+                                     .email("account@email.com")
+                                     .avatarUrl("https://avatarUrl")
+                                     .role("MEMBER")
+                                     .build();
     }
 }

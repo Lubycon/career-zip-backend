@@ -1,5 +1,6 @@
 package com.careerzip.global.jwt;
 
+import com.careerzip.account.dto.response.AccountSummaryResponse;
 import com.careerzip.account.entity.Account;
 import com.careerzip.global.error.exception.JwtValidationException;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.stream.Stream;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
+import static com.careerzip.testobject.account.AccountFactory.createMemberOf;
 import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtProperties;
 import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtProperties;
 import static org.assertj.core.api.Assertions.*;
@@ -34,26 +36,19 @@ class JwtTokenProviderTest {
     @Mock
     JwtProperties jwtProperties;
 
-    @Mock
-    Account mockAccount;
-
     @Test
     @DisplayName("성공 - 유효한 인증 토큰을 검증하는 테스트")
     void validateAuthorizationTokenTest() {
         // given
-        Account account = createMember();
+        Account account = createMemberOf(1L);
         JwtProperties validProperties = createValidJwtProperties();
 
         // when
-        when(mockAccount.getId()).thenReturn(account.getId());
-        when(mockAccount.getEmail()).thenReturn(account.getEmail());
-        when(mockAccount.getRole()).thenReturn(account.getRole());
-
         when(jwtProperties.getIssuer()).thenReturn(validProperties.getIssuer());
         when(jwtProperties.getExpiration()).thenReturn(validProperties.getExpiration());
         when(jwtProperties.getSecretKey()).thenReturn(validProperties.getSecretKey());
 
-        String jwtToken = jwtTokenProvider.issueToken(mockAccount);
+        String jwtToken = jwtTokenProvider.issueToken(AccountSummaryResponse.from(account));
         String header = "Bearer " + jwtToken;
 
         // then
@@ -83,19 +78,14 @@ class JwtTokenProviderTest {
         // given
         ErrorCode jwtExpiredError = ErrorCode.JWT_EXPIRED_ERROR;
         JwtProperties expiredProperties = createExpiredJwtProperties();
-        Account account = createMember();
+        Account account = createMemberOf(1L);
 
         // when
         when(jwtProperties.getSecretKey()).thenReturn(expiredProperties.getSecretKey());
         when(jwtProperties.getIssuer()).thenReturn(expiredProperties.getIssuer());
         when(jwtProperties.getExpiration()).thenReturn(expiredProperties.getExpiration());
 
-        // when
-        when(mockAccount.getId()).thenReturn(account.getId());
-        when(mockAccount.getEmail()).thenReturn(account.getEmail());
-        when(mockAccount.getRole()).thenReturn(account.getRole());
-
-        String jwtToken = jwtTokenProvider.issueToken(mockAccount);
+        String jwtToken = jwtTokenProvider.issueToken(AccountSummaryResponse.from(account));
         String authorizationHeader = "Bearer " + jwtToken;
 
         // then
