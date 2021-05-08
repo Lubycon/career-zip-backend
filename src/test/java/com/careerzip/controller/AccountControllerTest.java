@@ -22,8 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import javax.servlet.http.Cookie;
 
 import static com.careerzip.testobject.account.AccountFactory.*;
-import static com.careerzip.testobject.jwt.JwtFactory.createInValidJwtTokenOf;
-import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtTokenOf;
+import static com.careerzip.testobject.jwt.JwtFactory.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
@@ -83,7 +82,7 @@ class AccountControllerTest extends BaseControllerTest {
         AccountRequest accountRequest = createAccountRequest();
 
         // when
-        when(accountService.find(any(AccountRequest.class))).thenReturn(account);
+//        when(accountService.find(any(AccountRequest.class))).thenReturn(account);
 
         ResultActions results = mockMvc.perform(post("/v1/accounts/auth")
                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -95,5 +94,29 @@ class AccountControllerTest extends BaseControllerTest {
                .andExpect(status().isBadRequest())
                .andExpect(jsonPath("statusCode").value(jwtInvalidationError.getStatusCode()))
                .andExpect(jsonPath("message").value(jwtInvalidationError.getMessage()));
+    }
+
+    @Test
+    @DisplayName("AUTHENTICATION_TIME_OUT - 만료된 JWT Token 값이 들어왔을 경우 요청이 실패하는 테스트")
+    void authorizeApiWhenExpiredJwtTokenTest() throws Exception {
+        // given
+        ErrorCode jwtExpiredError = ErrorCode.JWT_EXPIRED_ERROR;
+        Account member = createMemberOf(1L);
+        AccountSummary account = AccountSummary.from(member);
+        String headerPrefix = "Bearer ";
+        String validJwtToken = createExpiredJwtTokenOf(account);
+        AccountRequest accountRequest = createAccountRequest();
+
+        // when
+        ResultActions results = mockMvc.perform(post("/v1/accounts/auth")
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .header(HttpHeaders.AUTHORIZATION, headerPrefix + validJwtToken)
+                                                .content(objectMapper.writeValueAsString(accountRequest)));
+
+        // then
+        results.andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("statusCode").value(jwtExpiredError.getStatusCode()))
+                .andExpect(jsonPath("message").value(jwtExpiredError.getMessage()));
     }
 }
