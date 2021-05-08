@@ -1,5 +1,4 @@
 spring:
-  profiles: test
   h2:
     console:
       enable: true
@@ -7,3 +6,8 @@ spring:
     username: sa
     password:
 
+jwt:
+  issuer: TestIssuer
+  secretKey: TestSecretKey
+  expiration: 10000
+  cookieName: jwt

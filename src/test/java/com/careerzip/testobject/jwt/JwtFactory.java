@@ -1,5 +1,6 @@
 package com.careerzip.testobject.jwt;
 
+import com.careerzip.account.dto.response.AccountSummary;
 import com.careerzip.global.jwt.JwtProperties;
 import com.careerzip.global.jwt.JwtTokenProvider;
 
@@ -21,11 +22,18 @@ public class JwtFactory {
 
     // JwtProperties - Valid
     public static JwtProperties createValidJwtProperties() {
-        return new JwtProperties("Valid Issuer", "Valid Secret Key", 10000L, "jwtToken");
+        return new JwtProperties("TestIssuer", "TestSecretKey", "10000", "jwt");
     }
 
     // JwtProperties - Expired
     public static JwtProperties createExpiredJwtProperties() {
-        return new JwtProperties("Valid Issuer", "Valid Secret Key", 10L, "jwtToken");
+        return new JwtProperties("Valid Issuer", "Valid Secret Key", "10", "jwtToken");
+    }
+
+    // JwtToken - Valid
+    public static String createValidJwtTokenOf(AccountSummary account) {
+        JwtProperties jwtProperties = createValidJwtProperties();
+        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
+        return jwtTokenProvider.issueToken(account);
     }
 }
