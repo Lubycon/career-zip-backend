@@ -1,4 +1,4 @@
-package com.careerzip.account.dto.request;
+package com.careerzip.domain.account.dto.request;
 
 import lombok.AccessLevel;
 import lombok.Getter;

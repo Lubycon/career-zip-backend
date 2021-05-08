@@ -1,4 +1,4 @@
-package com.careerzip.account.entity;
+package com.careerzip.domain.account.entity;
 
 import org.apache.commons.lang3.StringUtils;
 

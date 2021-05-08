@@ -1,7 +1,7 @@
 package com.careerzip.global.jwt;
 
-import com.careerzip.account.dto.response.AccountSummary;
-import com.careerzip.account.entity.Account;
+import com.careerzip.domain.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.entity.Account;
 import com.careerzip.global.error.exception.JwtValidationException;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
 import com.careerzip.global.error.exception.jwt.JwtExpirationException;

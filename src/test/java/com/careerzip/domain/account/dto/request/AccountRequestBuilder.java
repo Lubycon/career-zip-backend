@@ -1,6 +1,4 @@
-package com.careerzip.account.dto.request;
-
-import com.careerzip.account.dto.request.AccountRequest;
+package com.careerzip.domain.account.dto.request;
 
 public class AccountRequestBuilder {
 

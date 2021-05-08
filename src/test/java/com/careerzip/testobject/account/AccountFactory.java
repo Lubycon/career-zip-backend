@@ -1,11 +1,11 @@
 package com.careerzip.testobject.account;
 
-import com.careerzip.account.dto.request.AccountRequest;
-import com.careerzip.account.dto.request.AccountRequestBuilder;
-import com.careerzip.account.dto.response.AccountSummary;
-import com.careerzip.account.entity.Account;
-import com.careerzip.account.entity.Provider;
-import com.careerzip.account.entity.Role;
+import com.careerzip.domain.account.dto.request.AccountRequest;
+import com.careerzip.domain.account.dto.request.AccountRequestBuilder;
+import com.careerzip.domain.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.account.entity.Provider;
+import com.careerzip.domain.account.entity.Role;
 
 public class AccountFactory {
 

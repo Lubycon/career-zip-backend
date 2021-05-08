@@ -1,10 +1,10 @@
-package com.careerzip.account.service;
+package com.careerzip.domain.account.service;
 
-import com.careerzip.account.dto.request.AccountRequest;
-import com.careerzip.account.dto.response.AccountSummary;
-import com.careerzip.account.entity.Account;
-import com.careerzip.account.entity.Provider;
-import com.careerzip.account.repository.AccountRepository;
+import com.careerzip.domain.account.dto.request.AccountRequest;
+import com.careerzip.domain.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.account.entity.Provider;
+import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.global.error.exception.auth.InvalidOAuthProviderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

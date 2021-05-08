@@ -1,7 +1,7 @@
-package com.careerzip.account.repository;
+package com.careerzip.domain.account.repository;
 
-import com.careerzip.account.entity.Account;
-import com.careerzip.account.entity.Provider;
+import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.account.entity.Provider;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

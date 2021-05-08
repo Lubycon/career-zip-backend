@@ -1,6 +1,6 @@
-package com.careerzip.account.dto.response;
+package com.careerzip.domain.account.dto.response;
 
-import com.careerzip.account.entity.Account;
+import com.careerzip.domain.account.entity.Account;
 import lombok.Builder;
 import lombok.Getter;
 

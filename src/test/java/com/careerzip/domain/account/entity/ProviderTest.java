@@ -1,11 +1,9 @@
-package com.careerzip.account.entity;
+package com.careerzip.domain.account.entity;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProviderTest {
 

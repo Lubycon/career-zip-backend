@@ -1,6 +1,6 @@
 package com.careerzip.global.jwt;
 
-import com.careerzip.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
 import com.careerzip.global.error.exception.jwt.JwtExpirationException;
 import io.jsonwebtoken.*;

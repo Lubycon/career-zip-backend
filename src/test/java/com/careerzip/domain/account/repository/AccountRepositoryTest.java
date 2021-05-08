@@ -1,10 +1,8 @@
-package com.careerzip.account.repository;
+package com.careerzip.domain.account.repository;
 
-import com.careerzip.account.dto.request.AccountRequest;
-import com.careerzip.account.dto.request.AccountRequestBuilder;
-import com.careerzip.account.entity.Account;
-import com.careerzip.account.entity.Provider;
-import com.careerzip.account.entity.Role;
+import com.careerzip.domain.account.dto.request.AccountRequest;
+import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.account.entity.Provider;
 import com.careerzip.global.error.exception.EntityNotFoundException;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +14,6 @@ import java.time.LocalDateTime;
 import static com.careerzip.testobject.account.AccountFactory.createAccountRequest;
 import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class AccountRepositoryTest extends BaseRepositoryTest {
 

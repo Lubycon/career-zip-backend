@@ -1,9 +1,9 @@
 package com.careerzip.controller;
 
-import com.careerzip.account.dto.request.AccountRequest;
-import com.careerzip.account.dto.response.AccountSummary;
-import com.careerzip.account.entity.Account;
-import com.careerzip.account.service.AccountService;
+import com.careerzip.domain.account.dto.request.AccountRequest;
+import com.careerzip.domain.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.account.service.AccountService;
 import com.careerzip.global.error.response.ErrorCode;
 import com.careerzip.global.jwt.JwtProperties;
 import com.careerzip.global.jwt.JwtTokenProvider;
@@ -19,12 +19,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import javax.servlet.http.Cookie;
-
 import static com.careerzip.testobject.account.AccountFactory.*;
 import static com.careerzip.testobject.jwt.JwtFactory.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

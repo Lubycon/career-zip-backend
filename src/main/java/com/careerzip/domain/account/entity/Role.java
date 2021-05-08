@@ -1,4 +1,4 @@
-package com.careerzip.account.entity;
+package com.careerzip.domain.account.entity;
 
 public enum Role {
     MEMBER("ROLE_MEMBER"),

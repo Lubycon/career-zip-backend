@@ -1,8 +1,8 @@
 package com.careerzip.controller;
 
-import com.careerzip.account.dto.request.AccountRequest;
-import com.careerzip.account.dto.response.AccountSummary;
-import com.careerzip.account.service.AccountService;
+import com.careerzip.domain.account.dto.request.AccountRequest;
+import com.careerzip.domain.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.service.AccountService;
 import com.careerzip.global.api.ApiResult;
 import com.careerzip.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

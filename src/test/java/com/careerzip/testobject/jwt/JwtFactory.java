@@ -1,6 +1,6 @@
 package com.careerzip.testobject.jwt;
 
-import com.careerzip.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.global.jwt.JwtProperties;
 import com.careerzip.global.jwt.JwtTokenProvider;
 
