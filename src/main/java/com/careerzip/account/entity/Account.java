@@ -46,7 +46,7 @@ public class Account extends BaseTimeEntity {
     private boolean deleted;
 
     @Builder
-    public Account(String oauthId, Provider provider, String name, String email, String avatarUrl, Role role,
+    private Account(String oauthId, Provider provider, String name, String email, String avatarUrl, Role role,
                    int submitCount, boolean deleted) {
         this.oauthId = oauthId;
         this.provider = provider;
