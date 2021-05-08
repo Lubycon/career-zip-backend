@@ -1,5 +1,6 @@
 package com.careerzip.account.entity;
 
+import com.careerzip.account.dto.request.AccountRequest;
 import com.careerzip.global.jpa.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -55,6 +56,17 @@ public class Account extends BaseTimeEntity {
         this.role = role;
         this.submitCount = submitCount;
         this.deleted = deleted;
+    }
+
+    public static Account from(AccountRequest accountRequest) {
+        return Account.builder()
+                      .oauthId(accountRequest.getOAuthId())
+                      .provider(Provider.valueOf(accountRequest.getProvider()))
+                      .name(accountRequest.getName())
+                      .email(accountRequest.getEmail())
+                      .avatarUrl(accountRequest.getAvatarUrl())
+                      .role(Role.MEMBER)
+                      .build();
     }
 
     @PrePersist

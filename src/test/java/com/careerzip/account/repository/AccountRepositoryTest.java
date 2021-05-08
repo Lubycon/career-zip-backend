@@ -1,8 +1,11 @@
 package com.careerzip.account.repository;
 
+import com.careerzip.account.dto.request.AccountRequest;
+import com.careerzip.account.dto.request.AccountRequestBuilder;
 import com.careerzip.account.entity.Account;
 import com.careerzip.account.entity.Provider;
 import com.careerzip.account.entity.Role;
+import com.careerzip.global.error.exception.EntityNotFoundException;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,5 +49,28 @@ class AccountRepositoryTest extends BaseRepositoryTest {
 
         // then
         assertThat(savedAccount.getCreatedDateTime()).isAfter(testTime);
+    }
+
+    @Test
+    @DisplayName("OAuth 관련 데이터로 사용자를 조회하는 메서드 테스트")
+    void findByOAuthTest() {
+        // given
+        AccountRequest accountRequest = AccountRequestBuilder.newBuilder()
+                                                             .provider("GOOGLE")
+                                                             .oAuthId("OAuthID")
+                                                             .name("Username")
+                                                             .email("account@email.com")
+                                                             .avatarUrl("https://avatarUrl")
+                                                             .build();
+
+        Account account = Account.from(accountRequest);
+        Account newAccount = accountRepository.save(account);
+
+        // when
+        Account foundAccount = accountRepository.findByOAuth(Provider.valueOf(accountRequest.getProvider()), accountRequest.getOAuthId())
+                .orElseThrow(EntityNotFoundException::new);
+
+        // then
+        assertThat(foundAccount).usingRecursiveComparison().isEqualTo(newAccount);
     }
 }
