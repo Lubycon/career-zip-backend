@@ -7,7 +7,7 @@ jobs:
     name: Run
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@main
       - name: Fire Notification
         uses: Lubycon/github-reviewer-slack-noti-action@v1.2.0
         with:
