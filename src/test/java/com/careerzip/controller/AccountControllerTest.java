@@ -47,7 +47,7 @@ class AccountControllerTest extends BaseControllerTest {
     @DisplayName("OK - OAuth 인증 API 테스트")
     void authorizeApiTest() throws Exception {
         // given
-        Account member = createMemberOf(1L);
+        Account member = createMember();
         AccountSummary account = AccountSummary.from(member);
         String headerPrefix = "Bearer ";
         String validJwtToken = createValidJwtTokenOf(account);
@@ -72,15 +72,13 @@ class AccountControllerTest extends BaseControllerTest {
     void authorizeApiWhenInvalidJwtTokenTest() throws Exception {
         // given
         ErrorCode jwtInvalidationError = ErrorCode.JWT_INVALIDATION_ERROR;
-        Account member = createMemberOf(1L);
+        Account member = createMember();
         AccountSummary account = AccountSummary.from(member);
         String headerPrefix = "Bearer ";
         String validJwtToken = createInValidJwtTokenOf(account);
         AccountRequest accountRequest = createAccountRequest();
 
         // when
-//        when(accountService.find(any(AccountRequest.class))).thenReturn(account);
-
         ResultActions results = mockMvc.perform(post("/v1/accounts/auth")
                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                                                 .header(HttpHeaders.AUTHORIZATION, headerPrefix + validJwtToken)
@@ -98,7 +96,7 @@ class AccountControllerTest extends BaseControllerTest {
     void authorizeApiWhenExpiredJwtTokenTest() throws Exception {
         // given
         ErrorCode jwtExpiredError = ErrorCode.JWT_EXPIRED_ERROR;
-        Account member = createMemberOf(1L);
+        Account member = createMember();
         AccountSummary account = AccountSummary.from(member);
         String headerPrefix = "Bearer ";
         String validJwtToken = createExpiredJwtTokenOf(account);

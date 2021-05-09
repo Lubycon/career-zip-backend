@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.stream.Stream;
 
+import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static com.careerzip.testobject.account.AccountFactory.createMemberOf;
 import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtProperties;
 import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtProperties;
@@ -39,7 +40,7 @@ class JwtTokenProviderTest {
     @DisplayName("성공 - 유효한 인증 토큰을 검증하는 테스트")
     void validateAuthorizationTokenTest() {
         // given
-        Account account = createMemberOf(1L);
+        Account account = createMember();
         JwtProperties validProperties = createValidJwtProperties();
 
         // when
@@ -77,7 +78,7 @@ class JwtTokenProviderTest {
         // given
         ErrorCode jwtExpiredError = ErrorCode.JWT_EXPIRED_ERROR;
         JwtProperties expiredProperties = createExpiredJwtProperties();
-        Account account = createMemberOf(1L);
+        Account account = createMember();
 
         // when
         when(jwtProperties.getSecretKey()).thenReturn(expiredProperties.getSecretKey());

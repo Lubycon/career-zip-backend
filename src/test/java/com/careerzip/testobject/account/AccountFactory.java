@@ -26,18 +26,7 @@ public class AccountFactory {
     // Account - MEMBER
     public static Account createMember() {
         return Account.builder()
-                      .oauthId("OAuth ID")
-                      .provider(Provider.GOOGLE)
-                      .name("Account Name")
-                      .email("Email")
-                      .avatarUrl("https://avatarUrl")
-                      .role(Role.MEMBER)
-                      .build();
-    }
-
-    public static Account createMemberOf(Long id) {
-        return Account.builder()
-                      .id(id)
+                      .id(1L)
                       .oauthId("OAuth ID")
                       .provider(Provider.GOOGLE)
                       .name("Account Name")
