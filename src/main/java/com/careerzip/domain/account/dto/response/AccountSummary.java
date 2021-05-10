@@ -4,14 +4,12 @@ import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.lang.Nullable;
-
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class AccountSummary {
 
-    @NotNull
     private final long id;
 
     @NotNull
