@@ -1,6 +1,7 @@
 package com.careerzip.domain.account.dto.response;
 
 import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.account.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.lang.Nullable;
@@ -23,10 +24,10 @@ public class AccountSummary {
     private final String avatarUrl;
 
     @NotNull
-    private final String role;
+    private final Role role;
 
     @Builder
-    private AccountSummary(long id, String name, String email, String avatarUrl, String role) {
+    private AccountSummary(long id, String name, String email, String avatarUrl, Role role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -40,7 +41,7 @@ public class AccountSummary {
                              .name(account.getName())
                              .email(account.getEmail())
                              .avatarUrl(account.getAvatarUrl())
-                             .role(account.getRole().name())
+                             .role(account.getRole())
                              .build();
     }
 }

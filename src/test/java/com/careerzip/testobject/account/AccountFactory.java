@@ -76,7 +76,7 @@ public class AccountFactory {
                              .name("Username")
                              .email("account@email.com")
                              .avatarUrl("https://avatarUrl")
-                             .role("MEMBER")
+                             .role(Role.MEMBER)
                              .build();
     }
 }
