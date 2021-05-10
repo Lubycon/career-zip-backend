@@ -35,12 +35,9 @@ public class JwtTokenProvider {
         return new Cookie(jwtProperties.getCookieName(), issueToken(account));
     }
 
-    public boolean validateAuthorizationToken(String header) {
-        if (isInvalidHeader(header)) {
-            throw new InvalidJwtTokenException();
-        }
-
-        String token = extractToken(header);
+    public void validateAuthorizationToken(String authorizationHeader) {
+        validateAuthorizationHeader(authorizationHeader);
+        String token = extractToken(authorizationHeader);
 
         try {
             Jwts.parser()
@@ -51,15 +48,17 @@ public class JwtTokenProvider {
         } catch (JwtException exception) {
             throw new InvalidJwtTokenException();
         }
-
-        return true;
     }
 
-    private boolean isInvalidHeader(String header) {
-        return !header.startsWith("Bearer ");
+    private String extractToken(String authorizationHeader) {
+        return authorizationHeader.substring("Bearer ".length());
     }
 
-    private String extractToken(String header) {
-        return header.substring("Bearer ".length());
+    private void validateAuthorizationHeader(String authorizationHeader) {
+        if (authorizationHeader.startsWith("Bearer ")) {
+            return;
+        }
+
+        throw new InvalidJwtTokenException();
     }
 }
