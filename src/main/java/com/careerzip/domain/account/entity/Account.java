@@ -20,7 +20,7 @@ public class Account extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "oauth_id", nullable = false)
-    private String oauthId;
+    private String oAuthId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "provider", nullable = false)
@@ -46,11 +46,11 @@ public class Account extends BaseTimeEntity {
     private boolean deleted;
 
     @Builder
-    private Account(Long id, String oauthId, Provider provider, String name, String email, String avatarUrl, Role role,
+    private Account(Long id, String oAuthId, Provider provider, String name, String email, String avatarUrl, Role role,
                    int submitCount, boolean deleted) {
         // NOTICE: 오직 ID 값이 필요한 테스트 객체를 위한 코드이며, 테스트가 아닌 환경에서 모든 객체는 빌더가 아닌 정적 팩토리 메서드를 통해서만 생성해야 합니다.
         this.id = id;
-        this.oauthId = oauthId;
+        this.oAuthId = oAuthId;
         this.provider = provider;
         this.name = name;
         this.email = email;
@@ -58,24 +58,6 @@ public class Account extends BaseTimeEntity {
         this.role = role;
         this.submitCount = submitCount;
         this.deleted = deleted;
-    }
-
-    public static Account from(AccountRequest accountRequest) {
-        return Account.builder()
-                      .oauthId(accountRequest.getOAuthId())
-                      .provider(Provider.valueOf(accountRequest.getProvider()))
-                      .name(accountRequest.getName())
-                      .email(accountRequest.getEmail())
-                      .avatarUrl(accountRequest.getAvatarUrl())
-                      .role(Role.MEMBER)
-                      .build();
-    }
-
-    @PrePersist
-    public void prePersist() {
-        // 새로운 계정 생성시 커리어 레터 제출 횟수에 대한 기본 값은 0 입니다.
-        this.submitCount = 0;
-        this.deleted = false;
     }
 }
 

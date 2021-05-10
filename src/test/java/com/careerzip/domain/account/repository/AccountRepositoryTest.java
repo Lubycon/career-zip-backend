@@ -55,7 +55,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
         // given
         AccountRequest accountRequest = createAccountRequest();
 
-        Account account = Account.from(accountRequest);
+        Account account = accountRequest.toEntity();
         Account newAccount = accountRepository.save(account);
 
         // when
