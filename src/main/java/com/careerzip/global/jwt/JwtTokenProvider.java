@@ -56,10 +56,8 @@ public class JwtTokenProvider {
     }
 
     private void validateAuthorizationHeader(String authorizationHeader) {
-        if (authorizationHeader.startsWith(BEARER)) {
-            return;
+        if (!authorizationHeader.startsWith(BEARER)) {
+            throw new InvalidJwtTokenException();
         }
-
-        throw new InvalidJwtTokenException();
     }
 }
