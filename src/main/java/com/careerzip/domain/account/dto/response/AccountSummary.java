@@ -3,14 +3,26 @@ package com.careerzip.domain.account.dto.response;
 import com.careerzip.domain.account.entity.Account;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.lang.Nullable;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 public class AccountSummary {
 
+    @NotNull
     private final long id;
+
+    @NotNull
     private final String name;
+
+    @NotNull
     private final String email;
+
+    @Nullable
     private final String avatarUrl;
+
+    @NotNull
     private final String role;
 
     @Builder

@@ -1,17 +1,26 @@
 package com.careerzip.domain.account.dto.request;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+import javax.validation.constraints.NotNull;
+
 @Getter
 public class AccountRequest {
 
+    @NotNull
     private String provider;
+
+    @NotNull
     private String oAuthId;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String email;
+
+    @Nullable
     private String avatarUrl;
 
     AccountRequest(String provider, String oAuthId, String name, String email, String avatarUrl) {
