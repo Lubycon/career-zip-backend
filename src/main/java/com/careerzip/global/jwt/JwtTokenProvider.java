@@ -15,6 +15,7 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
+    private static final String BEARER = "Bearer ";
 
     public String issueToken(AccountSummary account) {
         Date now = new Date();
@@ -51,11 +52,11 @@ public class JwtTokenProvider {
     }
 
     private String extractToken(String authorizationHeader) {
-        return authorizationHeader.substring("Bearer ".length());
+        return authorizationHeader.substring(BEARER.length());
     }
 
     private void validateAuthorizationHeader(String authorizationHeader) {
-        if (authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader.startsWith(BEARER)) {
             return;
         }
 
