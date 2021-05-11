@@ -27,7 +27,7 @@ public class AccountFactory {
     public static Account createMember() {
         return Account.builder()
                       .id(1L)
-                      .oauthId("OAuth ID")
+                      .oAuthId("OAuth ID")
                       .provider(Provider.GOOGLE)
                       .name("Account Name")
                       .email("Email")
@@ -39,7 +39,7 @@ public class AccountFactory {
     public static Account createMemberOf(AccountRequest accountRequest) {
         return Account.builder()
                       .id(1L)
-                      .oauthId(accountRequest.getOAuthId())
+                      .oAuthId(accountRequest.getOAuthId())
                       .provider(Provider.valueOf(accountRequest.getProvider()))
                       .name(accountRequest.getName())
                       .email(accountRequest.getEmail())
@@ -76,7 +76,7 @@ public class AccountFactory {
                              .name("Username")
                              .email("account@email.com")
                              .avatarUrl("https://avatarUrl")
-                             .role("MEMBER")
+                             .role(Role.MEMBER)
                              .build();
     }
 }

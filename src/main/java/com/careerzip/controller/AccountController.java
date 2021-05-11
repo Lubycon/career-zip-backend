@@ -3,7 +3,7 @@ package com.careerzip.controller;
 import com.careerzip.domain.account.dto.request.AccountRequest;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.service.AccountService;
-import com.careerzip.global.api.ApiResult;
+import com.careerzip.global.api.ApiResponse;
 import com.careerzip.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static com.careerzip.global.api.ApiResult.SUCCESS;
+import static com.careerzip.global.api.ApiResponse.success;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,12 +24,12 @@ public class AccountController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/auth")
-    public ApiResult<AccountSummary> authorize(@RequestHeader HttpHeaders headers, @RequestBody AccountRequest accountRequest,
-                                               HttpServletResponse response) {
+    public ApiResponse<AccountSummary> authorize(@RequestHeader HttpHeaders headers, @RequestBody AccountRequest accountRequest,
+                                                 HttpServletResponse response) {
         jwtTokenProvider.validateAuthorizationToken(headers.getFirst(HttpHeaders.AUTHORIZATION));
         AccountSummary account = accountService.find(accountRequest);
         response.addCookie(jwtTokenProvider.mapTokenToCookie(account));
 
-        return SUCCESS(account);
+        return success(account);
     }
 }

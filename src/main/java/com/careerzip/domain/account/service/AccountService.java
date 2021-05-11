@@ -25,7 +25,7 @@ public class AccountService {
 
         Account account = accountRepository.findByOAuth(Provider.valueOf(accountRequest.getProvider()), accountRequest.getOAuthId())
                                            .orElseGet(() -> {
-                                               Account newAccount = Account.from(accountRequest);
+                                               Account newAccount = accountRequest.toEntity();
                                                return accountRepository.save(newAccount);
                                            });
 

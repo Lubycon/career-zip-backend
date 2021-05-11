@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    @Query("SELECT a FROM Account a WHERE a.provider = :provider AND a.oauthId = :oauthId")
-    Optional<Account> findByOAuth(@Param("provider") Provider provider, @Param("oauthId") String oauthId);
+    @Query("SELECT a FROM Account a WHERE a.provider = :provider AND a.oAuthId = :oAuthId")
+    Optional<Account> findByOAuth(@Param("provider") Provider provider, @Param("oAuthId") String oAuthId);
 }

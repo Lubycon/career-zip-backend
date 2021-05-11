@@ -52,7 +52,7 @@ class AccountServiceTest {
                 () -> assertThat(foundAccount.getName()).isEqualTo(account.getName()),
                 () -> assertThat(foundAccount.getEmail()).isEqualTo(account.getEmail()),
                 () -> assertThat(foundAccount.getAvatarUrl()).isEqualTo(account.getAvatarUrl()),
-                () -> assertThat(foundAccount.getRole()).isEqualTo(account.getRole().name())
+                () -> assertThat(foundAccount.getRole()).isEqualTo(account.getRole())
         );
     }
 
