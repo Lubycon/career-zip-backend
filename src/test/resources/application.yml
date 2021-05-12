@@ -10,6 +10,6 @@ jwt:
   issuer: TestIssuer
   secretKey: TestSecretKey
   tokenExpiration: 10000
-  temporaryTokenExpiration: 5000
+  preAuthTokenExpiration: 10000
   tokenPrefix: jwt
   redirectUrl: 'http://redirectUrl'

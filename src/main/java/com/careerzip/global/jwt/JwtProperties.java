@@ -14,7 +14,7 @@ public class JwtProperties {
     private final String issuer;
     private final String secretKey;
     private final String tokenExpiration;
-    private final String temporaryTokenExpiration;
+    private final String preAuthTokenExpiration;
     private final String tokenPrefix;
     private final String redirectUrl;
 }

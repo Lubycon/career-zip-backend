@@ -53,6 +53,6 @@ jwt:
   issuer: ${JWT_ISSUER}
   secretKey: ${JWT_SECRET_KEY}
   tokenExpiration: ${JWT_TOKEN_EXPIRATION}
-  temporaryTokenExpiration: ${JWT_TEMPORARY_TOKEN_EXPIRATION}
+  preAuthTokenExpiration: ${JWT_PRE_AUTH_TOKEN_EXPIRATION}
   tokenPrefix: ${JWT_TOKEN_PREFIX}
   redirectUrl: ${JWT_REDIRECT_URL}

@@ -1,6 +1,7 @@
 package com.careerzip.testobject.jwt;
 
 import com.careerzip.domain.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.entity.Account;
 import com.careerzip.global.jwt.JwtProperties;
 import com.careerzip.global.jwt.JwtTokenProvider;
 
@@ -39,21 +40,21 @@ public class JwtFactory {
     }
 
     // JwtToken - Valid
-    public static String createValidJwtTokenOf(AccountSummary account) {
+    public static String createValidJwtTokenOf(Account account) {
         JwtProperties jwtProperties = createValidJwtProperties();
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
         return jwtTokenProvider.issueToken(account);
     }
 
     // JwtToken - Invalid
-    public static String createInValidJwtTokenOf(AccountSummary account) {
+    public static String createInValidJwtTokenOf(Account account) {
         JwtProperties jwtProperties = createInValidJwtProperties();
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
         return jwtTokenProvider.issueToken(account);
     }
 
     // JwtToken - Expired
-    public static String createExpiredJwtTokenOf(AccountSummary account) {
+    public static String createExpiredJwtTokenOf(Account account) {
         JwtProperties jwtProperties = createExpiredJwtProperties();
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
         return jwtTokenProvider.issueToken(account);

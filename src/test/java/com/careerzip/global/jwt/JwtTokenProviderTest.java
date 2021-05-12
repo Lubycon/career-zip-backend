@@ -1,58 +1,46 @@
 package com.careerzip.global.jwt;
 
-import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.global.error.exception.JwtValidationException;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
 import com.careerzip.global.error.exception.jwt.JwtExpirationException;
 import com.careerzip.global.error.response.ErrorCode;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.stream.Stream;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
-import static com.careerzip.testobject.account.AccountFactory.createMemberOf;
-import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtProperties;
+import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtTokenOf;
 import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtProperties;
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@ExtendWith(MockitoExtension.class)
 class JwtTokenProviderTest {
 
-    @InjectMocks
     JwtTokenProvider jwtTokenProvider;
 
-    @Mock
-    JwtProperties jwtProperties;
+    @BeforeEach
+    void setup() {
+        jwtTokenProvider = new JwtTokenProvider(createValidJwtProperties());
+    }
 
     @Test
-    @DisplayName("성공 - 유효한 인증 토큰을 검증하는 테스트")
-    void validateAuthorizationTokenTest() {
+    @DisplayName("성공 - 유효한 임시 토큰을 검증하는 테스트")
+    void validatePreAuthTokenTest() {
         // given
         Account account = createMember();
-        JwtProperties validProperties = createValidJwtProperties();
+        String validPreAuthToken = jwtTokenProvider.issuePreAuthToken(account);
 
         // when
-        when(jwtProperties.getIssuer()).thenReturn(validProperties.getIssuer());
-        when(jwtProperties.getTokenExpiration()).thenReturn(validProperties.getTokenExpiration());
-        when(jwtProperties.getSecretKey()).thenReturn(validProperties.getSecretKey());
-
-        String jwtToken = jwtTokenProvider.issueToken(AccountSummary.from(account));
-        String header = "Bearer " + jwtToken;
+        Long accountId = jwtTokenProvider.parsePreAuthToken(validPreAuthToken);
 
         // then
-        assertThatCode(() -> jwtTokenProvider.validateAuthorizationToken(header)).doesNotThrowAnyException();
+        assertThat(account.getId()).isEqualTo(accountId);
     }
 
     @Test
@@ -62,34 +50,23 @@ class JwtTokenProviderTest {
         ErrorCode invalidJwtTokenError = ErrorCode.JWT_INVALIDATION_ERROR;
         String invalidToken = "Bearer " + "Secret key";
 
-        // when
-        when(jwtProperties.getSecretKey()).thenReturn("Different key");
-
         // then
-        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(invalidToken))
+        assertThatThrownBy(() -> jwtTokenProvider.parsePreAuthToken(invalidToken))
                 .isExactlyInstanceOf(InvalidJwtTokenException.class)
                 .isInstanceOf(JwtValidationException.class)
                 .hasMessage(invalidJwtTokenError.getMessage());
     }
 
     @Test
-    @DisplayName("에러 - 만료된 인증 토큰으로 요청하는 경우 실패하는 테스트")
-    void expiredTokenTest() {
+    @DisplayName("에러 - 만료된 임시 토큰으로 요청하는 경우 실패하는 테스트")
+    void expiredPreAuthTokenTest() {
         // given
         ErrorCode jwtExpiredError = ErrorCode.JWT_EXPIRED_ERROR;
-        JwtProperties expiredProperties = createExpiredJwtProperties();
         Account account = createMember();
-
-        // when
-        when(jwtProperties.getSecretKey()).thenReturn(expiredProperties.getSecretKey());
-        when(jwtProperties.getIssuer()).thenReturn(expiredProperties.getIssuer());
-        when(jwtProperties.getTokenExpiration()).thenReturn(expiredProperties.getTokenExpiration());
-
-        String jwtToken = jwtTokenProvider.issueToken(AccountSummary.from(account));
-        String authorizationHeader = "Bearer " + jwtToken;
+        String expiredToken = createExpiredJwtTokenOf(account);
 
         // then
-        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(authorizationHeader))
+        assertThatThrownBy(() -> jwtTokenProvider.parsePreAuthToken(expiredToken))
                 .isExactlyInstanceOf(JwtExpirationException.class)
                 .isInstanceOf(JwtValidationException.class)
                 .hasMessage(jwtExpiredError.getMessage());
@@ -103,7 +80,7 @@ class JwtTokenProviderTest {
         ErrorCode invalidJwtTokenError = ErrorCode.JWT_INVALIDATION_ERROR;
 
         // then
-        assertThatThrownBy(() -> jwtTokenProvider.validateAuthorizationToken(wrongHeader))
+        assertThatThrownBy(() -> jwtTokenProvider.parsePreAuthToken(wrongHeader))
                 .isExactlyInstanceOf(InvalidJwtTokenException.class)
                 .isInstanceOf(JwtValidationException.class)
                 .hasMessage(invalidJwtTokenError.getMessage());
