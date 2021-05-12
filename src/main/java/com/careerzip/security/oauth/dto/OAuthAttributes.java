@@ -20,6 +20,9 @@ public class OAuthAttributes {
     private final Provider provider;
 
     @NotNull
+    private final String oAuthIdKey;
+
+    @NotNull
     private final String oAuthId;
 
     @NotNull
@@ -32,25 +35,27 @@ public class OAuthAttributes {
     private final String avatarUrl;
 
     @Builder
-    private OAuthAttributes(Map<String, Object> attributes, Provider provider, String oAuthId, String name,
+    private OAuthAttributes(Map<String, Object> attributes, Provider provider, String oAuthIdKey, String oAuthId, String name,
                             String email, String avatarUrl) {
         this.attributes = attributes;
         this.provider = provider;
+        this.oAuthIdKey = oAuthIdKey;
         this.oAuthId = oAuthId;
         this.name = name;
         this.email = email;
         this.avatarUrl = avatarUrl;
     }
 
-    public static OAuthAttributes of(String provider, Map<String, Object> attributes, String oAuthId) {
-        return ofGoogle(provider, attributes, oAuthId);
+    public static OAuthAttributes of(String provider, Map<String, Object> attributes, String oAuthIdKey) {
+        return ofGoogle(provider, attributes, oAuthIdKey);
     }
 
-    private static OAuthAttributes ofGoogle(String provider, Map<String, Object> attributes, String oAuthId) {
+    private static OAuthAttributes ofGoogle(String provider, Map<String, Object> attributes, String oAuthIdKey) {
         return OAuthAttributes.builder()
                               .attributes(attributes)
                               .provider(Provider.mapToValue(provider))
-                              .oAuthId(oAuthId)
+                              .oAuthIdKey(oAuthIdKey)
+                              .oAuthId((String) attributes.get(oAuthIdKey))
                               .name((String) attributes.get("name"))
                               .email((String) attributes.get("email"))
                               .avatarUrl((String) attributes.get("picture"))
