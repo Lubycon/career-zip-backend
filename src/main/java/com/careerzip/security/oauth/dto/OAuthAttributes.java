@@ -47,7 +47,11 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String provider, Map<String, Object> attributes, String oAuthIdKey) {
-        return ofGoogle(provider, attributes, oAuthIdKey);
+        if (Provider.mapToValue(provider) == Provider.GOOGLE) {
+            return ofGoogle(provider, attributes, oAuthIdKey);
+        }
+
+        return ofNaver(provider, attributes, oAuthIdKey);
     }
 
     private static OAuthAttributes ofGoogle(String provider, Map<String, Object> attributes, String oAuthIdKey) {
@@ -59,6 +63,20 @@ public class OAuthAttributes {
                               .name((String) attributes.get("name"))
                               .email((String) attributes.get("email"))
                               .avatarUrl((String) attributes.get("picture"))
+                              .build();
+    }
+
+    private static OAuthAttributes ofNaver(String provider, Map<String, Object> attributes, String oAuthIdKey) {
+        Map<String, Object> naverAttributes = (Map<String, Object>) attributes.get(oAuthIdKey);
+
+        return OAuthAttributes.builder()
+                              .attributes(naverAttributes)
+                              .provider(Provider.mapToValue(provider))
+                              .oAuthIdKey("id")
+                              .oAuthId((String) naverAttributes.get("id"))
+                              .name((String) naverAttributes.get("name"))
+                              .email((String) naverAttributes.get("email"))
+                              .avatarUrl((String) naverAttributes.get("profile_image"))
                               .build();
     }
 
