@@ -16,8 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
-import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtTokenOf;
-import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtProperties;
+import static com.careerzip.testobject.jwt.JwtFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -76,7 +75,7 @@ class JwtTokenProviderTest {
 
     @Test
     @DisplayName("성공 - JWT 토큰을 생성 및 반환하는 테스트")
-    void issueJwtToken() {
+    void issueJwtTokenTest() {
         // given
         Account account = createMember();
 
@@ -92,6 +91,21 @@ class JwtTokenProviderTest {
                 () -> assertThat(tokenBody.getAvatarUrl()).isEqualTo(account.getAvatarUrl()),
                 () -> assertThat(tokenBody.getRole()).isEqualTo(account.getRole().name())
         );
+    }
+
+    @Test
+    @DisplayName("에러 - 유효하지 않은 JWT Token Parsing 실패 테스트")
+    void parseInvalidJwtTokenTest() {
+        // given
+        ErrorCode errorCode = ErrorCode.JWT_INVALIDATION_ERROR;
+        Account account = createMember();
+        String invalidJwtToken = createInValidJwtTokenOf(account);
+
+        // then
+        assertThatThrownBy(() -> jwtTokenProvider.parseJwtToken(invalidJwtToken))
+                .isExactlyInstanceOf(InvalidJwtTokenException.class)
+                .isInstanceOf(JwtValidationException.class)
+                .hasMessage(errorCode.getMessage());
     }
 
     @ParameterizedTest
