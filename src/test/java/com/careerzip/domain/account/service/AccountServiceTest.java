@@ -8,6 +8,7 @@ import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.global.error.exception.AuthException;
 import com.careerzip.global.error.exception.auth.InvalidOAuthProviderException;
 import com.careerzip.global.error.response.ErrorCode;
+import com.careerzip.global.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static com.careerzip.testobject.account.AccountFactory.*;
+import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtTokenOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -31,5 +33,8 @@ class AccountServiceTest {
 
     @Mock
     AccountRepository accountRepository;
+
+    @Mock
+    JwtTokenProvider jwtTokenProvider;
 
 }
