@@ -24,7 +24,7 @@ public class JwtTokenProvider {
                    .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                    .setIssuer(jwtProperties.getIssuer())
                    .setIssuedAt(now)
-                   .setExpiration(new Date(now.getTime() + Long.parseLong(jwtProperties.getExpiration())))
+                   .setExpiration(new Date(now.getTime() + Long.parseLong(jwtProperties.getTokenExpiration())))
                    .claim("id", account.getId())
                    .claim("email", account.getEmail())
                    .claim("role", account.getRole())
@@ -33,7 +33,7 @@ public class JwtTokenProvider {
     }
 
     public Cookie mapTokenToCookie(AccountSummary account) {
-        return new Cookie(jwtProperties.getCookieName(), issueToken(account));
+        return new Cookie(jwtProperties.getTokenPrefix(), issueToken(account));
     }
 
     public void validateAuthorizationToken(String authorizationHeader) {

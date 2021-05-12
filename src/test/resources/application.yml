@@ -9,5 +9,7 @@ spring:
 jwt:
   issuer: TestIssuer
   secretKey: TestSecretKey
-  expiration: 10000
-  cookieName: jwt
+  tokenExpiration: 10000
+  temporaryTokenExpiration: 5000
+  tokenPrefix: jwt
+  redirectUrl: 'http://redirectUrl'

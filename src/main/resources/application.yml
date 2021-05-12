@@ -52,5 +52,7 @@ spring:
 jwt:
   issuer: ${JWT_ISSUER}
   secretKey: ${JWT_SECRET_KEY}
-  expiration: ${JWT_EXPIRATION}
-  cookieName: ${JWT_COOKIE_NAME}
+  tokenExpiration: ${JWT_TOKEN_EXPIRATION}
+  temporaryTokenExpiration: ${JWT_TEMPORARY_TOKEN_EXPIRATION}
+  tokenPrefix: ${JWT_TOKEN_PREFIX}
+  redirectUrl: ${JWT_REDIRECT_URL}

@@ -45,7 +45,7 @@ class JwtTokenProviderTest {
 
         // when
         when(jwtProperties.getIssuer()).thenReturn(validProperties.getIssuer());
-        when(jwtProperties.getExpiration()).thenReturn(validProperties.getExpiration());
+        when(jwtProperties.getTokenExpiration()).thenReturn(validProperties.getTokenExpiration());
         when(jwtProperties.getSecretKey()).thenReturn(validProperties.getSecretKey());
 
         String jwtToken = jwtTokenProvider.issueToken(AccountSummary.from(account));
@@ -83,7 +83,7 @@ class JwtTokenProviderTest {
         // when
         when(jwtProperties.getSecretKey()).thenReturn(expiredProperties.getSecretKey());
         when(jwtProperties.getIssuer()).thenReturn(expiredProperties.getIssuer());
-        when(jwtProperties.getExpiration()).thenReturn(expiredProperties.getExpiration());
+        when(jwtProperties.getTokenExpiration()).thenReturn(expiredProperties.getTokenExpiration());
 
         String jwtToken = jwtTokenProvider.issueToken(AccountSummary.from(account));
         String authorizationHeader = "Bearer " + jwtToken;

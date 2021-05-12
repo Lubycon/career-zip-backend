@@ -22,17 +22,20 @@ public class JwtFactory {
 
     // JwtProperties - Valid
     public static JwtProperties createValidJwtProperties() {
-        return new JwtProperties("TestIssuer", "TestSecretKey", "10000", "jwt");
+        return new JwtProperties("TestIssuer", "TestSecretKey", "10000",
+                 "5000",  "jwt", "http://redirectUrl");
     }
 
     // JwtProperties - Invalid
     public static JwtProperties createInValidJwtProperties() {
-        return new JwtProperties("Invalid Issuer", "Invalid Secret Key", "10000", "jwt");
+        return new JwtProperties("Invalid Issuer", "Invalid Secret Key", "10000",
+                 "5000","jwt", "http://redirectUrl");
     }
 
     // JwtProperties - Expired
     public static JwtProperties createExpiredJwtProperties() {
-        return new JwtProperties("TestIssuer", "TestSecretKey", "10", "jwt");
+        return new JwtProperties("TestIssuer", "TestSecretKey", "10",
+                 "10", "jwt", "http://redirectUrl");
     }
 
     // JwtToken - Valid
