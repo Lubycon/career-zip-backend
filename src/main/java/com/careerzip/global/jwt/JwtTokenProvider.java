@@ -3,6 +3,7 @@ package com.careerzip.global.jwt;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
 import com.careerzip.global.error.exception.jwt.JwtExpirationException;
+import com.careerzip.global.jwt.claims.AccountClaims;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
 
-    public String issueToken(Account account) {
+    public String issueJwtToken(Account account) {
         Date now = new Date();
 
         String token = Jwts.builder()
@@ -47,6 +48,23 @@ public class JwtTokenProvider {
                                   .compact();
 
         return jwtProperties.getTokenPrefix() + preAuthToken;
+    }
+
+    public AccountClaims parseJwtToken(String authorizationHeader) {
+        validateAuthorizationHeader(authorizationHeader);
+        String token = extractToken(authorizationHeader);
+
+        try {
+            Claims claims = Jwts.parser()
+                                .setSigningKey(jwtProperties.getSecretKey())
+                                .parseClaimsJws(token)
+                                .getBody();
+            return AccountClaims.from(claims);
+        } catch (ExpiredJwtException exception) {
+            throw new JwtExpirationException();
+        } catch (JwtException exception) {
+            throw new InvalidJwtTokenException();
+        }
     }
 
     public Long parsePreAuthToken(String authorizationHeader) {

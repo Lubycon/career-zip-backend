@@ -5,6 +5,7 @@ import com.careerzip.global.error.exception.JwtValidationException;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
 import com.careerzip.global.error.exception.jwt.JwtExpirationException;
 import com.careerzip.global.error.response.ErrorCode;
+import com.careerzip.global.jwt.claims.AccountClaims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import static com.careerzip.testobject.jwt.JwtFactory.createExpiredJwtTokenOf;
 import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class JwtTokenProviderTest {
 
@@ -70,6 +72,26 @@ class JwtTokenProviderTest {
                 .isExactlyInstanceOf(JwtExpirationException.class)
                 .isInstanceOf(JwtValidationException.class)
                 .hasMessage(jwtExpiredError.getMessage());
+    }
+
+    @Test
+    @DisplayName("성공 - JWT 토큰을 생성 및 반환하는 테스트")
+    void issueJwtToken() {
+        // given
+        Account account = createMember();
+
+        // when
+        String jwtToken = jwtTokenProvider.issueJwtToken(account);
+        AccountClaims tokenBody = jwtTokenProvider.parseJwtToken(jwtToken);
+
+        // then
+        assertAll(
+                () -> assertThat(tokenBody.getId()).isEqualTo(account.getId()),
+                () -> assertThat(tokenBody.getName()).isEqualTo(account.getName()),
+                () -> assertThat(tokenBody.getEmail()).isEqualTo(account.getEmail()),
+                () -> assertThat(tokenBody.getAvatarUrl()).isEqualTo(account.getAvatarUrl()),
+                () -> assertThat(tokenBody.getRole()).isEqualTo(account.getRole().name())
+        );
     }
 
     @ParameterizedTest
