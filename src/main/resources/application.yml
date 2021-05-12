@@ -24,6 +24,16 @@ spring:
       hibernate:
         format_sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            redirectUri: ${GOOGLE_REDIRECT_URI}
+            scope: ${GOOGLE_SCOPE}
+
 jwt:
   issuer: ${JWT_ISSUER}
   secretKey: ${JWT_SECRET_KEY}
