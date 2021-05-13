@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -37,7 +39,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .successHandler(customAuthenticationSuccessHandler);
 
+        http.addFilterBefore(characterEncodingFilter(), CsrfFilter.class);
+
         http.exceptionHandling()
             .authenticationEntryPoint(customAuthenticationEntryPoint);
+    }
+
+    public CharacterEncodingFilter characterEncodingFilter() {
+        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+        encodingFilter.setEncoding("UTF-8");
+        encodingFilter.setForceEncoding(true);
+        return encodingFilter;
     }
 }
