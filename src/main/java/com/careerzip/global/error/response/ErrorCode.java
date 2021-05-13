@@ -5,6 +5,9 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
+    // Common
+    INTERNAL_SERVER_ERROR(500, "서버에서 요청을 처리하지 못했습니다. 다시 시도 해주세요."),
+
     // Auth
     INVALID_OAUTH_PROVIDER_ERROR(400, "올바른 인증 요청이 아닙니다."),
     UNAUTHORIZED_ERROR(401, "인증이 필요합니다. 로그인을 해주세요."),

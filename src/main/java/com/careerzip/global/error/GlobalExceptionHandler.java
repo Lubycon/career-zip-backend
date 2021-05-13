@@ -29,4 +29,12 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.from(errorCode);
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(errorResponse.getStatusCode()));
     }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponse> handleException(Exception exception) {
+        log.error("handleException", exception);
+        ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+        ErrorResponse errorResponse = ErrorResponse.from(errorCode);
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(errorCode.getStatusCode()));
+    }
 }
