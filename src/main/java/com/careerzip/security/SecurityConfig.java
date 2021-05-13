@@ -1,5 +1,6 @@
 package com.careerzip.security;
 
+import com.careerzip.security.oauth.handler.CustomAuthenticationEntryPoint;
 import com.careerzip.security.oauth.handler.CustomAuthenticationSuccessHandler;
 import com.careerzip.security.oauth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,7 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .userInfoEndpoint()
             .userService(customOAuth2UserService)
                 .and()
-            .successHandler(customAuthenticationSuccessHandler)
-        ;
+            .successHandler(customAuthenticationSuccessHandler);
+
+        http.exceptionHandling()
+            .authenticationEntryPoint(customAuthenticationEntryPoint);
     }
 }
