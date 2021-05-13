@@ -1,6 +1,6 @@
 package com.careerzip.testobject.jwt;
 
-import com.careerzip.domain.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.entity.Account;
 import com.careerzip.global.jwt.JwtProperties;
 import com.careerzip.global.jwt.JwtTokenProvider;
 
@@ -22,37 +22,40 @@ public class JwtFactory {
 
     // JwtProperties - Valid
     public static JwtProperties createValidJwtProperties() {
-        return new JwtProperties("TestIssuer", "TestSecretKey", "10000", "jwt");
+        return new JwtProperties("TestIssuer", "TestSecretKey", "10000",
+                 "5000",  "Bearer ", "http://redirectUrl");
     }
 
     // JwtProperties - Invalid
     public static JwtProperties createInValidJwtProperties() {
-        return new JwtProperties("Invalid Issuer", "Invalid Secret Key", "10000", "jwt");
+        return new JwtProperties("Invalid Issuer", "Invalid Secret Key", "10000",
+                 "5000","Bearer ", "http://redirectUrl");
     }
 
     // JwtProperties - Expired
     public static JwtProperties createExpiredJwtProperties() {
-        return new JwtProperties("TestIssuer", "TestSecretKey", "10", "jwt");
+        return new JwtProperties("TestIssuer", "TestSecretKey", "10",
+                 "10", "Bearer ", "http://redirectUrl");
     }
 
     // JwtToken - Valid
-    public static String createValidJwtTokenOf(AccountSummary account) {
+    public static String createValidJwtTokenOf(Account account) {
         JwtProperties jwtProperties = createValidJwtProperties();
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
-        return jwtTokenProvider.issueToken(account);
+        return jwtTokenProvider.issueJwtToken(account);
     }
 
     // JwtToken - Invalid
-    public static String createInValidJwtTokenOf(AccountSummary account) {
+    public static String createInValidJwtTokenOf(Account account) {
         JwtProperties jwtProperties = createInValidJwtProperties();
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
-        return jwtTokenProvider.issueToken(account);
+        return jwtTokenProvider.issueJwtToken(account);
     }
 
     // JwtToken - Expired
-    public static String createExpiredJwtTokenOf(AccountSummary account) {
+    public static String createExpiredJwtTokenOf(Account account) {
         JwtProperties jwtProperties = createExpiredJwtProperties();
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties);
-        return jwtTokenProvider.issueToken(account);
+        return jwtTokenProvider.issueJwtToken(account);
     }
 }

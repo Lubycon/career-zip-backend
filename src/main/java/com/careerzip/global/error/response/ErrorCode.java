@@ -10,7 +10,10 @@ public enum ErrorCode {
 
     // JWT
     JWT_INVALIDATION_ERROR(400, "유효한 인증 정보가 아닙니다."),
-    JWT_EXPIRED_ERROR(419, "인증 정보가 만료 되었습니다. 다시 로그인 해주세요.")
+    JWT_EXPIRED_ERROR(419, "인증 정보가 만료 되었습니다. 다시 로그인 해주세요."),
+
+    // Account
+    ACCOUNT_NOT_FOUND(404, "해당 계정을 찾을 수 없습니다.")
     ;
 
     private final int statusCode;

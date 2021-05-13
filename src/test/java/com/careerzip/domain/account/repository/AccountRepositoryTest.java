@@ -3,7 +3,7 @@ package com.careerzip.domain.account.repository;
 import com.careerzip.domain.account.dto.request.AccountRequest;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.entity.Provider;
-import com.careerzip.global.error.exception.EntityNotFoundException;
+import com.careerzip.global.error.exception.entity.AccountNotFoundException;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
 
         // when
         Account foundAccount = accountRepository.findByOAuth(Provider.valueOf(accountRequest.getProvider()), accountRequest.getOAuthId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(AccountNotFoundException::new);
 
         // then
         assertThat(foundAccount).usingRecursiveComparison().isEqualTo(newAccount);
