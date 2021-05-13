@@ -6,6 +6,8 @@ import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.entity.Provider;
 import com.careerzip.domain.account.entity.Role;
+import com.careerzip.security.oauth.dto.OAuthAccount;
+import com.careerzip.security.oauth.dto.OAuthAttributes;
 
 public class AccountFactory {
 
@@ -48,25 +50,9 @@ public class AccountFactory {
                       .build();
     }
 
-    // AccountRequest
-    public static AccountRequest createAccountRequest() {
-        return AccountRequestBuilder.newBuilder()
-                                    .provider("GOOGLE")
-                                    .oAuthId("OAuthID")
-                                    .name("Username")
-                                    .email("account@email.com")
-                                    .avatarUrl("https://avatarUrl")
-                                    .build();
-    }
-
-    public static AccountRequest createAccountRequestOf(String provider) {
-        return AccountRequestBuilder.newBuilder()
-                                    .provider(provider)
-                                    .oAuthId("OAuthID")
-                                    .name("Username")
-                                    .email("account@email.com")
-                                    .avatarUrl("https://avatarUrl")
-                                    .build();
+    // OAuthAccount
+    public static OAuthAccount createOAuthAccountOf(Account account) {
+        return OAuthAccount.of(null, account);
     }
 
     // AccountSummaryResponse

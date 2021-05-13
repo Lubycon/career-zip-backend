@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
+import static com.careerzip.testobject.account.AccountFactory.createOAuthAccountOf;
 import static com.careerzip.testobject.jwt.JwtFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -25,9 +26,12 @@ class JwtTokenProviderTest {
 
     JwtTokenProvider jwtTokenProvider;
 
+    JwtProperties jwtProperties;
+
     @BeforeEach
     void setup() {
-        jwtTokenProvider = new JwtTokenProvider(createValidJwtProperties());
+        jwtProperties = createValidJwtProperties();
+        jwtTokenProvider = new JwtTokenProvider(jwtProperties);
     }
 
     @Test
@@ -35,10 +39,10 @@ class JwtTokenProviderTest {
     void validatePreAuthTokenTest() {
         // given
         Account account = createMember();
-        String validPreAuthToken = jwtTokenProvider.issuePreAuthToken(account);
+        String validPreAuthToken = jwtTokenProvider.issuePreAuthToken(createOAuthAccountOf(account));
 
         // when
-        Long accountId = jwtTokenProvider.parsePreAuthToken(validPreAuthToken);
+        Long accountId = jwtTokenProvider.parsePreAuthToken(jwtProperties.getTokenPrefix() + validPreAuthToken);
 
         // then
         assertThat(account.getId()).isEqualTo(accountId);
