@@ -6,10 +6,18 @@ spring:
     username: sa
     password:
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: test-id
+            clientSecret: test-secret
+
 jwt:
   issuer: TestIssuer
   secretKey: TestSecretKey
   tokenExpiration: 10000
   preAuthTokenExpiration: 10000
-  tokenPrefix: jwt
+  tokenPrefix: 'Bearer '
   redirectUrl: 'http://redirectUrl'
