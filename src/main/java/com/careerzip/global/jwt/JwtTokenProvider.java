@@ -4,9 +4,11 @@ import com.careerzip.domain.account.entity.Account;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
 import com.careerzip.global.error.exception.jwt.JwtExpirationException;
 import com.careerzip.global.jwt.claims.AccountClaims;
+import com.careerzip.security.oauth.dto.OAuthAccount;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Date;
 
@@ -35,19 +37,17 @@ public class JwtTokenProvider {
         return jwtProperties.getTokenPrefix() + token;
     }
 
-    public String issuePreAuthToken(Account account) {
+    public String issuePreAuthToken(OAuthAccount account) {
         Date now = new Date();
 
-        String preAuthToken = Jwts.builder()
-                                  .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                                  .setIssuer(jwtProperties.getIssuer())
-                                  .setIssuedAt(now)
-                                  .setExpiration(new Date(now.getTime() + Long.parseLong(jwtProperties.getPreAuthTokenExpiration())))
-                                  .claim("id", account.getId())
-                                  .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-                                  .compact();
-
-        return jwtProperties.getTokenPrefix() + preAuthToken;
+        return Jwts.builder()
+                   .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                   .setIssuer(jwtProperties.getIssuer())
+                   .setIssuedAt(now)
+                   .setExpiration(new Date(now.getTime() + Long.parseLong(jwtProperties.getPreAuthTokenExpiration())))
+                   .claim("id", account.getId())
+                   .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                   .compact();
     }
 
     public AccountClaims parseJwtToken(String authorizationHeader) {
@@ -82,6 +82,13 @@ public class JwtTokenProvider {
         } catch (JwtException exception) {
             throw new InvalidJwtTokenException();
         }
+    }
+
+    public String createPreAuthTokenUri(OAuthAccount account) {
+        return UriComponentsBuilder.fromHttpUrl(jwtProperties.getRedirectUrl())
+                                   .queryParam("authorizationToken", issuePreAuthToken(account))
+                                   .build()
+                                   .toString();
     }
 
     private String extractToken(String authorizationHeader) {
