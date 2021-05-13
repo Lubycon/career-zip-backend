@@ -59,5 +59,9 @@ public class Account extends BaseTimeEntity {
         this.submitCount = submitCount;
         this.deleted = deleted;
     }
+
+    public String getRoleValue() {
+        return role.getValue();
+    }
 }
 
