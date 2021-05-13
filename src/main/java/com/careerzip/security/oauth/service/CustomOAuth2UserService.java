@@ -3,6 +3,7 @@ package com.careerzip.security.oauth.service;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.entity.Provider;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.security.oauth.dto.OAuthAccount;
 import com.careerzip.security.oauth.dto.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,15 +38,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                                                          .getUserNameAttributeName();
 
 
-        OAuthAttributes attributes = OAuthAttributes.of(Provider.mapToValue(provider), oAuth2User.getAttributes(), userNameAttributeName);
-        Account account = findOrElseCreate(attributes);
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(account.getRoleValue())),
-                                     attributes.getAttributes(), attributes.getAttributeKey());
+        OAuthAttributes oAuthAccount = OAuthAttributes.of(Provider.mapToValue(provider), oAuth2User.getAttributes(), userNameAttributeName);
+        Account account = findOrElseCreate(oAuthAccount);
+        return OAuthAccount.of(oAuthAccount.getAttributes(), account);
     }
 
-    private Account findOrElseCreate(OAuthAttributes attributes) {
-        Account account = accountRepository.findByOAuth(attributes.getProvider(), attributes.getOAuthId())
-                                           .orElseGet(attributes::toEntity);
+    private Account findOrElseCreate(OAuthAttributes oAuthAccount) {
+        Account account = accountRepository.findByOAuth(oAuthAccount.getProvider(), oAuthAccount.getOAuthId())
+                                           .orElseGet(oAuthAccount::toEntity);
         return accountRepository.save(account);
     }
 }
