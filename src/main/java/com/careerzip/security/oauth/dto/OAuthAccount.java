@@ -48,4 +48,18 @@ public class OAuthAccount implements OAuth2User {
                            .avatarUrl(account.getAvatarUrl())
                            .build();
     }
+
+    // TODO: 빌더 중복 개선
+    public static OAuthAccount from(Account account) {
+        return OAuthAccount.builder()
+                           .attributes(Collections.emptyMap())
+                           .authorities(Collections.singleton(new SimpleGrantedAuthority(account.getRoleValue())))
+                           .id(account.getId())
+                           .oAuthId(account.getOAuthId())
+                           .provider(account.getProvider())
+                           .name(account.getName())
+                           .email(account.getEmail())
+                           .avatarUrl(account.getAvatarUrl())
+                           .build();
+    }
 }

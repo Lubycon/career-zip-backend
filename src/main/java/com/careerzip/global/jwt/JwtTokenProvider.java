@@ -91,7 +91,9 @@ public class JwtTokenProvider {
                                    .toString();
     }
 
-    private String extractToken(String authorizationHeader) {
+    // TODO: 중복 로직 개선
+    public String extractToken(String authorizationHeader) {
+        validateAuthorizationHeader(authorizationHeader);
         return authorizationHeader.substring(jwtProperties.getTokenPrefix().length());
     }
 
