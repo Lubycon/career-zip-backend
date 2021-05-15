@@ -68,5 +68,10 @@ public class Account extends BaseTimeEntity {
     public boolean isDifferentAccount(Long accountId) {
         return !id.equals(accountId);
     }
+
+    public void update(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }
 
