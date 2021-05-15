@@ -1,6 +1,7 @@
 package com.careerzip.domain.account.entity;
 
 import com.careerzip.domain.account.dto.request.AccountRequest;
+import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
 import com.careerzip.global.jpa.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -62,6 +63,10 @@ public class Account extends BaseTimeEntity {
 
     public String getRoleValue() {
         return role.getValue();
+    }
+
+    public boolean isDifferentAccount(Long accountId) {
+        return !id.equals(accountId);
     }
 }
 
