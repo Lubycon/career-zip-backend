@@ -3,10 +3,12 @@ package com.careerzip.global.jwt;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
 import com.careerzip.global.error.exception.jwt.JwtExpirationException;
+import com.careerzip.global.error.exception.jwt.JwtRequiredException;
 import com.careerzip.global.jwt.claims.AccountClaims;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -98,6 +100,10 @@ public class JwtTokenProvider {
     }
 
     private void validateAuthorizationHeader(String authorizationHeader) {
+        if (StringUtils.isEmpty(authorizationHeader)) {
+            throw new JwtRequiredException();
+        }
+
         if (!authorizationHeader.startsWith(jwtProperties.getTokenPrefix())) {
             throw new InvalidJwtTokenException();
         }
