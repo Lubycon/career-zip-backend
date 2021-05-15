@@ -31,4 +31,10 @@ public class AccountController {
                        @RequestBody AccountUpdateRequest accountUpdateRequest) {
         accountService.update(loginAccount, accountId, accountUpdateRequest);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public String get() {
+        return "Accounts";
+    }
 }
