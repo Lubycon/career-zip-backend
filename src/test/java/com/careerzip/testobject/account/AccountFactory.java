@@ -2,6 +2,8 @@ package com.careerzip.testobject.account;
 
 import com.careerzip.domain.account.dto.request.AccountRequest;
 import com.careerzip.domain.account.dto.request.AccountRequestBuilder;
+import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.request.AccountUpdateRequestBuilder;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.entity.Provider;
@@ -53,6 +55,15 @@ public class AccountFactory {
     // OAuthAccount
     public static OAuthAccount createOAuthAccountOf(Account account) {
         return OAuthAccount.of(null, account);
+    }
+
+    // AccountUpdateRequest
+    public static AccountUpdateRequest createAccountUpdateRequest(String name, String email) {
+        return AccountUpdateRequestBuilder.newBuilder()
+                                          .name(name)
+                                          .email(email)
+                                          .build();
+
     }
 
     // AccountSummaryResponse

@@ -12,4 +12,9 @@ public class AccountUpdateRequest {
 
     @Nullable
     private String email;
+
+    AccountUpdateRequest(@Nullable String name, @Nullable String email) {
+        this.name = name;
+        this.email = email;
+    }
 }
