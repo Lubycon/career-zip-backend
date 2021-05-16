@@ -52,6 +52,17 @@ public class AccountFactory {
                       .build();
     }
 
+    public static Account createIntegrationTestMember() {
+        return Account.builder()
+                      .oAuthId("OAuth ID")
+                      .provider(Provider.GOOGLE)
+                      .name("Account Name")
+                      .email("Email")
+                      .avatarUrl("https://avatarUrl")
+                      .role(Role.MEMBER)
+                      .build();
+    }
+
     // OAuthAccount
     public static OAuthAccount createOAuthAccountOf(Account account) {
         return OAuthAccount.of(null, account);

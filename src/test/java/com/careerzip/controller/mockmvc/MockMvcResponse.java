@@ -10,17 +10,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MockMvcResponse {
 
     // OK
-    public static ResultActions ok(ResultActions resultActions) throws Exception {
-        return resultActions.andDo(print())
-                             .andExpect(status().isOk())
-                             .andExpect(jsonPath("data").isNotEmpty());
+    public static void ok(ResultActions resultActions) throws Exception {
+        resultActions.andDo(print())
+                     .andExpect(status().isOk())
+                     .andExpect(jsonPath("data").isNotEmpty());
     }
 
     // BAD REQUEST
-    public static ResultActions badRequest(ResultActions resultActions, ErrorCode errorCode) throws Exception {
-        return resultActions.andDo(print())
-                            .andExpect(status().isBadRequest())
-                            .andExpect(jsonPath("statusCode").value(errorCode.getStatusCode()))
-                            .andExpect(jsonPath("message").value(errorCode.getMessage()));
+    public static void badRequest(ResultActions resultActions, ErrorCode errorCode) throws Exception {
+        resultActions.andDo(print())
+                     .andExpect(status().isBadRequest())
+                     .andExpect(jsonPath("statusCode").value(errorCode.getStatusCode()))
+                     .andExpect(jsonPath("message").value(errorCode.getMessage()));
+    }
+
+    // UNAUTHORIZED
+    public static void unAuthorized(ResultActions resultsActions, ErrorCode errorCode) throws Exception {
+        resultsActions.andDo(print())
+                      .andExpect(status().isUnauthorized())
+                      .andExpect(jsonPath("statusCode").value(errorCode.getStatusCode()))
+                      .andExpect(jsonPath("message").value(errorCode.getMessage()));
     }
 }
