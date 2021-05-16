@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,15 +27,9 @@ public class AccountController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{accountId}")
-    public void update(@LoginAccount OAuthAccount loginAccount, @PathVariable Long accountId,
-                       @RequestBody AccountUpdateRequest accountUpdateRequest) {
-        accountService.update(loginAccount, accountId, accountUpdateRequest);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    public String get() {
-        return "Accounts";
+    @PutMapping("/{id}")
+    public void update(@LoginAccount OAuthAccount loginAccount, @PathVariable Long id,
+                       @Valid @RequestBody AccountUpdateRequest accountUpdateRequest) {
+        accountService.update(loginAccount, id, accountUpdateRequest);
     }
 }
