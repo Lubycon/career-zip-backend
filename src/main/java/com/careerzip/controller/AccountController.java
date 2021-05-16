@@ -1,7 +1,9 @@
 package com.careerzip.controller;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.service.AccountService;
+import com.careerzip.global.api.ApiResponse;
 import com.careerzip.security.oauth.annotation.LoginAccount;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +30,9 @@ public class AccountController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public void update(@LoginAccount OAuthAccount loginAccount, @PathVariable Long id,
-                       @Valid @RequestBody AccountUpdateRequest accountUpdateRequest) {
-        accountService.update(loginAccount, id, accountUpdateRequest);
+    public ApiResponse<AccountSummary> update(@LoginAccount OAuthAccount loginAccount, @PathVariable Long id,
+                              @Valid @RequestBody AccountUpdateRequest accountUpdateRequest) {
+        AccountSummary account = accountService.update(loginAccount, id, accountUpdateRequest);
+        return ApiResponse.success(account);
     }
 }
