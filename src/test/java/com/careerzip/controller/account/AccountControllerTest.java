@@ -1,5 +1,7 @@
-package com.careerzip.controller;
+package com.careerzip.controller.account;
 
+import com.careerzip.controller.AccountController;
+import com.careerzip.controller.mockmvc.MockMvcRequest;
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
@@ -135,12 +137,11 @@ class AccountControllerTest extends BaseControllerTest {
         // when
         when(accountService.update(refEq(loginAccount), eq(account.getId()), refEq(updateRequest))).thenReturn(AccountSummary.from(account));
 
-        ResultActions results = mockMvc.perform(put("/v1/accounts/{id}", account.getId())
-                                                .contentType(MediaType.APPLICATION_JSON)
-                                                .content(objectMapper.writeValueAsString(updateRequest))
-                                                .header(HttpHeaders.AUTHORIZATION, validJwtToken)
-                                                .principal(new UsernamePasswordAuthenticationToken(loginAccount, null,
-                                                                                                   loginAccount.getAuthorities())));
+        ResultActions results = mockMvc.perform(MockMvcRequest.put("/v1/accounts/{id}", account.getId())
+                                                .withBody(objectMapper.writeValueAsString(updateRequest))
+                                                .withToken(validJwtToken)
+                                                .withPrincipal(loginAccount)
+                                                .doRequest());
 
         // then
         results.andDo(print())
