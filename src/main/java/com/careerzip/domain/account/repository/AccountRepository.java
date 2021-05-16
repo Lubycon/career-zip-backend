@@ -8,8 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, Long>, AccountRepositoryCustom {
 
-    @Query("SELECT a FROM Account a WHERE a.provider = :provider AND a.oAuthId = :oAuthId")
-    Optional<Account> findByOAuth(@Param("provider") Provider provider, @Param("oAuthId") String oAuthId);
+    Optional<Account> findByOAuth(Provider provider, String oAuthId);
 }
