@@ -26,6 +26,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static com.careerzip.domain.account.entity.Role.MEMBER;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @RequiredArgsConstructor
@@ -51,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic().disable();
 
         http.authorizeRequests()
+            .antMatchers("/v1/accounts/{id}").hasRole(MEMBER.name())
             .anyRequest().authenticated();
 
         http.sessionManagement()
