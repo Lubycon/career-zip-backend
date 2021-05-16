@@ -44,8 +44,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private Account findOrElseCreate(OAuthAttributes oAuthAccount) {
-        Account account = accountRepository.findByOAuth(oAuthAccount.getProvider(), oAuthAccount.getOAuthId())
-                                           .orElseGet(oAuthAccount::toEntity);
-        return accountRepository.save(account);
+        return accountRepository.findByOAuth(oAuthAccount.getProvider(), oAuthAccount.getOAuthId())
+                                .orElseGet(() -> {
+                                    Account newAccount = oAuthAccount.toEntity();
+                                    return accountRepository.save(newAccount);
+                                });
     }
 }
