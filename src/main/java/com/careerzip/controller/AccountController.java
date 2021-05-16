@@ -21,7 +21,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/auth")
     public void authorize(@RequestHeader HttpHeaders headers, HttpServletResponse response) {
         String jwtToken = accountService.issueJwtToken(headers.getFirst(HttpHeaders.AUTHORIZATION));
