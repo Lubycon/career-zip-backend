@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum ErrorCode {
 
     // Common
+    INVALID_INPUT_ERROR(400, "입력한 요청 값이 올바르지 않습니다."),
     INTERNAL_SERVER_ERROR(500, "서버에서 요청을 처리하지 못했습니다. 다시 시도 해주세요."),
 
     // Auth
