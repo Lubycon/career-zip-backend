@@ -2,6 +2,7 @@ package com.careerzip.controller.account;
 
 import com.careerzip.controller.AccountController;
 import com.careerzip.controller.mockmvc.MockMvcRequest;
+import com.careerzip.controller.mockmvc.MockMvcResponse;
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
@@ -144,10 +145,7 @@ class AccountControllerTest extends BaseControllerTest {
                                                 .doRequest());
 
         // then
-        results.andDo(print())
-               .andExpect(status().isBadRequest())
-               .andExpect(jsonPath("statusCode").value(errorCode.getStatusCode()))
-               .andExpect(jsonPath("message").value(errorCode.getMessage()));
+        MockMvcResponse.badRequest(results, errorCode);
     }
 
     private static Stream<Arguments> updateAccountWhenInvalidInputTestParams() {
