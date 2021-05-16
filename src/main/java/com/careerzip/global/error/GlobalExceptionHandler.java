@@ -1,5 +1,6 @@
 package com.careerzip.global.error;
 
+import com.careerzip.global.error.exception.BusinessException;
 import com.careerzip.global.error.exception.EntityNotFoundException;
 import com.careerzip.global.error.exception.JwtValidationException;
 import com.careerzip.global.error.response.ErrorCode;
@@ -17,6 +18,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException exception) {
         log.error("handleEntityNotFoundException", exception);
+        ErrorCode errorCode = exception.getErrorCode();
+        ErrorResponse errorResponse = ErrorResponse.from(errorCode);
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(errorCode.getStatusCode()));
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException exception) {
+        log.error("handleBusinessException", exception);
         ErrorCode errorCode = exception.getErrorCode();
         ErrorResponse errorResponse = ErrorResponse.from(errorCode);
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(errorCode.getStatusCode()));

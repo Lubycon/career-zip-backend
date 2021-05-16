@@ -18,6 +18,7 @@ public enum ErrorCode {
     JWT_EXPIRED_ERROR(419, "인증 정보가 만료 되었습니다. 다시 로그인 해주세요."),
 
     // Account
+    ACCOUNT_MISMATCH_EXCEPTION(403, "계정 정보가 일치하지 않습니다. 인증 이후 다시 시도 해주세요."),
     ACCOUNT_NOT_FOUND(404, "해당 계정을 찾을 수 없습니다.")
     ;
 

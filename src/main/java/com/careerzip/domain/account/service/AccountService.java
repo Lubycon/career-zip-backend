@@ -4,6 +4,7 @@ import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.global.error.exception.business.AccountMismatchException;
 import com.careerzip.global.error.exception.entity.AccountNotFoundException;
 import com.careerzip.global.jwt.JwtTokenProvider;
 import com.careerzip.security.oauth.dto.OAuthAccount;
@@ -28,9 +29,9 @@ public class AccountService {
     @Transactional
     public AccountSummary update(OAuthAccount loginAccount, Long accountId, AccountUpdateRequest updateRequest) {
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow();
-        // TODO: 예외 구체화
+
         if (account.isDifferentAccount(accountId)) {
-            throw new RuntimeException();
+            throw new AccountMismatchException();
         }
 
         account.update(updateRequest.getName(), updateRequest.getEmail());
