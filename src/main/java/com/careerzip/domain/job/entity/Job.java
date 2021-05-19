@@ -1,4 +1,4 @@
-package com.careerzip.domain.job;
+package com.careerzip.domain.job.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;

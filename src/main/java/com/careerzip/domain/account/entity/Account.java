@@ -1,6 +1,6 @@
 package com.careerzip.domain.account.entity;
 
-import com.careerzip.domain.job.Job;
+import com.careerzip.domain.job.entity.Job;
 import com.careerzip.global.jpa.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
