@@ -60,7 +60,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
 
         // when
         Account foundAccount = accountRepository.findByOAuth(oAuthAccount.getProvider(), oAuthAccount.getOAuthId())
-                .orElseThrow(AccountNotFoundException::new);
+                                                .orElseThrow(AccountNotFoundException::new);
 
         // then
         assertThat(foundAccount).usingRecursiveComparison().isEqualTo(newAccount);

@@ -32,6 +32,7 @@ public class AccountFactory {
         return Account.builder()
                       .id(1L)
                       .oAuthId("OAuth ID")
+                      .oAuthEmail("OAuth Email")
                       .provider(Provider.GOOGLE)
                       .name("Account Name")
                       .email("Email")
@@ -55,6 +56,7 @@ public class AccountFactory {
     public static Account createIntegrationTestMember() {
         return Account.builder()
                       .oAuthId("OAuth ID")
+                      .oAuthEmail("OAuth Email")
                       .provider(Provider.GOOGLE)
                       .name("Account Name")
                       .email("Email")
