@@ -1,5 +1,6 @@
 package com.careerzip.domain.account.entity;
 
+import com.careerzip.domain.job.Job;
 import com.careerzip.global.jpa.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -47,9 +48,13 @@ public class Account extends BaseTimeEntity {
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_id")
+    private Job job;
+
     @Builder
     private Account(Long id, String oAuthId, String oAuthEmail, Provider provider, String name, String email,
-                    String avatarUrl, Role role, int submitCount, boolean deleted) {
+                    String avatarUrl, Role role, int submitCount, boolean deleted, Job job) {
         // NOTICE: 오직 ID 값이 필요한 테스트 객체를 위한 코드이며, 테스트가 아닌 환경에서 모든 객체는 빌더가 아닌 정적 팩토리 메서드를 통해서만 생성해야 합니다.
         this.id = id;
         this.oAuthId = oAuthId;
@@ -61,6 +66,7 @@ public class Account extends BaseTimeEntity {
         this.role = role;
         this.submitCount = submitCount;
         this.deleted = deleted;
+        this.job = job;
     }
 
     public String getRoleValue() {
