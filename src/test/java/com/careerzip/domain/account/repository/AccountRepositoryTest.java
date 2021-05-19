@@ -37,8 +37,8 @@ class AccountRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - Account 생성 시간 (Jpa Auditing) 테스트")
-    void jpaAuditingTest() {
+    @DisplayName("성공 - Account 시간 생성 (Jpa Auditing) 테스트")
+    void jpaAuditingCreatedDateTimeTest() {
         // given
         Account account = createMember();
 
@@ -48,6 +48,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
 
         // then
         assertThat(savedAccount.getCreatedDateTime()).isAfter(testTime);
+        assertThat(savedAccount.getUpdatedDateTime()).isAfter(testTime);
     }
 
     @Test
