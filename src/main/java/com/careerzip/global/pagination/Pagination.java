@@ -4,8 +4,6 @@ import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort.Direction;
 
-import java.util.Locale;
-
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
