@@ -31,11 +31,37 @@ class PaginationTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("invalidPaginationTestParams")
+    @DisplayName("유효하지 않은 Pagination 파라미터가 들어왔을 때 기본 값이 세팅되는 테스트")
+    void invalidPaginationTest(int invalidPage, int invalidSize, String invalidDirection) {
+        // given
+        int defaultPage = 0;
+        int defaultSize = 1;
+        Direction defaultDirection = Direction.DESC;
+
+        // when
+        Pagination pagination = createPaginationOf(invalidPage, invalidSize, invalidDirection);
+
+        // then
+        assertAll(
+                () -> assertThat(pagination.getPage()).isEqualTo(defaultPage),
+                () -> assertThat(pagination.getSize()).isEqualTo(defaultSize),
+                () -> assertThat(pagination.getDirection()).isEqualTo(defaultDirection)
+        );
+    }
+
     private static Stream<Arguments> validPaginationTestParams() {
         return Stream.of(
                 Arguments.of(1, 1, "desc"), Arguments.of(1, 1, "asc"),
                 Arguments.of(1, 1, "Desc"), Arguments.of(2, 2, "Asc"),
                 Arguments.of(10, 1, "DESC"), Arguments.of(10, 3, "ASC")
+        );
+    }
+
+    private static Stream<Arguments> invalidPaginationTestParams() {
+        return Stream.of(
+                Arguments.of(0, 0, "abc"), Arguments.of(0, 0, "1")
         );
     }
 }
