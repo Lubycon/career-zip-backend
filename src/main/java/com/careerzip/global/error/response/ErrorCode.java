@@ -20,7 +20,10 @@ public enum ErrorCode {
 
     // Account
     ACCOUNT_MISMATCH_EXCEPTION(403, "계정 정보가 일치하지 않습니다. 인증 이후 다시 시도 해주세요."),
-    ACCOUNT_NOT_FOUND(404, "해당 계정을 찾을 수 없습니다.")
+    ACCOUNT_NOT_FOUND(404, "해당 계정을 찾을 수 없습니다."),
+
+    // Record
+    RECORD_NOT_FOUND(404, "해당 아카이빙 기록을 찾을 수 없습니다.")
     ;
 
     private final int statusCode;

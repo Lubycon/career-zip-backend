@@ -7,6 +7,7 @@ import com.careerzip.domain.questionnaire.repository.QuestionnaireRepository;
 import com.careerzip.domain.record.entity.Record;
 import com.careerzip.domain.template.entity.Template;
 import com.careerzip.domain.template.repository.TemplateRepository;
+import com.careerzip.global.error.exception.entity.RecordNotFoundException;
 import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -103,7 +104,7 @@ class RecordRepositoryTest extends BaseRepositoryTest {
         recordRepository.save(createJpaTestRecordOf(anotherAccount, anotherQuestionnaire));
 
         // when
-        Record foundRecord = recordRepository.findBy(account, targetRecord.getId()).orElseThrow(RuntimeException::new);
+        Record foundRecord = recordRepository.findBy(account, targetRecord.getId()).orElseThrow(RecordNotFoundException::new);
 
         // then
         assertThat(foundRecord).usingRecursiveComparison().isEqualTo(targetRecord);
