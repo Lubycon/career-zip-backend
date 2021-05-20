@@ -27,7 +27,8 @@ public class SecurityTestConfig extends WebSecurityConfigurerAdapter {
             .addFilterBefore(new MockJwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests()
-            .antMatchers(HttpMethod.PUT, "/v1/accounts/{accountId}").hasRole(MEMBER.name())
+            .antMatchers(HttpMethod.PUT, "/v1/accounts/{id}").hasRole(MEMBER.name())
+            .antMatchers(HttpMethod.GET, "/v1/archives").hasRole(MEMBER.name())
             .anyRequest().authenticated();
     }
 

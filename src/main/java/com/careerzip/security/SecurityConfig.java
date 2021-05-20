@@ -52,7 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic().disable();
 
         http.authorizeRequests()
-            .antMatchers("/v1/accounts/{id}").hasRole(MEMBER.name())
+            .antMatchers(HttpMethod.PUT, "/v1/accounts/{id}").hasRole(MEMBER.name())
+            .antMatchers(HttpMethod.GET, "/v1/archives").hasRole(MEMBER.name())
             .anyRequest().authenticated();
 
         http.sessionManagement()
