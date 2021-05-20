@@ -53,7 +53,7 @@ public class AccountFactory {
                       .build();
     }
 
-    public static Account createIntegrationTestMember() {
+    public static Account createJpaTestMember() {
         return Account.builder()
                       .oAuthId("OAuth ID")
                       .oAuthEmail("OAuth Email")

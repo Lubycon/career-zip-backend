@@ -1,6 +1,7 @@
 package com.careerzip.domain.template.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,12 @@ public class Template {
     @Column(name = "title")
     private String title;
 
-    public Template(String title) {
+    @Builder
+    private Template(String title) {
         this.title = title;
+    }
+
+    public static Template from(String title) {
+        return new Template(title);
     }
 }
