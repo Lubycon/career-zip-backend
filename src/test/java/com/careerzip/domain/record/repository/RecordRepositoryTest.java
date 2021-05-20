@@ -90,4 +90,22 @@ class RecordRepositoryTest extends BaseRepositoryTest {
 
         );
     }
+
+    @Test
+    @DisplayName("Account, Id를 기준으로 Record를 조회하는 테스트")
+    void findByAccountAndIdTest() {
+        // given
+        Record targetRecord = recordRepository.save(createJpaTestRecordOf(account, questionnaire));
+
+        Account anotherAccount = accountRepository.save(createJpaTestMember());
+        Template anotherTemplate = templateRepository.save(createJpaTestTemplate());
+        Questionnaire anotherQuestionnaire = questionnaireRepository.save(createJpaTestQuestionnaireOf(anotherTemplate));
+        recordRepository.save(createJpaTestRecordOf(anotherAccount, anotherQuestionnaire));
+
+        // when
+        Record foundRecord = recordRepository.findBy(account, targetRecord.getId()).orElseThrow(RuntimeException::new);
+
+        // then
+        assertThat(foundRecord).usingRecursiveComparison().isEqualTo(targetRecord);
+    }
 }

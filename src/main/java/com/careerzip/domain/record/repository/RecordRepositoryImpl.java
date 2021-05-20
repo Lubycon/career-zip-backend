@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 import static com.careerzip.domain.questionnaire.entity.QQuestionnaire.questionnaire;
 import static com.careerzip.domain.record.entity.QRecord.record;
 import static com.careerzip.domain.template.entity.QTemplate.template;
@@ -29,5 +31,13 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                             .limit(pageable.getPageSize())
                             .fetchResults();
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    public Optional<Record> findBy(Account account, Long recordId) {
+        return Optional.ofNullable(queryFactory.selectFrom(record)
+                                               .innerJoin(record.questionnaire, questionnaire).fetchJoin()
+                                               .innerJoin(questionnaire.template, template).fetchJoin()
+                                               .where(record.account.eq(account), record.id.eq(recordId))
+                                               .fetchOne());
     }
 }
