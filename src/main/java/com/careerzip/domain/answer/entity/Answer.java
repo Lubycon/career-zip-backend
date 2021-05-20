@@ -41,7 +41,8 @@ public class Answer {
     private Account account;
 
     @Builder
-    private Answer(String comment, Hashtag hashtag, Question question, Record record, Account account) {
+    private Answer(Long id, String comment, Hashtag hashtag, Question question, Record record, Account account) {
+        this.id = id;
         this.comment = comment;
         this.hashtag = hashtag;
         this.question = question;

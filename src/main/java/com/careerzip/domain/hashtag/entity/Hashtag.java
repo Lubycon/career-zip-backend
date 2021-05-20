@@ -26,7 +26,8 @@ public class Hashtag {
     private Account account;
 
     @Builder
-    private Hashtag(String title, Account account) {
+    private Hashtag(Long id, String title, Account account) {
+        this.id = id;
         this.title = title;
         this.account = account;
     }

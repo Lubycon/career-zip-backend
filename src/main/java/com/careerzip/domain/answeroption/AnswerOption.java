@@ -26,7 +26,8 @@ public class AnswerOption {
     private Question question;
 
     @Builder
-    private AnswerOption(String description, Question question) {
+    private AnswerOption(Long id, String description, Question question) {
+        this.id = id;
         this.description = description;
         this.question = question;
     }

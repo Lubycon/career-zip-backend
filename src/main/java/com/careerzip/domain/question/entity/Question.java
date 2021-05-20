@@ -34,11 +34,10 @@ public class Question {
     private List<AnswerOption> answerOptions = new ArrayList<>();
 
     @Builder
-    private Question(Long id, String description, String example, QuestionType questionType, List<AnswerOption> answerOptions) {
+    private Question(Long id, String description, String example, QuestionType questionType) {
         this.id = id;
         this.description = description;
         this.example = example;
         this.questionType = questionType;
-        this.answerOptions = answerOptions;
     }
 }
