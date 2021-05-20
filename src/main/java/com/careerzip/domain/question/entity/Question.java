@@ -1,10 +1,14 @@
 package com.careerzip.domain.question.entity;
 
+import com.careerzip.domain.answeroption.AnswerOption;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -26,9 +30,15 @@ public class Question {
     @Column(name = "question_type", nullable = false)
     private QuestionType questionType;
 
-    public Question(String description, String example, QuestionType questionType) {
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AnswerOption> answerOptions = new ArrayList<>();
+
+    @Builder
+    private Question(Long id, String description, String example, QuestionType questionType, List<AnswerOption> answerOptions) {
+        this.id = id;
         this.description = description;
         this.example = example;
         this.questionType = questionType;
+        this.answerOptions = answerOptions;
     }
 }
