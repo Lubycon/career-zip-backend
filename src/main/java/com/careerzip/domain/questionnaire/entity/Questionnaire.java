@@ -16,6 +16,9 @@ public class Questionnaire {
     @Column(name = "questionnaire_id", nullable = false)
     private Long id;
 
+    @Column(name = "questionnaire_title")
+    private String title;
+
     @Column(name = "start_date_time", nullable = false)
     private LocalDateTime startDateTime;
 
@@ -27,7 +30,9 @@ public class Questionnaire {
     private Template template;
 
     @Builder
-    private Questionnaire(LocalDateTime startDateTime, LocalDateTime endDateTime, Template template) {
+    private Questionnaire(Long id, String title, LocalDateTime startDateTime, LocalDateTime endDateTime, Template template) {
+        this.id = id;
+        this.title = title;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.template = template;
