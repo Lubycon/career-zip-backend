@@ -32,7 +32,8 @@ public class Record extends BaseTimeEntity {
     private Account account;
 
     @Builder
-    private Record(String title, Questionnaire questionnaire, Account account) {
+    private Record(Long id, String title, Questionnaire questionnaire, Account account) {
+        this.id = id;
         this.title = title;
         this.questionnaire = questionnaire;
         this.account = account;

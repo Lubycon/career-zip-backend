@@ -21,11 +21,14 @@ public class Template {
     private String title;
 
     @Builder
-    private Template(String title) {
+    private Template(Long id, String title) {
+        this.id = id;
         this.title = title;
     }
 
     public static Template from(String title) {
-        return new Template(title);
+        return Template.builder()
+                       .title(title)
+                       .build();
     }
 }
