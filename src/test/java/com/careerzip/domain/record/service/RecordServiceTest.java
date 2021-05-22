@@ -3,7 +3,7 @@ package com.careerzip.domain.record.service;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.domain.questionnaire.entity.Questionnaire;
-import com.careerzip.domain.record.dto.response.RecordsResponse;
+import com.careerzip.domain.record.dto.response.recordsresponse.RecordsResponse;
 import com.careerzip.domain.record.entity.Record;
 import com.careerzip.domain.record.repository.RecordRepository;
 import com.careerzip.domain.template.entity.Template;

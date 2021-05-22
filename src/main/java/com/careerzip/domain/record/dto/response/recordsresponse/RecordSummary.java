@@ -1,4 +1,4 @@
-package com.careerzip.domain.record.dto.response;
+package com.careerzip.domain.record.dto.response.recordsresponse;
 
 import com.careerzip.domain.questionnaire.entity.Questionnaire;
 import com.careerzip.domain.record.entity.Record;

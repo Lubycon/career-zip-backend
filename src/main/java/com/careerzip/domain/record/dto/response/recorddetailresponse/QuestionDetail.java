@@ -1,6 +1,5 @@
-package com.careerzip.domain.question.dto.response;
+package com.careerzip.domain.record.dto.response.recorddetailresponse;
 
-import com.careerzip.domain.answer.dto.response.AnswerDetail;
 import com.careerzip.domain.answeroption.AnswerOption;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.question.entity.QuestionType;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 @Getter
 public class QuestionDetail {
 
-    private final int order;
+    private final int priority;
 
     @NotNull
     private final QuestionType type;
@@ -31,8 +30,8 @@ public class QuestionDetail {
     private final List<AnswerDetail> answers;
 
     @Builder
-    private QuestionDetail(int order, QuestionType type, String description, List<String> answerOptions, List<AnswerDetail> answers) {
-        this.order = order;
+    private QuestionDetail(int priority, QuestionType type, String description, List<String> answerOptions, List<AnswerDetail> answers) {
+        this.priority = priority;
         this.type = type;
         this.description = description;
         this.answerOptions = answerOptions;
@@ -45,7 +44,7 @@ public class QuestionDetail {
                                                                 .collect(Collectors.toList());
 
         return QuestionDetail.builder()
-                             .order(templateQuestion.getOrder())
+                             .priority(templateQuestion.getPriority())
                              .type(question.getQuestionType())
                              .description(question.getDescription())
                              .answerOptions(answerOptions)

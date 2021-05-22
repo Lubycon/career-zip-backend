@@ -1,6 +1,5 @@
-package com.careerzip.domain.record.dto.response;
+package com.careerzip.domain.record.dto.response.recorddetailresponse;
 
-import com.careerzip.domain.question.dto.response.QuestionDetail;
 import com.careerzip.domain.questionnaire.entity.Questionnaire;
 import com.careerzip.domain.record.entity.Record;
 import com.careerzip.domain.template.entity.Template;
@@ -40,7 +39,10 @@ public class RecordDetailResponse {
         this.questions = questions;
     }
 
-    public static RecordDetailResponse of(Record record, Template template, Questionnaire questionnaire, List<QuestionDetail> questions) {
+    public static RecordDetailResponse of(Record record, List<QuestionDetail> questions) {
+        Questionnaire questionnaire = record.getQuestionnaire();
+        Template template = questionnaire.getTemplate();
+
         return RecordDetailResponse.builder()
                                    .id(record.getId())
                                    .templateTitle(template.getTitle())

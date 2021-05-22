@@ -1,4 +1,4 @@
-package com.careerzip.domain.answer.dto.response;
+package com.careerzip.domain.record.dto.response.recorddetailresponse;
 
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.hashtag.dto.response.HashtagDetail;

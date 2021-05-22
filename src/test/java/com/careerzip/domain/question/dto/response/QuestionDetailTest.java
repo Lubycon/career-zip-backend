@@ -1,8 +1,9 @@
 package com.careerzip.domain.question.dto.response;
 
-import com.careerzip.domain.answer.dto.response.AnswerDetail;
+import com.careerzip.domain.record.dto.response.recorddetailresponse.AnswerDetail;
 import com.careerzip.domain.answeroption.AnswerOption;
 import com.careerzip.domain.question.entity.Question;
+import com.careerzip.domain.record.dto.response.recorddetailresponse.QuestionDetail;
 import com.careerzip.domain.templatequestion.entity.TemplateQuestion;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,6 @@ import static com.careerzip.testobject.answer.AnswerFactory.createAnswerDetail;
 import static com.careerzip.testobject.question.QuestionFactory.createCheckboxQuestion;
 import static com.careerzip.testobject.templatequestion.TemplateQuestionFactory.createTemplateQuestionOf;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionDetailTest {
 

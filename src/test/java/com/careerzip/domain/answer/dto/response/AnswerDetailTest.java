@@ -3,6 +3,7 @@ package com.careerzip.domain.answer.dto.response;
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.hashtag.dto.response.HashtagDetail;
 import com.careerzip.domain.hashtag.entity.Hashtag;
+import com.careerzip.domain.record.dto.response.recorddetailresponse.AnswerDetail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
