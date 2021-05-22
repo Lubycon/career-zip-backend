@@ -1,5 +1,6 @@
 package com.careerzip.domain.question.entity;
 
+import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.questiontemplate.entity.QuestionTemplate;
 import com.careerzip.domain.template.entity.Template;
 import lombok.AccessLevel;
@@ -8,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -29,6 +32,9 @@ public class Question {
 
     @Column(name = "priority")
     private Integer priority;
+
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private List<Answer> answers = new ArrayList<>();
 
     @Builder
     private Question(Long id, Template template, QuestionTemplate questionTemplate, Integer priority) {
