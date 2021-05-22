@@ -37,4 +37,13 @@ public class QuestionFactory {
 
         return question;
     }
+
+    // Question - TEXT
+    public static Question createJpaTestQuestion() {
+        return Question.builder()
+                       .description("Question Description")
+                       .example("Question Example")
+                       .questionType(QuestionType.TEXT)
+                       .build();
+    }
 }

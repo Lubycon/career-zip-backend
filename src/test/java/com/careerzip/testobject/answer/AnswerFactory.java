@@ -1,6 +1,6 @@
 package com.careerzip.testobject.answer;
 
-import com.careerzip.domain.answer.dto.response.AnswerDetail;
+import com.careerzip.domain.record.dto.response.recorddetailresponse.AnswerDetail;
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.hashtag.dto.response.HashtagDetail;
 import com.careerzip.domain.hashtag.entity.Hashtag;
