@@ -26,10 +26,10 @@ public class OAuthAttributes {
     private final String oAuthId;
 
     @NotNull
-    private final String name;
+    private final String oAuthEmail;
 
     @NotNull
-    private final String oAuthEmail;
+    private final String name;
 
     @NotNull
     private final String email;
@@ -38,14 +38,14 @@ public class OAuthAttributes {
     private final String avatarUrl;
 
     @Builder
-    private OAuthAttributes(Map<String, Object> attributes, Provider provider, String attributeKey, String oAuthId, String name,
-                            String oAuthEmail, String email, String avatarUrl) {
+    private OAuthAttributes(Map<String, Object> attributes, Provider provider, String attributeKey,
+                            String oAuthId, String oAuthEmail, String name, String email, String avatarUrl) {
         this.attributes = attributes;
         this.provider = provider;
         this.attributeKey = attributeKey;
         this.oAuthId = oAuthId;
-        this.name = name;
         this.oAuthEmail = oAuthEmail;
+        this.name = name;
         this.email = email;
         this.avatarUrl = avatarUrl;
     }
@@ -64,8 +64,8 @@ public class OAuthAttributes {
                               .provider(provider)
                               .attributeKey(attributeKey)
                               .oAuthId((String) attributes.get(provider.getIdKey()))
-                              .name((String) attributes.get(provider.getNameKey()))
                               .oAuthEmail((String) attributes.get(provider.getEmailKey()))
+                              .name((String) attributes.get(provider.getNameKey()))
                               .email((String) attributes.get(provider.getEmailKey()))
                               .avatarUrl((String) attributes.get(provider.getAvatarUrlKey()))
                               .build();
@@ -79,8 +79,8 @@ public class OAuthAttributes {
                               .provider(provider)
                               .attributeKey(provider.getIdKey())
                               .oAuthId((String) naverAttributes.get(provider.getIdKey()))
-                              .name((String) naverAttributes.get(provider.getNameKey()))
                               .oAuthEmail((String) attributes.get(provider.getEmailKey()))
+                              .name((String) naverAttributes.get(provider.getNameKey()))
                               .email((String) naverAttributes.get(provider.getEmailKey()))
                               .avatarUrl((String) naverAttributes.get(provider.getAvatarUrlKey()))
                               .build();
@@ -89,9 +89,9 @@ public class OAuthAttributes {
     public Account toEntity() {
         return Account.builder()
                       .oAuthId(oAuthId)
+                      .oAuthEmail(email)
                       .provider(provider)
                       .name(name)
-                      .oAuthEmail(email)
                       .email(email)
                       .avatarUrl(avatarUrl)
                       .role(Role.MEMBER)
