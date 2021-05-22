@@ -27,14 +27,14 @@ public class TemplateQuestion {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @Column(name = "order")
-    private Integer order;
+    @Column(name = "priority")
+    private Integer priority;
 
     @Builder
-    private TemplateQuestion(Long id, Template template, Question question, Integer order) {
+    private TemplateQuestion(Long id, Template template, Question question, Integer priority) {
         this.id = id;
         this.template = template;
         this.question = question;
-        this.order = order;
+        this.priority = priority;
     }
 }

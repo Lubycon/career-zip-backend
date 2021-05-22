@@ -21,7 +21,7 @@ public class Answer {
     @Column(name = "answer_id", nullable = false)
     private Long id;
 
-    @Column(name = "column", nullable = false)
+    @Column(name = "comment", nullable = false)
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)

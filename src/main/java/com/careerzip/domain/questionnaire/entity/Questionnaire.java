@@ -1,12 +1,15 @@
 package com.careerzip.domain.questionnaire.entity;
 
 import com.careerzip.domain.template.entity.Template;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Questionnaire {
