@@ -1,14 +1,13 @@
 package com.careerzip.domain.question.entity;
 
-import com.careerzip.domain.answeroption.AnswerOption;
+import com.careerzip.domain.questiontemplate.entity.QuestionTemplate;
+import com.careerzip.domain.template.entity.Template;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -20,24 +19,22 @@ public class Question {
     @Column(name = "question_id", nullable = false)
     private Long id;
 
-    @Column(name = "description", nullable = false)
-    private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "template_id", nullable = false)
+    private Template template;
 
-    @Column(name = "example", nullable = false)
-    private String example;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_template_id", nullable = false)
+    private QuestionTemplate questionTemplate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "question_type", nullable = false)
-    private QuestionType questionType;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AnswerOption> answerOptions = new ArrayList<>();
+    @Column(name = "priority")
+    private Integer priority;
 
     @Builder
-    private Question(Long id, String description, String example, QuestionType questionType) {
+    private Question(Long id, Template template, QuestionTemplate questionTemplate, Integer priority) {
         this.id = id;
-        this.description = description;
-        this.example = example;
-        this.questionType = questionType;
+        this.template = template;
+        this.questionTemplate = questionTemplate;
+        this.priority = priority;
     }
 }

@@ -1,9 +1,9 @@
 package com.careerzip.domain.record.dto.response.recorddetailresponse;
 
 import com.careerzip.domain.answeroption.AnswerOption;
+import com.careerzip.domain.questiontemplate.entity.QuestionTemplate;
+import com.careerzip.domain.questiontemplate.entity.QuestionType;
 import com.careerzip.domain.question.entity.Question;
-import com.careerzip.domain.question.entity.QuestionType;
-import com.careerzip.domain.templatequestion.entity.TemplateQuestion;
 import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -38,15 +38,16 @@ public class QuestionDetail {
         this.answers = answers;
     }
 
-    public static QuestionDetail of(TemplateQuestion templateQuestion, Question question, List<AnswerDetail> answers) {
-        List<String> answerOptions = question.getAnswerOptions().stream()
+    public static QuestionDetail of(Question question, List<AnswerDetail> answers) {
+        QuestionTemplate questionTemplate = question.getQuestionTemplate();
+        List<String> answerOptions = questionTemplate.getAnswerOptions().stream()
                                                                 .map(AnswerOption::getDescription)
                                                                 .collect(Collectors.toList());
 
         return QuestionDetail.builder()
-                             .priority(templateQuestion.getPriority())
-                             .type(question.getQuestionType())
-                             .description(question.getDescription())
+                             .priority(question.getPriority())
+                             .type(questionTemplate.getQuestionType())
+                             .description(questionTemplate.getDescription())
                              .answerOptions(answerOptions)
                              .answers(answers)
                              .build();

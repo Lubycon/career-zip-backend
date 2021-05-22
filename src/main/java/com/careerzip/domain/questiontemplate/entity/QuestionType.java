@@ -1,4 +1,4 @@
-package com.careerzip.domain.question.entity;
+package com.careerzip.domain.questiontemplate.entity;
 
 import lombok.Getter;
 

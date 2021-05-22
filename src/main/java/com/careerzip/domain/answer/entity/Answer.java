@@ -2,8 +2,9 @@ package com.careerzip.domain.answer.entity;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.hashtag.entity.Hashtag;
-import com.careerzip.domain.question.entity.Question;
+import com.careerzip.domain.questiontemplate.entity.QuestionTemplate;
 import com.careerzip.domain.record.entity.Record;
+import com.careerzip.domain.question.entity.Question;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,8 +30,8 @@ public class Answer {
     private Hashtag hashtag;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @JoinColumn(name = "question_template_id", nullable = false)
+    private QuestionTemplate questionTemplate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "record_id", nullable = false)
@@ -41,11 +42,11 @@ public class Answer {
     private Account account;
 
     @Builder
-    private Answer(Long id, String comment, Hashtag hashtag, Question question, Record record, Account account) {
+    private Answer(Long id, String comment, Hashtag hashtag, QuestionTemplate questionTemplate, Record record, Account account) {
         this.id = id;
         this.comment = comment;
         this.hashtag = hashtag;
-        this.question = question;
+        this.questionTemplate = questionTemplate;
         this.record = record;
         this.account = account;
     }
