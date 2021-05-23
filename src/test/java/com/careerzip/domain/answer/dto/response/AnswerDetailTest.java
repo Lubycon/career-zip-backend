@@ -1,14 +1,14 @@
 package com.careerzip.domain.answer.dto.response;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.hashtag.dto.response.HashtagDetail;
-import com.careerzip.domain.hashtag.entity.Hashtag;
-import com.careerzip.domain.record.dto.response.recorddetailresponse.AnswerDetail;
+import com.careerzip.domain.project.dto.response.ProjectDetail;
+import com.careerzip.domain.project.entity.Project;
+import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.AnswerDetail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswer;
-import static com.careerzip.testobject.hashtag.HashtagFactory.createHashtag;
+import static com.careerzip.testobject.project.ProjectFactory.createProject;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,17 +19,17 @@ class AnswerDetailTest {
     void createAnswerDetailTest() {
         // given
         Answer answer = createAnswer();
-        Hashtag hashtag = createHashtag();
+        Project project = createProject();
 
         // when
-        AnswerDetail answerDetail = AnswerDetail.of(answer, hashtag);
-        HashtagDetail hashtagDetail = answerDetail.getHashtag();
+        AnswerDetail answerDetail = AnswerDetail.of(answer, project);
+        ProjectDetail projectDetail = answerDetail.getHashtag();
 
         // then
         assertAll(
                 () -> assertThat(answerDetail.getComment()).isEqualTo(answer.getComment()),
-                () -> assertThat(hashtagDetail.getId()).isEqualTo(hashtag.getId()),
-                () -> assertThat(hashtagDetail.getTitle()).isEqualTo(hashtag.getTitle())
+                () -> assertThat(projectDetail.getId()).isEqualTo(project.getId()),
+                () -> assertThat(projectDetail.getTitle()).isEqualTo(project.getTitle())
         );
     }
 }

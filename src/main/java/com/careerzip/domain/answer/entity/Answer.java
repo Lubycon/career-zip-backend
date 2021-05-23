@@ -1,9 +1,9 @@
 package com.careerzip.domain.answer.entity;
 
 import com.careerzip.domain.account.entity.Account;
-import com.careerzip.domain.hashtag.entity.Hashtag;
-import com.careerzip.domain.question.entity.Question;
-import com.careerzip.domain.record.entity.Record;
+import com.careerzip.domain.archiving.entity.Archiving;
+import com.careerzip.domain.letterformquestion.entity.LetterFormQuestion;
+import com.careerzip.domain.project.entity.Project;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,28 +25,28 @@ public class Answer {
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hashtag_id")
-    private Hashtag hashtag;
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @JoinColumn(name = "letter_form_question_id", nullable = false)
+    private LetterFormQuestion letterFormQuestion;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "record_id", nullable = false)
-    private Record record;
+    @JoinColumn(name = "archiving_id", nullable = false)
+    private Archiving archiving;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @Builder
-    private Answer(Long id, String comment, Hashtag hashtag, Question question, Record record, Account account) {
+    private Answer(Long id, String comment, Project project, LetterFormQuestion letterFormQuestion, Archiving archiving, Account account) {
         this.id = id;
         this.comment = comment;
-        this.hashtag = hashtag;
-        this.question = question;
-        this.record = record;
+        this.project = project;
+        this.letterFormQuestion = letterFormQuestion;
+        this.archiving = archiving;
         this.account = account;
     }
 }

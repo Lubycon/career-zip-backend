@@ -1,11 +1,11 @@
 package com.careerzip.testobject.answer;
 
-import com.careerzip.domain.record.dto.response.recorddetailresponse.AnswerDetail;
+import com.careerzip.domain.project.entity.Project;
+import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.AnswerDetail;
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.hashtag.dto.response.HashtagDetail;
-import com.careerzip.domain.hashtag.entity.Hashtag;
+import com.careerzip.domain.project.dto.response.ProjectDetail;
 
-import static com.careerzip.testobject.hashtag.HashtagFactory.createHashtag;
+import static com.careerzip.testobject.project.ProjectFactory.createProject;
 
 public class AnswerFactory {
 
@@ -14,7 +14,7 @@ public class AnswerFactory {
         return Answer.builder()
                      .id(1L)
                      .comment("Answer comment")
-                     .hashtag(createHashtag())
+                     .project(createProject())
                      .build();
     }
 
@@ -22,11 +22,11 @@ public class AnswerFactory {
     // AnswerDetail
     public static AnswerDetail createAnswerDetail() {
         Answer answer = createAnswer();
-        Hashtag hashtag = createHashtag();
+        Project project = createProject();
 
         return AnswerDetail.builder()
                            .comment(answer.getComment())
-                           .hashtag(HashtagDetail.from(hashtag))
+                           .hashtag(ProjectDetail.from(project))
                            .build();
     }
 }

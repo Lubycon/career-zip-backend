@@ -1,28 +1,49 @@
 package com.careerzip.testobject.question;
 
-import com.careerzip.domain.questiontemplate.entity.QuestionTemplate;
-import com.careerzip.domain.template.entity.Template;
+import com.careerzip.domain.answeroption.AnswerOption;
 import com.careerzip.domain.question.entity.Question;
+import com.careerzip.domain.question.entity.QuestionType;
 
-import static com.careerzip.testobject.template.TemplateFactory.createTemplate;
+import java.util.Arrays;
+import java.util.List;
 
 public class QuestionFactory {
 
-    // TemplateQuestion
-    public static Question createQuestionOf(QuestionTemplate questionTemplate) {
-        return Question.builder()
-                               .id(1L)
-                               .template(createTemplate())
-                               .questionTemplate(questionTemplate)
-                               .priority(1)
-                               .build();
+    // Question - CHECKBOX
+    public static Question createCheckboxQuestionTemplate() {
+        Question question = Question.builder()
+                                    .id(1L)
+                                    .description("Question Description")
+                                    .questionType(QuestionType.CHECKBOX)
+                                    .build();
+
+        AnswerOption firstOption = AnswerOption.builder()
+                                               .id(1L)
+                                               .description("Option 1")
+                                               .question(question)
+                                               .build();
+        AnswerOption secondOption = AnswerOption.builder()
+                                                .id(2L)
+                                                .description("Option 2")
+                                                .question(question)
+                                                .build();
+        AnswerOption thirdOption = AnswerOption.builder()
+                                               .id(3L)
+                                               .description("Option 3")
+                                               .question(question)
+                                               .build();
+        List<AnswerOption> answerOptions = Arrays.asList(firstOption, secondOption, thirdOption);
+        question.getAnswerOptions().addAll(answerOptions);
+
+        return question;
     }
 
-    public static Question createJpaTestQuestionOf(Template template, QuestionTemplate questionTemplate) {
-            return Question.builder()
-                                   .template(template)
-                                   .questionTemplate(questionTemplate)
-                                   .priority(1)
-                                   .build();
+    // Question - TEXT
+    public static Question createJpaQuestionTemplate() {
+        return Question.builder()
+                       .description("Question Description")
+                       .example("Question Example")
+                       .questionType(QuestionType.TEXT)
+                       .build();
     }
 }

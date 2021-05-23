@@ -1,8 +1,6 @@
 package com.careerzip.domain.question.entity;
 
-import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.questiontemplate.entity.QuestionTemplate;
-import com.careerzip.domain.template.entity.Template;
+import com.careerzip.domain.answeroption.AnswerOption;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,25 +20,24 @@ public class Question {
     @Column(name = "question_id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_id", nullable = false)
-    private Template template;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_template_id", nullable = false)
-    private QuestionTemplate questionTemplate;
+    @Column(name = "example", nullable = false)
+    private String example;
 
-    @Column(name = "priority")
-    private Integer priority;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "question_type", nullable = false)
+    private QuestionType questionType;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
-    private List<Answer> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AnswerOption> answerOptions = new ArrayList<>();
 
     @Builder
-    private Question(Long id, Template template, QuestionTemplate questionTemplate, Integer priority) {
+    private Question(Long id, String description, String example, QuestionType questionType) {
         this.id = id;
-        this.template = template;
-        this.questionTemplate = questionTemplate;
-        this.priority = priority;
+        this.description = description;
+        this.example = example;
+        this.questionType = questionType;
     }
 }
