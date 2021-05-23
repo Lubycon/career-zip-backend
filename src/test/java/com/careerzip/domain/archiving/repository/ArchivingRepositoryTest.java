@@ -55,7 +55,7 @@ class ArchivingRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    @DisplayName("Record를 Account 기준으로 조회하는 테스트")
+    @DisplayName("Archiving 목록을 Account 기준으로 조회하는 테스트")
     void findAllByAccountTest() {
         // given
         int page = 1;
@@ -89,7 +89,7 @@ class ArchivingRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    @DisplayName("Account, Id를 기준으로 Record를 조회하는 테스트")
+    @DisplayName("Account, Id를 기준으로 Archiving을 조회하는 테스트")
     void findByAccountAndIdTest() {
         // given
         Archiving targetArchiving = archivingRepository.save(createJpaTestArchivingOf(account, letter));

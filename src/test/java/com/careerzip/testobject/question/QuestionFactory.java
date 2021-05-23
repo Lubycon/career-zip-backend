@@ -39,7 +39,7 @@ public class QuestionFactory {
     }
 
     // Question - TEXT
-    public static Question createJpaQuestionTemplate() {
+    public static Question createJpaTestTextQuestion() {
         return Question.builder()
                        .description("Question Description")
                        .example("Question Example")

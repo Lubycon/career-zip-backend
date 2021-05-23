@@ -11,9 +11,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
-import static com.careerzip.domain.letter.entity.QQuestionnaire.questionnaire;
-import static com.careerzip.domain.archiving.entity.QRecord.record;
-import static com.careerzip.domain.letterform.entity.QTemplate.template;
+import static com.careerzip.domain.archiving.entity.QArchiving.archiving;
+import static com.careerzip.domain.letter.entity.QLetter.letter;
+import static com.careerzip.domain.letterform.entity.QLetterForm.letterForm;
 
 @RequiredArgsConstructor
 public class ArchivingRepositoryImpl implements ArchivingRepositoryCustom {
@@ -22,21 +22,21 @@ public class ArchivingRepositoryImpl implements ArchivingRepositoryCustom {
 
     public Page<Archiving> findAllBy(Account account, Pageable pageable) {
         QueryResults<Archiving> results =
-                queryFactory.selectFrom(record)
-                            .innerJoin(record.questionnaire, questionnaire).fetchJoin()
-                            .innerJoin(questionnaire.template, template).fetchJoin()
-                            .where(record.account.eq(account))
+                queryFactory.selectFrom(archiving)
+                            .innerJoin(archiving.letter, letter).fetchJoin()
+                            .innerJoin(letter.letterForm, letterForm).fetchJoin()
+                            .where(archiving.account.eq(account))
                             .offset(pageable.getOffset())
                             .limit(pageable.getPageSize())
                             .fetchResults();
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    public Optional<Archiving> findBy(Account account, Long recordId) {
-        return Optional.ofNullable(queryFactory.selectFrom(record)
-                                               .innerJoin(record.questionnaire, questionnaire).fetchJoin()
-                                               .innerJoin(questionnaire.template, template).fetchJoin()
-                                               .where(record.account.eq(account), record.id.eq(recordId))
+    public Optional<Archiving> findBy(Account account, Long archivingId) {
+        return Optional.ofNullable(queryFactory.selectFrom(archiving)
+                                               .innerJoin(archiving.letter, letter).fetchJoin()
+                                               .innerJoin(letter.letterForm, letterForm).fetchJoin()
+                                               .where(archiving.account.eq(account), archiving.id.eq(archivingId))
                                                .fetchOne());
     }
 }

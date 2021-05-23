@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.careerzip.testobject.question.QuestionFactory.createJpaQuestionTemplate;
+import static com.careerzip.testobject.question.QuestionFactory.createJpaTestTextQuestion;
 import static com.careerzip.testobject.letterform.TemplateFactory.createJpaTestLetterFormOf;
 import static com.careerzip.testobject.letterformquestion.LetterFormQuestionFactory.createJpaTestLetterFormQuestionOf;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,15 +31,15 @@ class LetterFormQuestionRepositoryTest extends BaseRepositoryTest {
     QuestionRepository questionRepository;
 
     @Test
-    @DisplayName("Template 기준 리스트 조회 테스트")
-    void findAllByTemplate() {
+    @DisplayName("LetterForm 기준 리스트 조회 테스트")
+    void findAllByLetterForm() {
         // given
-        List<Question> questions = Arrays.asList(createJpaQuestionTemplate(), createJpaQuestionTemplate(), createJpaQuestionTemplate());
+        List<Question> questions = Arrays.asList(createJpaTestTextQuestion(), createJpaTestTextQuestion(), createJpaTestTextQuestion());
         LetterForm savedLetterForm = letterFormRepository.save(createJpaTestLetterFormOf());
         List<Question> savedQuestions = questionRepository.saveAll(questions);
         List<LetterFormQuestion> letterFormQuestions =
                 savedQuestions.stream()
-                              .map(questionTemplate -> createJpaTestLetterFormQuestionOf(savedLetterForm, questionTemplate))
+                              .map(letterFormQuestion -> createJpaTestLetterFormQuestionOf(savedLetterForm, letterFormQuestion))
                               .collect(Collectors.toList());
 
         letterFormQuestionRepository.saveAll(letterFormQuestions);
@@ -50,7 +50,7 @@ class LetterFormQuestionRepositoryTest extends BaseRepositoryTest {
 
         // then
         assertThat(foundLetterFormQuestions)
-                .allMatch(templateQuestion -> templateQuestion.getLetterForm().getId()
-                                                                            .equals(savedLetterForm.getId()));
+                .allMatch(letterFormQuestion -> letterFormQuestion.getLetterForm().getId()
+                                                                                  .equals(savedLetterForm.getId()));
     }
 }
