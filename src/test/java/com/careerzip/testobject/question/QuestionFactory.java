@@ -1,49 +1,47 @@
 package com.careerzip.testobject.question;
 
-import com.careerzip.domain.answeroption.AnswerOption;
 import com.careerzip.domain.question.entity.Question;
-import com.careerzip.domain.question.entity.QuestionType;
+import com.careerzip.domain.questionitem.entity.QuestionItem;
+import com.careerzip.domain.letterform.entity.LetterForm;
 
-import java.util.Arrays;
-import java.util.List;
+import static com.careerzip.testobject.letterform.TemplateFactory.createLetterFormOf;
+import static com.careerzip.testobject.questionitem.QuestionItemFactory.createCheckboxQuestionItem;
 
 public class QuestionFactory {
 
-    // Question - CHECKBOX
-    public static Question createCheckboxQuestionTemplate() {
-        Question question = Question.builder()
-                                    .id(1L)
-                                    .description("Question Description")
-                                    .questionType(QuestionType.CHECKBOX)
-                                    .build();
-
-        AnswerOption firstOption = AnswerOption.builder()
-                                               .id(1L)
-                                               .description("Option 1")
-                                               .question(question)
-                                               .build();
-        AnswerOption secondOption = AnswerOption.builder()
-                                                .id(2L)
-                                                .description("Option 2")
-                                                .question(question)
-                                                .build();
-        AnswerOption thirdOption = AnswerOption.builder()
-                                               .id(3L)
-                                               .description("Option 3")
-                                               .question(question)
-                                               .build();
-        List<AnswerOption> answerOptions = Arrays.asList(firstOption, secondOption, thirdOption);
-        question.getAnswerOptions().addAll(answerOptions);
-
-        return question;
+    // Question
+    public static Question createQuestion() {
+        return Question.builder()
+                       .id(1L)
+                       .letterForm(createLetterFormOf())
+                       .questionItem(createCheckboxQuestionItem())
+                       .priority(1)
+                       .build();
     }
 
-    // Question - TEXT
-    public static Question createJpaTestTextQuestion() {
+    public static Question createQuestionOf(QuestionItem questionItem) {
         return Question.builder()
-                       .description("Question Description")
-                       .example("Question Example")
-                       .questionType(QuestionType.TEXT)
+                       .id(1L)
+                       .letterForm(createLetterFormOf())
+                       .questionItem(questionItem)
+                       .priority(1)
                        .build();
+    }
+
+    public static Question createQuestionOf(Long id, QuestionItem questionItem) {
+        return Question.builder()
+                       .id(id)
+                       .letterForm(createLetterFormOf())
+                       .questionItem(questionItem)
+                       .priority(1)
+                       .build();
+    }
+
+    public static Question createJpaTestQuestionOf(LetterForm letterForm, QuestionItem questionItem) {
+            return Question.builder()
+                           .letterForm(letterForm)
+                           .questionItem(questionItem)
+                           .priority(1)
+                           .build();
     }
 }
