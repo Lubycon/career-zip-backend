@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public class AnswerDetail {
 
@@ -14,19 +17,31 @@ public class AnswerDetail {
     private final String comment;
 
     @Nullable
-    private final ProjectDetail hashtag;
+    private final ProjectDetail project;
 
     @Builder
-    private AnswerDetail(String comment, ProjectDetail hashtag) {
+    private AnswerDetail(String comment, ProjectDetail project) {
         this.comment = comment;
-        this.hashtag = hashtag;
+        this.project = project;
     }
 
-    // TODO: Hashtag null 값 반환에 대한 처리
-    public static AnswerDetail of(Answer answer, Project project) {
-        return AnswerDetail.builder()
-                           .comment(answer.getComment())
-                           .hashtag(ProjectDetail.from(project))
-                           .build();
+    public static AnswerDetail from(Answer answer) {
+        AnswerDetailBuilder builder = AnswerDetail.builder()
+                                                  .comment(answer.getComment());
+
+        Project project = answer.getProject();
+
+        if (project == null) {
+            return builder.build();
+        }
+
+        return builder.project(ProjectDetail.from(project))
+                      .build();
+    }
+
+    public static List<AnswerDetail> listOf(List<Answer> answers) {
+        return answers.stream()
+                      .map(AnswerDetail::from)
+                      .collect(Collectors.toList());
     }
 }
