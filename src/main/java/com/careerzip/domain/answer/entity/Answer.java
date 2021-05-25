@@ -29,7 +29,7 @@ public class Answer {
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "_question_id", nullable = false)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
