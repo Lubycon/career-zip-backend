@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 public class ArchivingDetailResponse {
 
-    @JsonProperty("recordId")
+    @JsonProperty("archivingId")
     private final long id;
 
     @NotNull
