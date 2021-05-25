@@ -24,7 +24,7 @@ public class JwtTokenProvider {
 
     public String issueJwtToken(Account account) {
         Date now = new Date();
-        String jobName = Optional.ofNullable(account.getJob()).map(Job::getName).orElseGet(null);
+        String jobName = Optional.ofNullable(account.getJob()).map(Job::getName).orElse(null);
 
         String token = Jwts.builder()
                            .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
