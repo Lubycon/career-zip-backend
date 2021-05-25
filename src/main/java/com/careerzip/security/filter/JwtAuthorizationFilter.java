@@ -46,7 +46,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
-            String authorizationHeader = response.getHeader(HttpHeaders.AUTHORIZATION);
+            String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
             AccountClaims accountClaims = jwtTokenProvider.parseJwtToken(authorizationHeader);
 
             Account account = accountRepository.findById(accountClaims.getId()).orElseThrow(AccountNotFoundException::new);
