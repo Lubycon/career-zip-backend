@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 @Getter
 public class QuestionWithAnswers {
 
-    private final int priority;
+    @Nullable
+    private final Integer priority;
 
     @NotNull
     private final InputType inputType;
@@ -37,7 +38,7 @@ public class QuestionWithAnswers {
     private final List<AnswerDetail> answers;
 
     @Builder
-    private QuestionWithAnswers(int priority, InputType inputType, String questionType, String description,
+    private QuestionWithAnswers(Integer priority, InputType inputType, String questionType, String description,
                                 List<String> answerOptions, List<AnswerDetail> answers) {
         this.priority = priority;
         this.inputType = inputType;
