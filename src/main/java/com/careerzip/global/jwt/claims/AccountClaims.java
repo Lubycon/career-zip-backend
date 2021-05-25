@@ -18,6 +18,9 @@ public class AccountClaims {
     @NotNull
     private final String email;
 
+    @Nullable
+    private final String job;
+
     @NotNull
     private final String role;
 
@@ -25,10 +28,11 @@ public class AccountClaims {
     private final String avatarUrl;
 
     @Builder
-    private AccountClaims(Long id, String name, String email, String role, String avatarUrl) {
+    private AccountClaims(Long id, String name, String email, String job, String role, String avatarUrl) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.job = job;
         this.role = role;
         this.avatarUrl = avatarUrl;
     }
@@ -38,6 +42,7 @@ public class AccountClaims {
                             .id(claims.get("id", Long.class))
                             .name(claims.get("name", String.class))
                             .email(claims.get("email", String.class))
+                            .job(claims.get("job", String.class))
                             .role(claims.get("role", String.class))
                             .avatarUrl(claims.get("avatarUrl", String.class))
                             .build();

@@ -1,6 +1,7 @@
 package com.careerzip.global.jwt;
 
 import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.job.entity.Job;
 import com.careerzip.global.error.exception.jwt.InvalidJwtTokenException;
 import com.careerzip.global.error.exception.jwt.JwtExpirationException;
 import com.careerzip.global.error.exception.jwt.JwtRequiredException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Date;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -22,6 +24,7 @@ public class JwtTokenProvider {
 
     public String issueJwtToken(Account account) {
         Date now = new Date();
+        String jobName = Optional.ofNullable(account.getJob()).map(Job::getName).orElseGet(null);
 
         String token = Jwts.builder()
                            .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
@@ -31,6 +34,7 @@ public class JwtTokenProvider {
                            .claim("id", account.getId())
                            .claim("name", account.getName())
                            .claim("email", account.getEmail())
+                           .claim("job", jobName)
                            .claim("avatarUrl", account.getAvatarUrl())
                            .claim("role", account.getRole())
                            .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
