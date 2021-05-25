@@ -7,6 +7,8 @@ import com.careerzip.domain.questionitem.entity.InputType;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.careerzip.testobject.questiontype.QuestionTypeFactory.createQuestionType;
+
 public class QuestionItemFactory {
 
     // QuestionItem - CHECKBOX
@@ -15,6 +17,7 @@ public class QuestionItemFactory {
                                                 .id(1L)
                                                 .description("Question Description")
                                                 .inputType(InputType.CHECKBOX)
+                                                .questionType(createQuestionType())
                                                 .build();
 
         QuestionOption firstOption = QuestionOption.builder()
@@ -44,6 +47,7 @@ public class QuestionItemFactory {
                            .description("Question Description")
                            .example("Question Example")
                            .inputType(InputType.TEXT)
+                           .questionType(createQuestionType())
                            .build();
     }
 }

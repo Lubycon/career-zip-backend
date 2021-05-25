@@ -1,6 +1,7 @@
 package com.careerzip.domain.questionitem.entity;
 
 import com.careerzip.domain.questionoption.QuestionOption;
+import com.careerzip.domain.questiontype.QuestionType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,14 +31,19 @@ public class QuestionItem {
     @Column(name = "input_type", nullable = false)
     private InputType inputType;
 
+    @ManyToOne
+    @JoinColumn(name = "question_type_id", nullable = false)
+    private QuestionType questionType;
+
     @OneToMany(mappedBy = "questionItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionOption> questionOptions = new ArrayList<>();
 
     @Builder
-    private QuestionItem(Long id, String description, String example, InputType inputType) {
+    private QuestionItem(Long id, String description, String example, InputType inputType, QuestionType questionType) {
         this.id = id;
         this.description = description;
         this.example = example;
         this.inputType = inputType;
+        this.questionType = questionType;
     }
 }
