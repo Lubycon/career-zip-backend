@@ -24,6 +24,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                            .innerJoin(questionItem.questionType, questionType).fetchJoin()
                            .leftJoin(questionItem.selectOptions, selectOption).fetchJoin()
                            .where(question.letterForm.eq(letterForm))
+                           .distinct()
                            .fetch();
     }
 }
