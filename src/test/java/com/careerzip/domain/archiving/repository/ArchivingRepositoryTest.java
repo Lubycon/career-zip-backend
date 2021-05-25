@@ -7,7 +7,7 @@ import com.careerzip.domain.letter.repository.LetterRepository;
 import com.careerzip.domain.archiving.entity.Archiving;
 import com.careerzip.domain.letterform.entity.LetterForm;
 import com.careerzip.domain.letterform.repository.LetterFormRepository;
-import com.careerzip.global.error.exception.entity.RecordNotFoundException;
+import com.careerzip.global.error.exception.entity.ArchivingNotFoundException;
 import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ import static com.careerzip.testobject.account.AccountFactory.createJpaTestMembe
 import static com.careerzip.testobject.pagination.PaginationFactory.createPaginationOf;
 import static com.careerzip.testobject.letter.LetterFactory.createJpaTestLetterOf;
 import static com.careerzip.testobject.archiving.ArchivingFactory.createJpaTestArchivingOf;
-import static com.careerzip.testobject.letterform.TemplateFactory.createJpaTestLetterFormOf;
+import static com.careerzip.testobject.letterform.LetterFormFactory.createJpaTestLetterForm;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.data.domain.Sort.Direction.DESC;
@@ -50,7 +50,7 @@ class ArchivingRepositoryTest extends BaseRepositoryTest {
     @BeforeEach
     void setup() {
         account = accountRepository.save(createJpaTestMember());
-        letterForm = letterFormRepository.save(createJpaTestLetterFormOf());
+        letterForm = letterFormRepository.save(createJpaTestLetterForm());
         letter = letterRepository.save(createJpaTestLetterOf(letterForm));
     }
 
@@ -95,12 +95,12 @@ class ArchivingRepositoryTest extends BaseRepositoryTest {
         Archiving targetArchiving = archivingRepository.save(createJpaTestArchivingOf(account, letter));
 
         Account anotherAccount = accountRepository.save(createJpaTestMember());
-        LetterForm anotherLetterForm = letterFormRepository.save(createJpaTestLetterFormOf());
+        LetterForm anotherLetterForm = letterFormRepository.save(createJpaTestLetterForm());
         Letter anotherLetter = letterRepository.save(createJpaTestLetterOf(anotherLetterForm));
         archivingRepository.save(createJpaTestArchivingOf(anotherAccount, anotherLetter));
 
         // when
-        Archiving foundArchiving = archivingRepository.findBy(account, targetArchiving.getId()).orElseThrow(RecordNotFoundException::new);
+        Archiving foundArchiving = archivingRepository.findBy(account, targetArchiving.getId()).orElseThrow(ArchivingNotFoundException::new);
 
         // then
         assertThat(foundArchiving).usingRecursiveComparison().isEqualTo(targetArchiving);

@@ -1,9 +1,9 @@
-package com.careerzip.domain.question.entity;
+package com.careerzip.domain.questionitem.entity;
 
 import lombok.Getter;
 
 @Getter
-public enum QuestionType {
+public enum InputType {
     TEXT,
     RADIO_BUTTON,
     CHECKBOX

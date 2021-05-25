@@ -2,7 +2,7 @@ package com.careerzip.domain.answer.entity;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.archiving.entity.Archiving;
-import com.careerzip.domain.letterformquestion.entity.LetterFormQuestion;
+import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.project.entity.Project;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,8 +29,8 @@ public class Answer {
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "letter_form_question_id", nullable = false)
-    private LetterFormQuestion letterFormQuestion;
+    @JoinColumn(name = "_question_id", nullable = false)
+    private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "archiving_id", nullable = false)
@@ -41,12 +41,16 @@ public class Answer {
     private Account account;
 
     @Builder
-    private Answer(Long id, String comment, Project project, LetterFormQuestion letterFormQuestion, Archiving archiving, Account account) {
+    private Answer(Long id, String comment, Project project, Question question, Archiving archiving, Account account) {
         this.id = id;
         this.comment = comment;
         this.project = project;
-        this.letterFormQuestion = letterFormQuestion;
+        this.question = question;
         this.archiving = archiving;
         this.account = account;
+    }
+
+    public Long getQuestionId() {
+        return question.getId();
     }
 }

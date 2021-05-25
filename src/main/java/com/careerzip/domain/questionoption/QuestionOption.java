@@ -1,6 +1,6 @@
-package com.careerzip.domain.answeroption;
+package com.careerzip.domain.questionoption;
 
-import com.careerzip.domain.question.entity.Question;
+import com.careerzip.domain.questionitem.entity.QuestionItem;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,24 +11,24 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class AnswerOption {
+public class QuestionOption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "answer_option_id", nullable = false)
+    @Column(name = "question_option_id", nullable = false)
     private Long id;
 
     @Column(name = "description", nullable = false)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @JoinColumn(name = "question_item_id", nullable = false)
+    private QuestionItem questionItem;
 
     @Builder
-    private AnswerOption(Long id, String description, Question question) {
+    private QuestionOption(Long id, String description, QuestionItem questionItem) {
         this.id = id;
         this.description = description;
-        this.question = question;
+        this.questionItem = questionItem;
     }
 }

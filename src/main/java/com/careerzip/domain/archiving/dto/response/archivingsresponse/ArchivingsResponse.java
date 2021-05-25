@@ -16,18 +16,18 @@ public class ArchivingsResponse {
     private final PageDetails pageDetails;
 
     @NotNull
-    private final List<ArchivingSummary> records;
+    private final List<ArchivingSummary> archivings;
 
     @Builder
-    private ArchivingsResponse(PageDetails pageDetails, List<ArchivingSummary> records) {
+    private ArchivingsResponse(PageDetails pageDetails, List<ArchivingSummary> archivings) {
         this.pageDetails = pageDetails;
-        this.records = records;
+        this.archivings = archivings;
     }
 
-    public static ArchivingsResponse of(Page<Archiving> page, List<ArchivingSummary> records) {
+    public static ArchivingsResponse of(Page<Archiving> page, List<ArchivingSummary> archivings) {
         return ArchivingsResponse.builder()
                               .pageDetails(PageDetails.from(page))
-                              .records(records)
+                              .archivings(archivings)
                               .build();
     }
 }

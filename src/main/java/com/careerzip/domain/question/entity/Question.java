@@ -1,6 +1,8 @@
 package com.careerzip.domain.question.entity;
 
-import com.careerzip.domain.answeroption.AnswerOption;
+import com.careerzip.domain.answer.entity.Answer;
+import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionitem.entity.QuestionItem;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,24 +22,25 @@ public class Question {
     @Column(name = "question_id", nullable = false)
     private Long id;
 
-    @Column(name = "description", nullable = false)
-    private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "letter_form_id", nullable = false)
+    private LetterForm letterForm;
 
-    @Column(name = "example", nullable = false)
-    private String example;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_item_id", nullable = false)
+    private QuestionItem questionItem;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "question_type", nullable = false)
-    private QuestionType questionType;
+    @Column(name = "priority")
+    private Integer priority;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AnswerOption> answerOptions = new ArrayList<>();
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private List<Answer> answers = new ArrayList<>();
 
     @Builder
-    private Question(Long id, String description, String example, QuestionType questionType) {
+    private Question(Long id, LetterForm letterForm, QuestionItem questionItem, Integer priority) {
         this.id = id;
-        this.description = description;
-        this.example = example;
-        this.questionType = questionType;
+        this.letterForm = letterForm;
+        this.questionItem = questionItem;
+        this.priority = priority;
     }
 }

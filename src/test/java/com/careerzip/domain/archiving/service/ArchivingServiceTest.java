@@ -41,37 +41,37 @@ class ArchivingServiceTest {
     AccountRepository accountRepository;
 
     @Test
-    @DisplayName("특정 Account가 작성한 Record를 DTO로 반환하는 테스트")
+    @DisplayName("특정 Account가 작성한 Archiving 리스트를 DTO로 반환하는 테스트")
     void findAllTest() {
         // given
         int firstIndex = 0;
 
         Pagination pagination = createPaginationOf(1, 10, "DESC");
         PageRequest pageRequest = CustomPageRequest.of(pagination);
-        Page<Archiving> recordPage = createRecordPage();
-        Letter letter = recordPage.getContent().get(firstIndex).getLetter();
-        LetterForm letterForm = recordPage.getContent().get(0).getLetter().getLetterForm();
+        Page<Archiving> archivingPage = createRecordPage();
+        Letter letter = archivingPage.getContent().get(firstIndex).getLetter();
+        LetterForm letterForm = archivingPage.getContent().get(0).getLetter().getLetterForm();
 
         Account account = createMember();
         OAuthAccount loginAccount = OAuthAccount.from(account);
 
         // when
         when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
-        when(archivingRepository.findAllBy(account, pageRequest)).thenReturn(recordPage);
+        when(archivingRepository.findAllBy(account, pageRequest)).thenReturn(archivingPage);
 
         ArchivingsResponse response = archivingService.findAll(loginAccount, pagination);
 
         // then
         assertAll(
-                () -> assertThat(response.getRecords().size()).isEqualTo(recordPage.getSize()),
-                () -> assertThat(response.getRecords()
+                () -> assertThat(response.getArchivings().size()).isEqualTo(archivingPage.getSize()),
+                () -> assertThat(response.getArchivings()
                                          .stream()
-                                         .filter(record -> record.getQuestionnaireTitle().equals(letter.getTitle()))
-                                         .count()).isEqualTo(recordPage.getSize()),
-                () -> assertThat(response.getRecords()
+                                         .filter(archiving -> archiving.getLetterTitle().equals(letter.getTitle()))
+                                         .count()).isEqualTo(archivingPage.getSize()),
+                () -> assertThat(response.getArchivings()
                                          .stream()
-                                         .filter(record -> record.getTemplateTitle().equals(letterForm.getTitle()))
-                                         .count()).isEqualTo(recordPage.getSize())
+                                         .filter(archiving -> archiving.getLetterFormTitle().equals(letterForm.getTitle()))
+                                         .count()).isEqualTo(archivingPage.getSize())
         );
     }
 }

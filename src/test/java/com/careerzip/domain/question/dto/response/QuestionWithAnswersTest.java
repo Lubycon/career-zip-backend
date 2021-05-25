@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,14 +53,11 @@ class QuestionWithAnswersTest {
         List<Answer> answers = questions.stream()
                                         .map(question -> createAnswerOf(question, createProject()))
                                         .collect(Collectors.toList());
-        Map<Long, List<Answer>> answersMap = answers.stream()
-                                                    .collect(Collectors.groupingBy(Answer::getQuestionId));
-
 
         // when
-        List<QuestionWithAnswers> questionWithAnswers = QuestionWithAnswers.listOf(questions, answersMap);
+        List<QuestionWithAnswers> questionWithAnswers = QuestionWithAnswers.listOf(questions, answers);
 
         // then
-       assertThat(questionWithAnswers.size()).isEqualTo(answersMap.size());
+       assertThat(questionWithAnswers.size()).isEqualTo(questions.size());
     }
 }

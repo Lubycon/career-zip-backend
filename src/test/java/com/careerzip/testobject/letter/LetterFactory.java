@@ -5,7 +5,7 @@ import com.careerzip.domain.letterform.entity.LetterForm;
 
 import java.time.LocalDateTime;
 
-import static com.careerzip.testobject.letterform.TemplateFactory.createLetterFormOf;
+import static com.careerzip.testobject.letterform.LetterFormFactory.createLetterForm;
 
 public class LetterFactory {
 
@@ -16,7 +16,7 @@ public class LetterFactory {
                             .title("Questionnaire Title")
                             .startDateTime(LocalDateTime.of(2021, 05, 20, 5, 2, 1))
                             .endDateTime(LocalDateTime.of(2021, 05, 20, 7, 2, 1))
-                            .letterForm(createLetterFormOf())
+                            .letterForm(createLetterForm())
                             .build();
     }
 

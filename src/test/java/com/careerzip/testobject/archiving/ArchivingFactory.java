@@ -15,6 +15,15 @@ import static com.careerzip.testobject.letter.LetterFactory.createLetter;
 public class ArchivingFactory {
 
     // Archiving
+    public static Archiving createArchiving() {
+        return Archiving.builder()
+                        .id(1L)
+                        .title("Record title")
+                        .letter(createLetter())
+                        .account(createMember())
+                        .build();
+    }
+
     public static Archiving createArchivingOf(Long id) {
         return Archiving.builder()
                      .id(id)
