@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.careerzip.domain.question.entity.QQuestion.question;
 import static com.careerzip.domain.questionitem.entity.QQuestionItem.questionItem;
-import static com.careerzip.domain.questionoption.QQuestionOption.questionOption;
+import static com.careerzip.domain.selectoption.QQuestionOption.questionOption;
 
 @RequiredArgsConstructor
 public class QuestionRepositoryImpl implements QuestionRepositoryCustom {

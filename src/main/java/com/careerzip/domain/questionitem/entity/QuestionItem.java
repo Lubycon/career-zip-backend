@@ -1,6 +1,6 @@
 package com.careerzip.domain.questionitem.entity;
 
-import com.careerzip.domain.questionoption.QuestionOption;
+import com.careerzip.domain.selectoption.entity.SelectOption;
 import com.careerzip.domain.questiontype.QuestionType;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -36,7 +36,7 @@ public class QuestionItem {
     private QuestionType questionType;
 
     @OneToMany(mappedBy = "questionItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<QuestionOption> questionOptions = new ArrayList<>();
+    private List<SelectOption> selectOptions = new ArrayList<>();
 
     @Builder
     private QuestionItem(Long id, String description, String example, InputType inputType, QuestionType questionType) {

@@ -1,6 +1,6 @@
 package com.careerzip.testobject.questionitem;
 
-import com.careerzip.domain.questionoption.QuestionOption;
+import com.careerzip.domain.selectoption.entity.SelectOption;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.questionitem.entity.InputType;
 
@@ -20,23 +20,23 @@ public class QuestionItemFactory {
                                                 .questionType(createQuestionType())
                                                 .build();
 
-        QuestionOption firstOption = QuestionOption.builder()
-                                                    .id(1L)
-                                                    .description("Option 1")
-                                                    .questionItem(questionItem)
-                                                    .build();
-        QuestionOption secondOption = QuestionOption.builder()
-                                                    .id(2L)
-                                                    .description("Option 2")
-                                                    .questionItem(questionItem)
-                                                    .build();
-        QuestionOption thirdOption = QuestionOption.builder()
-                                                    .id(3L)
-                                                    .description("Option 3")
-                                                    .questionItem(questionItem)
-                                                    .build();
-        List<QuestionOption> questionOptions = Arrays.asList(firstOption, secondOption, thirdOption);
-        questionItem.getQuestionOptions().addAll(questionOptions);
+        SelectOption firstOption = SelectOption.builder()
+                                               .id(1L)
+                                               .description("Option 1")
+                                               .questionItem(questionItem)
+                                               .build();
+        SelectOption secondOption = SelectOption.builder()
+                                                .id(2L)
+                                                .description("Option 2")
+                                                .questionItem(questionItem)
+                                                .build();
+        SelectOption thirdOption = SelectOption.builder()
+                                               .id(3L)
+                                               .description("Option 3")
+                                               .questionItem(questionItem)
+                                               .build();
+        List<SelectOption> selectOptions = Arrays.asList(firstOption, secondOption, thirdOption);
+        questionItem.getSelectOptions().addAll(selectOptions);
 
         return questionItem;
     }

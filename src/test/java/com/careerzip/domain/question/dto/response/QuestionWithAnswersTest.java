@@ -1,7 +1,7 @@
 package com.careerzip.domain.question.dto.response;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.questionoption.QuestionOption;
+import com.careerzip.domain.selectoption.entity.SelectOption;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.question.entity.Question;
@@ -9,9 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswer;
@@ -33,13 +31,13 @@ class QuestionWithAnswersTest {
 
         // when
         QuestionWithAnswers questionWithAnswers = QuestionWithAnswers.of(question, answers);
-        List<QuestionOption> questionOptions = questionItem.getQuestionOptions();
+        List<SelectOption> selectOptions = questionItem.getSelectOptions();
 
         // then
         assertThat(questionWithAnswers.getAnswerOptions())
                 .usingRecursiveComparison()
-                .isEqualTo(questionOptions.stream()
-                                        .map(QuestionOption::getDescription)
+                .isEqualTo(selectOptions.stream()
+                                        .map(SelectOption::getDescription)
                                         .collect(Collectors.toList()));
         assertThat(questionWithAnswers).hasNoNullFieldsOrProperties();
     }

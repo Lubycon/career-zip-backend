@@ -2,7 +2,7 @@ package com.careerzip.domain.archiving.dto.response.archivingdetailresponse;
 
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.question.entity.Question;
-import com.careerzip.domain.questionoption.QuestionOption;
+import com.careerzip.domain.selectoption.entity.SelectOption;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.questionitem.entity.InputType;
 import lombok.Builder;
@@ -48,9 +48,9 @@ public class QuestionWithAnswers {
         }
 
         QuestionItem questionItem = question.getQuestionItem();
-        List<String> answerOptions = questionItem.getQuestionOptions()
+        List<String> answerOptions = questionItem.getSelectOptions()
                                                  .stream()
-                                                 .map(QuestionOption::getDescription)
+                                                 .map(SelectOption::getDescription)
                                                  .collect(Collectors.toList());
 
         return QuestionWithAnswers.builder()

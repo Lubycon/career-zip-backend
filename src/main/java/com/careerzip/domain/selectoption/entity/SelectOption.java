@@ -1,4 +1,4 @@
-package com.careerzip.domain.questionoption;
+package com.careerzip.domain.selectoption.entity;
 
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import lombok.AccessLevel;
@@ -11,11 +11,11 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class QuestionOption {
+public class SelectOption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "question_option_id", nullable = false)
+    @Column(name = "select_option_id", nullable = false)
     private Long id;
 
     @Column(name = "description", nullable = false)
@@ -26,7 +26,7 @@ public class QuestionOption {
     private QuestionItem questionItem;
 
     @Builder
-    private QuestionOption(Long id, String description, QuestionItem questionItem) {
+    private SelectOption(Long id, String description, QuestionItem questionItem) {
         this.id = id;
         this.description = description;
         this.questionItem = questionItem;
