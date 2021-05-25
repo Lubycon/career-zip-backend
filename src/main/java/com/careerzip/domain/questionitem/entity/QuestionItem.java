@@ -24,7 +24,7 @@ public class QuestionItem {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "example", nullable = false)
+    @Column(name = "example")
     private String example;
 
     @Enumerated(EnumType.STRING)
