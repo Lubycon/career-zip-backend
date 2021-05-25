@@ -1,5 +1,6 @@
 package com.careerzip.controller;
 
+import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.ArchivingDetailResponse;
 import com.careerzip.domain.archiving.dto.response.archivingsresponse.ArchivingsResponse;
 import com.careerzip.domain.archiving.service.ArchivingService;
 import com.careerzip.global.api.ApiResponse;
@@ -17,14 +18,16 @@ public class ArchiveController {
     private final ArchivingService archivingService;
 
     @GetMapping
-    public ApiResponse<ArchivingsResponse> recordList(@LoginAccount OAuthAccount loginAccount,
+    public ApiResponse<ArchivingsResponse> archivingList(@LoginAccount OAuthAccount loginAccount,
                                                       @ModelAttribute Pagination pagination) {
-        ArchivingsResponse records = archivingService.findAll(loginAccount, pagination);
-        return ApiResponse.success(records);
+        ArchivingsResponse archivings = archivingService.findAll(loginAccount, pagination);
+        return ApiResponse.success(archivings);
     }
 
-    @GetMapping("/{recordId}")
-    public void recordDetail(@LoginAccount OAuthAccount loginAccount, @PathVariable Long recordId) {
-        archivingService.findBy(loginAccount, recordId);
+    @GetMapping("/{archivingId}")
+    public ApiResponse<ArchivingDetailResponse> archivingDetail(@LoginAccount OAuthAccount loginAccount,
+                                                                @PathVariable Long archivingId) {
+        ArchivingDetailResponse archiving = archivingService.findBy(loginAccount, archivingId);
+        return ApiResponse.success(archiving);
     }
 }
