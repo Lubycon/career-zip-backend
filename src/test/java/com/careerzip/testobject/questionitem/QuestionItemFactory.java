@@ -1,8 +1,9 @@
 package com.careerzip.testobject.questionitem;
 
-import com.careerzip.domain.selectoption.entity.SelectOption;
-import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.questionitem.entity.InputType;
+import com.careerzip.domain.questionitem.entity.QuestionItem;
+import com.careerzip.domain.questiontype.entity.QuestionType;
+import com.careerzip.domain.selectoption.entity.SelectOption;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,12 +43,12 @@ public class QuestionItemFactory {
     }
 
     // Question - TEXT
-    public static QuestionItem createJpaTestTextQuestionItem() {
+    public static QuestionItem createJpaTestTextQuestionItemOf(QuestionType questionType) {
         return QuestionItem.builder()
                            .description("Question Description")
                            .example("Question Example")
                            .inputType(InputType.TEXT)
-                           .questionType(createQuestionType())
+                           .questionType(questionType)
                            .build();
     }
 }

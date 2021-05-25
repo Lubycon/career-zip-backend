@@ -1,10 +1,10 @@
 package com.careerzip.domain.question.dto.response;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.selectoption.entity.SelectOption;
-import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.question.entity.Question;
+import com.careerzip.domain.questionitem.entity.QuestionItem;
+import com.careerzip.domain.selectoption.entity.SelectOption;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswer;
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswerOf;
 import static com.careerzip.testobject.project.ProjectFactory.createProject;
-import static com.careerzip.testobject.questionitem.QuestionItemFactory.createCheckboxQuestionItem;
 import static com.careerzip.testobject.question.QuestionFactory.createQuestionOf;
+import static com.careerzip.testobject.questionitem.QuestionItemFactory.createCheckboxQuestionItem;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class QuestionWithAnswersTest {

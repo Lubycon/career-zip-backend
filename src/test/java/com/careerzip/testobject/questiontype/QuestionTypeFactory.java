@@ -1,13 +1,20 @@
 package com.careerzip.testobject.questiontype;
 
-import com.careerzip.domain.questiontype.QuestionType;
+import com.careerzip.domain.questiontype.entity.QuestionType;
 
 public class QuestionTypeFactory {
 
+    // QuestionType
     public static QuestionType createQuestionType() {
         return QuestionType.builder()
                            .id(1L)
-                           .description("Question Type")
+                           .name("Question Type")
+                           .build();
+    }
+
+    public static QuestionType createJpaTestQuestionType() {
+        return QuestionType.builder()
+                           .name("Question Type")
                            .build();
     }
 }

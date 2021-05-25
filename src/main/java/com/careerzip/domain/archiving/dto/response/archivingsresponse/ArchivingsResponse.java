@@ -26,8 +26,8 @@ public class ArchivingsResponse {
 
     public static ArchivingsResponse of(Page<Archiving> page, List<ArchivingSummary> archivings) {
         return ArchivingsResponse.builder()
-                              .pageDetails(PageDetails.from(page))
-                              .archivings(archivings)
-                              .build();
+                                 .pageDetails(PageDetails.from(page))
+                                 .archivings(archivings)
+                                 .build();
     }
 }

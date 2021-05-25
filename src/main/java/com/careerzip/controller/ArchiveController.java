@@ -19,7 +19,7 @@ public class ArchiveController {
 
     @GetMapping
     public ApiResponse<ArchivingsResponse> archivingList(@LoginAccount OAuthAccount loginAccount,
-                                                      @ModelAttribute Pagination pagination) {
+                                                         @ModelAttribute Pagination pagination) {
         ArchivingsResponse archivings = archivingService.findAll(loginAccount, pagination);
         return ApiResponse.success(archivings);
     }

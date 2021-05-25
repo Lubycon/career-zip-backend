@@ -5,6 +5,8 @@ import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.letterform.repository.LetterFormRepository;
 import com.careerzip.domain.questionitem.repository.QuestionItemRepository;
+import com.careerzip.domain.questiontype.entity.QuestionType;
+import com.careerzip.domain.questiontype.repository.QuestionTypeRepository;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +16,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.careerzip.testobject.questionitem.QuestionItemFactory.createJpaTestTextQuestionItem;
+import static com.careerzip.testobject.questionitem.QuestionItemFactory.createJpaTestTextQuestionItemOf;
 import static com.careerzip.testobject.letterform.LetterFormFactory.createJpaTestLetterForm;
 import static com.careerzip.testobject.question.QuestionFactory.createJpaTestQuestionOf;
+import static com.careerzip.testobject.questiontype.QuestionTypeFactory.createJpaTestQuestionType;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class QuestionRepositoryTest extends BaseRepositoryTest {
@@ -30,17 +33,23 @@ class QuestionRepositoryTest extends BaseRepositoryTest {
     @Autowired
     QuestionItemRepository questionItemRepository;
 
+    @Autowired
+    QuestionTypeRepository questionTypeRepository;
+
     @Test
     @DisplayName("LetterForm 기준 리스트 조회 테스트")
     void findAllByLetterForm() {
         // given
-        List<QuestionItem> questionItems = Arrays.asList(createJpaTestTextQuestionItem(), createJpaTestTextQuestionItem(), createJpaTestTextQuestionItem());
+        QuestionType questionType = questionTypeRepository.save(createJpaTestQuestionType());
+        List<QuestionItem> questionItems = Arrays.asList(createJpaTestTextQuestionItemOf(questionType),
+                                                         createJpaTestTextQuestionItemOf(questionType),
+                                                         createJpaTestTextQuestionItemOf(questionType));
         LetterForm savedLetterForm = letterFormRepository.save(createJpaTestLetterForm());
         List<QuestionItem> savedQuestionItems = questionItemRepository.saveAll(questionItems);
         List<Question> questions =
                 savedQuestionItems.stream()
-                              .map(letterFormQuestion -> createJpaTestQuestionOf(savedLetterForm, letterFormQuestion))
-                              .collect(Collectors.toList());
+                                  .map(questionItem -> createJpaTestQuestionOf(savedLetterForm, questionItem))
+                                  .collect(Collectors.toList());
 
         questionRepository.saveAll(questions);
 

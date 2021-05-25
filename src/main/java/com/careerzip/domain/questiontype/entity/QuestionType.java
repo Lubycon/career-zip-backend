@@ -1,4 +1,4 @@
-package com.careerzip.domain.questiontype;
+package com.careerzip.domain.questiontype.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,12 +17,16 @@ public class QuestionType {
     @Column(name = "question_type_id", nullable = false)
     private Long id;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "description")
     private String description;
 
     @Builder
-    private QuestionType(Long id, String description) {
+    private QuestionType(Long id, String name, String description) {
         this.id = id;
+        this.name = name;
         this.description = description;
     }
 }

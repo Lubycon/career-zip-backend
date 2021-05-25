@@ -1,7 +1,7 @@
 package com.careerzip.domain.questionitem.entity;
 
 import com.careerzip.domain.selectoption.entity.SelectOption;
-import com.careerzip.domain.questiontype.QuestionType;
+import com.careerzip.domain.questiontype.entity.QuestionType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

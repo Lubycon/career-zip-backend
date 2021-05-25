@@ -2,6 +2,7 @@ package com.careerzip.domain.archiving.dto.response.archivingdetailresponse;
 
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.question.entity.Question;
+import com.careerzip.domain.questiontype.entity.QuestionType;
 import com.careerzip.domain.selectoption.entity.SelectOption;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.questionitem.entity.InputType;
@@ -24,6 +25,9 @@ public class QuestionWithAnswers {
     private final InputType inputType;
 
     @NotNull
+    private final String questionType;
+
+    @NotNull
     private final String description;
 
     @NotNull
@@ -33,10 +37,11 @@ public class QuestionWithAnswers {
     private final List<AnswerDetail> answers;
 
     @Builder
-    private QuestionWithAnswers(int priority, InputType inputType, String description, List<String> answerOptions,
-                                List<AnswerDetail> answers) {
+    private QuestionWithAnswers(int priority, InputType inputType, String questionType, String description,
+                                List<String> answerOptions, List<AnswerDetail> answers) {
         this.priority = priority;
         this.inputType = inputType;
+        this.questionType = questionType;
         this.description = description;
         this.answerOptions = answerOptions;
         this.answers = answers;
@@ -48,6 +53,7 @@ public class QuestionWithAnswers {
         }
 
         QuestionItem questionItem = question.getQuestionItem();
+        QuestionType questionType = questionItem.getQuestionType();
         List<String> answerOptions = questionItem.getSelectOptions()
                                                  .stream()
                                                  .map(SelectOption::getDescription)
@@ -56,6 +62,7 @@ public class QuestionWithAnswers {
         return QuestionWithAnswers.builder()
                                   .priority(question.getPriority())
                                   .inputType(questionItem.getInputType())
+                                  .questionType(questionType.getName())
                                   .description(questionItem.getDescription())
                                   .answerOptions(answerOptions)
                                   .answers(AnswerDetail.listOf(answers))
