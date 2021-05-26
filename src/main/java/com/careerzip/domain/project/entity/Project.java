@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -42,13 +43,20 @@ public class Project {
     @Column(name = "team_members")
     private String teamMembers;
 
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @Builder
     private Project(Long id, String title, String description, String aim, String role, String mainBusiness,
-                    Integer participantsCount, Double contribution, String teamMembers, Account account) {
+                    Integer participantsCount, Double contribution, String teamMembers,
+                    LocalDate startDate, LocalDate endDate, Account account) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -58,6 +66,8 @@ public class Project {
         this.participantsCount = participantsCount;
         this.contribution = contribution;
         this.teamMembers = teamMembers;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.account = account;
     }
 }
