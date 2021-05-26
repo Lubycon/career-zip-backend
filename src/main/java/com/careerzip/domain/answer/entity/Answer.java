@@ -24,6 +24,12 @@ public class Answer {
     @Column(name = "comment", nullable = false)
     private String comment;
 
+    @Column(name = "important", nullable = false)
+    private Boolean important;
+
+    @Column(name = "shared", nullable = false)
+    private Boolean shared;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
@@ -41,9 +47,11 @@ public class Answer {
     private Account account;
 
     @Builder
-    private Answer(Long id, String comment, Project project, Question question, Archiving archiving, Account account) {
+    private Answer(Long id, String comment, Boolean important, Boolean shared, Project project, Question question, Archiving archiving, Account account) {
         this.id = id;
         this.comment = comment;
+        this.important = important;
+        this.shared = shared;
         this.project = project;
         this.question = question;
         this.archiving = archiving;
