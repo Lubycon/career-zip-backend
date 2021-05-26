@@ -2,12 +2,12 @@ package com.careerzip.testobject.question;
 
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
-import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.careerzip.testobject.letterform.LetterFormFactory.createLetterForm;
+import static com.careerzip.testobject.questionpaperform.QuestionPaperFormFactory.createQuestionPaperForm;
 import static com.careerzip.testobject.questionitem.QuestionItemFactory.createCheckboxQuestionItem;
 
 public class QuestionFactory {
@@ -16,7 +16,7 @@ public class QuestionFactory {
     public static Question createQuestion() {
         return Question.builder()
                        .id(1L)
-                       .letterForm(createLetterForm())
+                       .questionPaperForm(createQuestionPaperForm())
                        .questionItem(createCheckboxQuestionItem())
                        .priority(1)
                        .build();
@@ -25,7 +25,7 @@ public class QuestionFactory {
     public static Question createQuestionOf(QuestionItem questionItem) {
         return Question.builder()
                        .id(1L)
-                       .letterForm(createLetterForm())
+                       .questionPaperForm(createQuestionPaperForm())
                        .questionItem(questionItem)
                        .priority(1)
                        .build();
@@ -34,15 +34,15 @@ public class QuestionFactory {
     public static Question createQuestionOf(Long id, QuestionItem questionItem) {
         return Question.builder()
                        .id(id)
-                       .letterForm(createLetterForm())
+                       .questionPaperForm(createQuestionPaperForm())
                        .questionItem(questionItem)
                        .priority(1)
                        .build();
     }
 
-    public static Question createJpaTestQuestionOf(LetterForm letterForm, QuestionItem questionItem) {
+    public static Question createJpaTestQuestionOf(QuestionPaperForm questionPaperForm, QuestionItem questionItem) {
             return Question.builder()
-                           .letterForm(letterForm)
+                           .questionPaperForm(questionPaperForm)
                            .questionItem(questionItem)
                            .priority(1)
                            .build();
@@ -52,7 +52,7 @@ public class QuestionFactory {
     public static List<Question> createQuestions() {
         return Arrays.asList(Question.builder()
                                      .id(1L)
-                                     .letterForm(createLetterForm())
+                                     .questionPaperForm(createQuestionPaperForm())
                                      .priority(1)
                                      .questionItem(createCheckboxQuestionItem())
                                      .build(),
@@ -60,13 +60,13 @@ public class QuestionFactory {
                                      .id(2L)
                                      .priority(2)
                                      .questionItem(createCheckboxQuestionItem())
-                                     .letterForm(createLetterForm())
+                                     .questionPaperForm(createQuestionPaperForm())
                                      .build(),
                              Question.builder()
                                      .id(3L)
                                      .priority(3)
                                      .questionItem(createCheckboxQuestionItem())
-                                     .letterForm(createLetterForm())
+                                     .questionPaperForm(createQuestionPaperForm())
                                      .build());
     }
 }

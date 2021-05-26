@@ -1,7 +1,7 @@
 package com.careerzip.domain.archiving.entity;
 
 import com.careerzip.domain.account.entity.Account;
-import com.careerzip.domain.letter.entity.Letter;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.careerzip.global.jpa.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,17 +25,17 @@ public class Archiving extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "letter_id", nullable = false)
-    private Letter letter;
+    private QuestionPaper questionPaper;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @Builder
-    private Archiving(Long id, String title, Letter letter, Account account) {
+    private Archiving(Long id, String title, QuestionPaper questionPaper, Account account) {
         this.id = id;
         this.title = title;
-        this.letter = letter;
+        this.questionPaper = questionPaper;
         this.account = account;
     }
 }

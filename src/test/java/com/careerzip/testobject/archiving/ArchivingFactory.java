@@ -2,7 +2,7 @@ package com.careerzip.testobject.archiving;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.archiving.entity.Archiving;
-import com.careerzip.domain.letter.entity.Letter;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
-import static com.careerzip.testobject.letter.LetterFactory.createLetter;
+import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createQuestionPaper;
 
 public class ArchivingFactory {
 
@@ -19,7 +19,7 @@ public class ArchivingFactory {
         return Archiving.builder()
                         .id(1L)
                         .title("Record title")
-                        .letter(createLetter())
+                        .questionPaper(createQuestionPaper())
                         .account(createMember())
                         .build();
     }
@@ -28,16 +28,16 @@ public class ArchivingFactory {
         return Archiving.builder()
                      .id(id)
                      .title("Record title")
-                     .letter(createLetter())
+                     .questionPaper(createQuestionPaper())
                      .account(createMember())
                      .build();
     }
 
-    public static Archiving createJpaTestArchivingOf(Account account, Letter letter) {
+    public static Archiving createJpaTestArchivingOf(Account account, QuestionPaper questionPaper) {
         return Archiving.builder()
                      .title("Record Title")
                      .account(account)
-                     .letter(letter)
+                     .questionPaper(questionPaper)
                      .build();
     }
 

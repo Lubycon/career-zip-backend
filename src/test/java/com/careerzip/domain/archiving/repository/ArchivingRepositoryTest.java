@@ -2,11 +2,11 @@ package com.careerzip.domain.archiving.repository;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
-import com.careerzip.domain.letter.entity.Letter;
-import com.careerzip.domain.letter.repository.LetterRepository;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
+import com.careerzip.domain.questionpaper.repository.PaperRepository;
 import com.careerzip.domain.archiving.entity.Archiving;
-import com.careerzip.domain.letterform.entity.LetterForm;
-import com.careerzip.domain.letterform.repository.LetterFormRepository;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
+import com.careerzip.domain.questionpaperform.repository.QuestionPaperFormRepository;
 import com.careerzip.global.error.exception.entity.ArchivingNotFoundException;
 import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
@@ -22,9 +22,9 @@ import java.util.List;
 
 import static com.careerzip.testobject.account.AccountFactory.createJpaTestMember;
 import static com.careerzip.testobject.pagination.PaginationFactory.createPaginationOf;
-import static com.careerzip.testobject.letter.LetterFactory.createJpaTestLetterOf;
+import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createJpaTestQuestionPaperOf;
 import static com.careerzip.testobject.archiving.ArchivingFactory.createJpaTestArchivingOf;
-import static com.careerzip.testobject.letterform.LetterFormFactory.createJpaTestLetterForm;
+import static com.careerzip.testobject.questionpaperform.QuestionPaperFormFactory.createJpaTestQuestionPaperForm;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.data.domain.Sort.Direction.DESC;
@@ -38,20 +38,20 @@ class ArchivingRepositoryTest extends BaseRepositoryTest {
     AccountRepository accountRepository;
 
     @Autowired
-    LetterRepository letterRepository;
+    PaperRepository paperRepository;
 
     @Autowired
-    LetterFormRepository letterFormRepository;
+    QuestionPaperFormRepository questionPaperFormRepository;
 
     Account account;
-    LetterForm letterForm;
-    Letter letter;
+    QuestionPaperForm questionPaperForm;
+    QuestionPaper questionPaper;
 
     @BeforeEach
     void setup() {
         account = accountRepository.save(createJpaTestMember());
-        letterForm = letterFormRepository.save(createJpaTestLetterForm());
-        letter = letterRepository.save(createJpaTestLetterOf(letterForm));
+        questionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
+        questionPaper = paperRepository.save(createJpaTestQuestionPaperOf(questionPaperForm));
     }
 
     @Test
@@ -64,7 +64,7 @@ class ArchivingRepositoryTest extends BaseRepositoryTest {
 
         List<Archiving> archivingList = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
-            archivingList.add(createJpaTestArchivingOf(account, letter));
+            archivingList.add(createJpaTestArchivingOf(account, questionPaper));
         }
 
         // when
@@ -92,12 +92,12 @@ class ArchivingRepositoryTest extends BaseRepositoryTest {
     @DisplayName("Account, Id를 기준으로 Archiving을 조회하는 테스트")
     void findByAccountAndIdTest() {
         // given
-        Archiving targetArchiving = archivingRepository.save(createJpaTestArchivingOf(account, letter));
+        Archiving targetArchiving = archivingRepository.save(createJpaTestArchivingOf(account, questionPaper));
 
         Account anotherAccount = accountRepository.save(createJpaTestMember());
-        LetterForm anotherLetterForm = letterFormRepository.save(createJpaTestLetterForm());
-        Letter anotherLetter = letterRepository.save(createJpaTestLetterOf(anotherLetterForm));
-        archivingRepository.save(createJpaTestArchivingOf(anotherAccount, anotherLetter));
+        QuestionPaperForm anotherQuestionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
+        QuestionPaper anotherQuestionPaper = paperRepository.save(createJpaTestQuestionPaperOf(anotherQuestionPaperForm));
+        archivingRepository.save(createJpaTestArchivingOf(anotherAccount, anotherQuestionPaper));
 
         // when
         Archiving foundArchiving = archivingRepository.findBy(account, targetArchiving.getId()).orElseThrow(ArchivingNotFoundException::new);

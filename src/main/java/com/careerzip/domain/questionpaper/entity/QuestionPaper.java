@@ -1,6 +1,6 @@
-package com.careerzip.domain.letter.entity;
+package com.careerzip.domain.questionpaper.entity;
 
-import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Letter {
+public class QuestionPaper {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "letter_id", nullable = false)
+    @Column(name = "question_paper_id", nullable = false)
     private Long id;
 
     @Column(name = "title")
@@ -30,14 +30,14 @@ public class Letter {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "letter_form_id", nullable = false)
-    private LetterForm letterForm;
+    private QuestionPaperForm questionPaperForm;
 
     @Builder
-    private Letter(Long id, String title, LocalDateTime startDateTime, LocalDateTime endDateTime, LetterForm letterForm) {
+    private QuestionPaper(Long id, String title, LocalDateTime startDateTime, LocalDateTime endDateTime, QuestionPaperForm questionPaperForm) {
         this.id = id;
         this.title = title;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.letterForm = letterForm;
+        this.questionPaperForm = questionPaperForm;
     }
 }

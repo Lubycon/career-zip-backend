@@ -1,8 +1,8 @@
 package com.careerzip.domain.archiving.dto.response.archivingdetailresponse;
 
 import com.careerzip.domain.archiving.entity.Archiving;
-import com.careerzip.domain.letter.entity.Letter;
-import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,13 +40,13 @@ public class ArchivingDetailResponse {
     }
 
     public static ArchivingDetailResponse of(Archiving archiving, List<QuestionWithAnswers> questions) {
-        Letter letter = archiving.getLetter();
-        LetterForm letterForm = letter.getLetterForm();
+        QuestionPaper questionPaper = archiving.getQuestionPaper();
+        QuestionPaperForm questionPaperForm = questionPaper.getQuestionPaperForm();
 
         return ArchivingDetailResponse.builder()
                                       .id(archiving.getId())
-                                      .letterFormTitle(letterForm.getTitle())
-                                      .letterTitle(letter.getTitle())
+                                      .letterFormTitle(questionPaperForm.getTitle())
+                                      .letterTitle(questionPaper.getTitle())
                                       .questions(questions)
                                       .build();
     }

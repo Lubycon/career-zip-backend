@@ -1,9 +1,9 @@
 package com.careerzip.domain.question.repository;
 
-import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
-import com.careerzip.domain.letterform.repository.LetterFormRepository;
+import com.careerzip.domain.questionpaperform.repository.QuestionPaperFormRepository;
 import com.careerzip.domain.questionitem.repository.QuestionItemRepository;
 import com.careerzip.domain.questiontype.entity.QuestionType;
 import com.careerzip.domain.questiontype.repository.QuestionTypeRepository;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.careerzip.testobject.questionitem.QuestionItemFactory.createJpaTestTextQuestionItemOf;
-import static com.careerzip.testobject.letterform.LetterFormFactory.createJpaTestLetterForm;
+import static com.careerzip.testobject.questionpaperform.QuestionPaperFormFactory.createJpaTestQuestionPaperForm;
 import static com.careerzip.testobject.question.QuestionFactory.createJpaTestQuestionOf;
 import static com.careerzip.testobject.questiontype.QuestionTypeFactory.createJpaTestQuestionType;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +28,7 @@ class QuestionRepositoryTest extends BaseRepositoryTest {
     QuestionRepository questionRepository;
 
     @Autowired
-    LetterFormRepository letterFormRepository;
+    QuestionPaperFormRepository questionPaperFormRepository;
 
     @Autowired
     QuestionItemRepository questionItemRepository;
@@ -44,22 +44,22 @@ class QuestionRepositoryTest extends BaseRepositoryTest {
         List<QuestionItem> questionItems = Arrays.asList(createJpaTestTextQuestionItemOf(questionType),
                                                          createJpaTestTextQuestionItemOf(questionType),
                                                          createJpaTestTextQuestionItemOf(questionType));
-        LetterForm savedLetterForm = letterFormRepository.save(createJpaTestLetterForm());
+        QuestionPaperForm savedQuestionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
         List<QuestionItem> savedQuestionItems = questionItemRepository.saveAll(questionItems);
         List<Question> questions =
                 savedQuestionItems.stream()
-                                  .map(questionItem -> createJpaTestQuestionOf(savedLetterForm, questionItem))
+                                  .map(questionItem -> createJpaTestQuestionOf(savedQuestionPaperForm, questionItem))
                                   .collect(Collectors.toList());
 
         questionRepository.saveAll(questions);
 
 
         // when
-        List<Question> foundQuestions = questionRepository.findAllBy(savedLetterForm);
+        List<Question> foundQuestions = questionRepository.findAllBy(savedQuestionPaperForm);
 
         // then
         assertThat(foundQuestions)
-                .allMatch(letterFormQuestion -> letterFormQuestion.getLetterForm().getId()
-                                                                                  .equals(savedLetterForm.getId()));
+                .allMatch(letterFormQuestion -> letterFormQuestion.getQuestionPaperForm().getId()
+                                                                                  .equals(savedQuestionPaperForm.getId()));
     }
 }

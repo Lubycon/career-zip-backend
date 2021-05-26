@@ -4,11 +4,11 @@ import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.ArchivingDetailResponse;
 import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.QuestionWithAnswers;
-import com.careerzip.domain.letter.entity.Letter;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.careerzip.domain.archiving.dto.response.archivingsresponse.ArchivingsResponse;
 import com.careerzip.domain.archiving.entity.Archiving;
 import com.careerzip.domain.archiving.repository.ArchivingRepository;
-import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.question.service.QuestionService;
 import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.global.pagination.Pagination;
@@ -60,8 +60,8 @@ class ArchivingServiceTest {
         Pagination pagination = createPaginationOf(1, 10, "DESC");
         PageRequest pageRequest = CustomPageRequest.of(pagination);
         Page<Archiving> archivingPage = createRecordPage();
-        Letter letter = archivingPage.getContent().get(firstIndex).getLetter();
-        LetterForm letterForm = archivingPage.getContent().get(0).getLetter().getLetterForm();
+        QuestionPaper questionPaper = archivingPage.getContent().get(firstIndex).getQuestionPaper();
+        QuestionPaperForm questionPaperForm = archivingPage.getContent().get(0).getQuestionPaper().getQuestionPaperForm();
 
         Account account = createMember();
         OAuthAccount loginAccount = OAuthAccount.from(account);
@@ -77,11 +77,11 @@ class ArchivingServiceTest {
                 () -> assertThat(response.getArchivings().size()).isEqualTo(archivingPage.getSize()),
                 () -> assertThat(response.getArchivings()
                                          .stream()
-                                         .filter(archiving -> archiving.getLetterTitle().equals(letter.getTitle()))
+                                         .filter(archiving -> archiving.getLetterTitle().equals(questionPaper.getTitle()))
                                          .count()).isEqualTo(archivingPage.getSize()),
                 () -> assertThat(response.getArchivings()
                                          .stream()
-                                         .filter(archiving -> archiving.getLetterFormTitle().equals(letterForm.getTitle()))
+                                         .filter(archiving -> archiving.getLetterFormTitle().equals(questionPaperForm.getTitle()))
                                          .count()).isEqualTo(archivingPage.getSize())
         );
     }
@@ -95,8 +95,8 @@ class ArchivingServiceTest {
         List<QuestionWithAnswers> questionWithAnswers = QuestionWithAnswers.listOf(createQuestions(), createAnswers());
         Archiving archiving = createArchiving();
         Long archivingId = archiving.getId();
-        Letter letter = archiving.getLetter();
-        LetterForm letterForm = letter.getLetterForm();
+        QuestionPaper questionPaper = archiving.getQuestionPaper();
+        QuestionPaperForm questionPaperForm = questionPaper.getQuestionPaperForm();
 
         // when
         when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
@@ -108,8 +108,8 @@ class ArchivingServiceTest {
         // then
         assertAll(
                 () -> assertThat(response.getId()).isEqualTo(archiving.getId()),
-                () -> assertThat(response.getLetterFormTitle()).isEqualTo(letterForm.getTitle()),
-                () -> assertThat(response.getLetterTitle()).isEqualTo(letter.getTitle()),
+                () -> assertThat(response.getLetterFormTitle()).isEqualTo(questionPaperForm.getTitle()),
+                () -> assertThat(response.getLetterTitle()).isEqualTo(questionPaper.getTitle()),
                 () -> assertThat(response.getCreatedDateTime()).isEqualTo(archiving.getCreatedDateTime()),
                 () -> assertThat(response.getQuestions()).usingRecursiveComparison().isEqualTo(questionWithAnswers)
         );

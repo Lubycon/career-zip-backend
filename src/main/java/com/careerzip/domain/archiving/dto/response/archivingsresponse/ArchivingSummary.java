@@ -1,8 +1,8 @@
 package com.careerzip.domain.archiving.dto.response.archivingsresponse;
 
 import com.careerzip.domain.archiving.entity.Archiving;
-import com.careerzip.domain.letter.entity.Letter;
-import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -34,11 +34,11 @@ public class ArchivingSummary {
         this.createdDateTime = createdDateTime;
     }
 
-    public static ArchivingSummary of(Archiving archiving, LetterForm letterForm, Letter letter) {
+    public static ArchivingSummary of(Archiving archiving, QuestionPaperForm questionPaperForm, QuestionPaper questionPaper) {
         return ArchivingSummary.builder()
                             .id(archiving.getId())
-                            .letterFormTitle(letterForm.getTitle())
-                            .letterTitle(letter.getTitle())
+                            .letterFormTitle(questionPaperForm.getTitle())
+                            .letterTitle(questionPaper.getTitle())
                             .build();
     }
 
@@ -47,9 +47,9 @@ public class ArchivingSummary {
 
         return archivings.stream()
                       .map(archiving -> {
-                          Letter letter = archiving.getLetter();
-                          LetterForm letterForm = letter.getLetterForm();
-                          return of(archiving, letterForm, letter);
+                          QuestionPaper questionPaper = archiving.getQuestionPaper();
+                          QuestionPaperForm questionPaperForm = questionPaper.getQuestionPaperForm();
+                          return of(archiving, questionPaperForm, questionPaper);
                       }).collect(Collectors.toList());
     }
 }
