@@ -2,8 +2,8 @@ package com.careerzip.domain.question.service;
 
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.answer.service.AnswerService;
-import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.QuestionWithAnswers;
-import com.careerzip.domain.archiving.entity.Archiving;
+import com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.careerarchive.entity.CareerArchive;
 import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.question.repository.QuestionRepository;
@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswers;
-import static com.careerzip.testobject.archiving.ArchivingFactory.createArchiving;
+import static com.careerzip.testobject.careerarchive.CareerArchiveFactory.createCareerArchive;
 import static com.careerzip.testobject.question.QuestionFactory.createQuestions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,16 +39,16 @@ class QuestionServiceTest {
     @DisplayName("특정 Archiving의 QuestionWithAnswers를 반환하는 테스트")
     void findWithAnswersTest() {
         // given
-        Archiving archiving = createArchiving();
+        CareerArchive careerArchive = createCareerArchive();
         List<Question> questions = createQuestions();
         List<Answer> answers = createAnswers();
         List<QuestionWithAnswers> testQuestionWithAnswers = QuestionWithAnswers.listOf(questions, answers);
 
         // when
         when(questionRepository.findAllBy(any(QuestionPaperForm.class))).thenReturn(questions);
-        when(answerService.groupingAnswersBy(archiving, questions)).thenReturn(testQuestionWithAnswers);
+        when(answerService.groupingAnswersBy(careerArchive, questions)).thenReturn(testQuestionWithAnswers);
 
-        List<QuestionWithAnswers> questionWithAnswers = questionService.findWithAnswers(archiving);
+        List<QuestionWithAnswers> questionWithAnswers = questionService.findWithAnswers(careerArchive);
 
         // then
         assertThat(testQuestionWithAnswers).usingRecursiveComparison().isEqualTo(questionWithAnswers);

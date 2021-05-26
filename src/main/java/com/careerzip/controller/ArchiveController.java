@@ -1,8 +1,8 @@
 package com.careerzip.controller;
 
-import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.ArchivingDetailResponse;
-import com.careerzip.domain.archiving.dto.response.archivingsresponse.ArchivingsResponse;
-import com.careerzip.domain.archiving.service.ArchivingService;
+import com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse.ArchivingDetailResponse;
+import com.careerzip.domain.careerarchive.dto.response.archivingsresponse.ArchivingsResponse;
+import com.careerzip.domain.careerarchive.service.ArchivingService;
 import com.careerzip.global.api.ApiResponse;
 import com.careerzip.global.pagination.Pagination;
 import com.careerzip.security.oauth.annotation.LoginAccount;

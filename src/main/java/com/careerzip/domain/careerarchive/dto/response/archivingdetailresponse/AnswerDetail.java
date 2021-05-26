@@ -1,4 +1,4 @@
-package com.careerzip.domain.archiving.dto.response.archivingdetailresponse;
+package com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse;
 
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.project.dto.response.ProjectDetail;

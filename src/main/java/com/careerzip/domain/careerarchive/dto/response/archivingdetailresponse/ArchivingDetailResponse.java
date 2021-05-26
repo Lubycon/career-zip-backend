@@ -1,6 +1,6 @@
-package com.careerzip.domain.archiving.dto.response.archivingdetailresponse;
+package com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse;
 
-import com.careerzip.domain.archiving.entity.Archiving;
+import com.careerzip.domain.careerarchive.entity.CareerArchive;
 import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,12 +39,12 @@ public class ArchivingDetailResponse {
         this.questions = questions;
     }
 
-    public static ArchivingDetailResponse of(Archiving archiving, List<QuestionWithAnswers> questions) {
-        QuestionPaper questionPaper = archiving.getQuestionPaper();
+    public static ArchivingDetailResponse of(CareerArchive careerArchive, List<QuestionWithAnswers> questions) {
+        QuestionPaper questionPaper = careerArchive.getQuestionPaper();
         QuestionPaperForm questionPaperForm = questionPaper.getQuestionPaperForm();
 
         return ArchivingDetailResponse.builder()
-                                      .id(archiving.getId())
+                                      .id(careerArchive.getId())
                                       .letterFormTitle(questionPaperForm.getTitle())
                                       .letterTitle(questionPaper.getTitle())
                                       .questions(questions)

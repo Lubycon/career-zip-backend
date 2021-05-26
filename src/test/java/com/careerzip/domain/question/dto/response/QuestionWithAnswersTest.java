@@ -1,7 +1,7 @@
 package com.careerzip.domain.question.dto.response;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.selectoption.entity.SelectOption;

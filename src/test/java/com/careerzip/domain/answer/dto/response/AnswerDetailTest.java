@@ -1,7 +1,7 @@
 package com.careerzip.domain.answer.dto.response;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.AnswerDetail;
+import com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse.AnswerDetail;
 import com.careerzip.domain.project.dto.response.ProjectDetail;
 import com.careerzip.domain.project.entity.Project;
 import org.junit.jupiter.api.DisplayName;

@@ -1,13 +1,13 @@
-package com.careerzip.domain.archiving.service;
+package com.careerzip.domain.careerarchive.service;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
-import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.ArchivingDetailResponse;
-import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse.ArchivingDetailResponse;
+import com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.careerarchive.entity.CareerArchive;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
-import com.careerzip.domain.archiving.dto.response.archivingsresponse.ArchivingsResponse;
-import com.careerzip.domain.archiving.entity.Archiving;
-import com.careerzip.domain.archiving.repository.ArchivingRepository;
+import com.careerzip.domain.careerarchive.dto.response.archivingsresponse.ArchivingsResponse;
+import com.careerzip.domain.careerarchive.repository.CareerArchiveRepository;
 import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.question.service.QuestionService;
 import com.careerzip.global.pagination.CustomPageRequest;
@@ -28,22 +28,22 @@ import java.util.Optional;
 import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static com.careerzip.testobject.account.AccountFactory.createOAuthAccountOf;
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswers;
-import static com.careerzip.testobject.archiving.ArchivingFactory.createArchiving;
+import static com.careerzip.testobject.careerarchive.CareerArchiveFactory.createCareerArchive;
 import static com.careerzip.testobject.pagination.PaginationFactory.createPaginationOf;
-import static com.careerzip.testobject.archiving.ArchivingFactory.createRecordPage;
+import static com.careerzip.testobject.careerarchive.CareerArchiveFactory.createCareerArchivePageOf;
 import static com.careerzip.testobject.question.QuestionFactory.createQuestions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ArchivingServiceTest {
+class CareerArchiveServiceTest {
 
     @InjectMocks
     ArchivingService archivingService;
 
     @Mock
-    ArchivingRepository archivingRepository;
+    CareerArchiveRepository careerArchiveRepository;
 
     @Mock
     AccountRepository accountRepository;
@@ -59,7 +59,7 @@ class ArchivingServiceTest {
 
         Pagination pagination = createPaginationOf(1, 10, "DESC");
         PageRequest pageRequest = CustomPageRequest.of(pagination);
-        Page<Archiving> archivingPage = createRecordPage();
+        Page<CareerArchive> archivingPage = createCareerArchivePageOf();
         QuestionPaper questionPaper = archivingPage.getContent().get(firstIndex).getQuestionPaper();
         QuestionPaperForm questionPaperForm = archivingPage.getContent().get(0).getQuestionPaper().getQuestionPaperForm();
 
@@ -68,7 +68,7 @@ class ArchivingServiceTest {
 
         // when
         when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
-        when(archivingRepository.findAllBy(account, pageRequest)).thenReturn(archivingPage);
+        when(careerArchiveRepository.findAllBy(account, pageRequest)).thenReturn(archivingPage);
 
         ArchivingsResponse response = archivingService.findAll(loginAccount, pagination);
 
@@ -93,24 +93,24 @@ class ArchivingServiceTest {
         Account account = createMember();
         OAuthAccount loginAccount = createOAuthAccountOf(account);
         List<QuestionWithAnswers> questionWithAnswers = QuestionWithAnswers.listOf(createQuestions(), createAnswers());
-        Archiving archiving = createArchiving();
-        Long archivingId = archiving.getId();
-        QuestionPaper questionPaper = archiving.getQuestionPaper();
+        CareerArchive careerArchive = createCareerArchive();
+        Long archivingId = careerArchive.getId();
+        QuestionPaper questionPaper = careerArchive.getQuestionPaper();
         QuestionPaperForm questionPaperForm = questionPaper.getQuestionPaperForm();
 
         // when
         when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
-        when(archivingRepository.findBy(account, archivingId)).thenReturn(Optional.of(archiving));
-        when(questionService.findWithAnswers(archiving)).thenReturn(questionWithAnswers);
+        when(careerArchiveRepository.findBy(account, archivingId)).thenReturn(Optional.of(careerArchive));
+        when(questionService.findWithAnswers(careerArchive)).thenReturn(questionWithAnswers);
 
         ArchivingDetailResponse response = archivingService.findBy(loginAccount, archivingId);
 
         // then
         assertAll(
-                () -> assertThat(response.getId()).isEqualTo(archiving.getId()),
+                () -> assertThat(response.getId()).isEqualTo(careerArchive.getId()),
                 () -> assertThat(response.getLetterFormTitle()).isEqualTo(questionPaperForm.getTitle()),
                 () -> assertThat(response.getLetterTitle()).isEqualTo(questionPaper.getTitle()),
-                () -> assertThat(response.getCreatedDateTime()).isEqualTo(archiving.getCreatedDateTime()),
+                () -> assertThat(response.getCreatedDateTime()).isEqualTo(careerArchive.getCreatedDateTime()),
                 () -> assertThat(response.getQuestions()).usingRecursiveComparison().isEqualTo(questionWithAnswers)
         );
     }

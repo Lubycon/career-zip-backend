@@ -1,7 +1,7 @@
 package com.careerzip.domain.answer.entity;
 
 import com.careerzip.domain.account.entity.Account;
-import com.careerzip.domain.archiving.entity.Archiving;
+import com.careerzip.domain.careerarchive.entity.CareerArchive;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.project.entity.Project;
 import lombok.AccessLevel;
@@ -40,21 +40,21 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "archiving_id", nullable = false)
-    private Archiving archiving;
+    private CareerArchive careerArchive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @Builder
-    private Answer(Long id, String comment, Boolean important, Boolean shared, Project project, Question question, Archiving archiving, Account account) {
+    private Answer(Long id, String comment, Boolean important, Boolean shared, Project project, Question question, CareerArchive careerArchive, Account account) {
         this.id = id;
         this.comment = comment;
         this.important = important;
         this.shared = shared;
         this.project = project;
         this.question = question;
-        this.archiving = archiving;
+        this.careerArchive = careerArchive;
         this.account = account;
     }
 
