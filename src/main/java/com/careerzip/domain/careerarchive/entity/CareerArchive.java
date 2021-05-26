@@ -24,7 +24,7 @@ public class CareerArchive extends BaseTimeEntity {
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "letter_id", nullable = false)
+    @JoinColumn(name = "question_paper_id", nullable = false)
     private QuestionPaper questionPaper;
 
     @ManyToOne(fetch = FetchType.LAZY)
