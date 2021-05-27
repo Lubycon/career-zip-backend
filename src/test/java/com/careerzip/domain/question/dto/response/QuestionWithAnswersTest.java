@@ -39,7 +39,7 @@ class QuestionWithAnswersTest {
                 .isEqualTo(selectOptions.stream()
                                         .map(SelectOption::getDescription)
                                         .collect(Collectors.toList()));
-        assertThat(questionWithAnswers).hasNoNullFieldsOrProperties();
+        assertThat(questionWithAnswers).hasNoNullFieldsOrPropertiesExcept("example");
     }
 
     @Test

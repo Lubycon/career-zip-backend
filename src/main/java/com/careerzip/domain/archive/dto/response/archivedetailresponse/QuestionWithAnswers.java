@@ -8,6 +8,7 @@ import com.careerzip.domain.selectoption.entity.SelectOption;
 import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +28,7 @@ public class QuestionWithAnswers {
     @NotNull
     private final String description;
 
-    @NotNull
+    @Nullable
     private final String example;
 
     @NotNull
@@ -55,17 +56,18 @@ public class QuestionWithAnswers {
 
         QuestionItem questionItem = question.getQuestionItem();
         List<String> selectOptions = questionItem.getSelectOptions()
-                .stream()
-                .map(SelectOption::getDescription)
-                .collect(Collectors.toList());
+                                                 .stream()
+                                                 .map(SelectOption::getDescription)
+                                                 .collect(Collectors.toList());
 
         return QuestionWithAnswers.builder()
-                .priority(question.getPriority())
-                .inputType(questionItem.getInputType())
-                .description(questionItem.getDescription())
-                .selectOptions(selectOptions)
-                .answers(AnswerDetail.listOf(answers))
-                .build();
+                                  .priority(question.getPriority())
+                                  .inputType(questionItem.getInputType())
+                                  .description(questionItem.getDescription())
+                                  .example(questionItem.getExample())
+                                  .selectOptions(selectOptions)
+                                  .answers(AnswerDetail.listOf(answers))
+                                  .build();
     }
 
     public static List<QuestionWithAnswers> listOf(List<Question> questions, List<Answer> answers) {
