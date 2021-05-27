@@ -28,24 +28,11 @@ class AnswerDetailTest {
 
         // then
         assertAll(
+                () -> assertThat(answerDetail.getId()).isEqualTo(answer.getId()),
                 () -> assertThat(answerDetail.getComment()).isEqualTo(answer.getComment()),
+                () -> assertThat(answerDetail.isImportant()).isEqualTo(answer.getImportant()),
                 () -> assertThat(projectSummary.getId()).isEqualTo(project.getId()),
                 () -> assertThat(projectSummary.getTitle()).isEqualTo(project.getTitle())
         );
-    }
-
-    @Test
-    @DisplayName("Project null - AnswerDetail 생성 테스트")
-    void createAnswerDetailWhenProjectNullTest() {
-        // given
-        Answer answer = createAnswerOf(null);
-
-        // when
-        AnswerDetail answerDetail = AnswerDetail.from(answer);
-        ProjectSummary projectSummary = answerDetail.getProject();
-
-        // then
-        assertThat(answerDetail.getComment()).isEqualTo(answer.getComment());
-        assertThat(projectSummary).isNull();
     }
 }

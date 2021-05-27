@@ -31,11 +31,11 @@ public class AnswerDetail {
 
     public static AnswerDetail from(Answer answer) {
         return AnswerDetail.builder()
-                .id(answer.getId())
-                .comment(answer.getComment())
-                .important(answer.getImportant())
-                .project(ProjectSummary.from(answer.getProject()))
-                .build();
+                           .id(answer.getId())
+                           .comment(answer.getComment())
+                           .important(answer.getImportant())
+                           .project(ProjectSummary.from(answer.getProject()))
+                           .build();
     }
 
     public static List<AnswerDetail> listOf(List<Answer> answers) {
