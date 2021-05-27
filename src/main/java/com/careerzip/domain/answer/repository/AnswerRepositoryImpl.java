@@ -1,7 +1,7 @@
 package com.careerzip.domain.answer.repository;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.careerarchive.entity.CareerArchive;
+import com.careerzip.domain.archive.entity.Archive;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +15,7 @@ public class AnswerRepositoryImpl implements AnswerRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<Answer> findAllBy(CareerArchive careerArchive, List<Long> questionIds) {
+    public List<Answer> findAllBy(Archive archive, List<Long> questionIds) {
         return queryFactory.selectFrom(answer)
                            .leftJoin(answer.project, project).fetchJoin()
 //                           .where(answer.archiving.eq(careerArchive), answer.question.id.in(questionIds))

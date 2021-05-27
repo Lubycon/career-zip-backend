@@ -1,7 +1,7 @@
-package com.careerzip.testobject.careerarchive;
+package com.careerzip.testobject.archive;
 
 import com.careerzip.domain.account.entity.Account;
-import com.careerzip.domain.careerarchive.entity.CareerArchive;
+import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -12,11 +12,11 @@ import java.util.List;
 import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createQuestionPaper;
 
-public class CareerArchiveFactory {
+public class ArchiveFactory {
 
     // Archiving
-    public static CareerArchive createCareerArchive() {
-        return CareerArchive.builder()
+    public static Archive createArchive() {
+        return Archive.builder()
                         .id(1L)
                         .title("Record title")
                         .questionPaper(createQuestionPaper())
@@ -24,8 +24,8 @@ public class CareerArchiveFactory {
                         .build();
     }
 
-    public static CareerArchive careerArchiveOf(Long id) {
-        return CareerArchive.builder()
+    public static Archive createArchiveOf(Long id) {
+        return Archive.builder()
                      .id(id)
                      .title("Record title")
                      .questionPaper(createQuestionPaper())
@@ -33,8 +33,8 @@ public class CareerArchiveFactory {
                      .build();
     }
 
-    public static CareerArchive createJpaTestCareerArchiveOf(Account account, QuestionPaper questionPaper) {
-        return CareerArchive.builder()
+    public static Archive createJpaTestArchiveOf(Account account, QuestionPaper questionPaper) {
+        return Archive.builder()
                      .title("Record Title")
                      .account(account)
                      .questionPaper(questionPaper)
@@ -42,8 +42,8 @@ public class CareerArchiveFactory {
     }
 
     // RecordPage
-    public static Page<CareerArchive> createCareerArchivePageOf() {
-        List<CareerArchive> careerArchives = Arrays.asList(careerArchiveOf(1L), careerArchiveOf(2L), careerArchiveOf(3L));
-        return new PageImpl<>(careerArchives);
+    public static Page<Archive> createArchivePageOf() {
+        List<Archive> archives = Arrays.asList(createArchiveOf(1L), createArchiveOf(2L), createArchiveOf(3L));
+        return new PageImpl<>(archives);
     }
 }

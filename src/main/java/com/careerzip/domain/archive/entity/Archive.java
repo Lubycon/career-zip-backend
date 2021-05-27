@@ -1,4 +1,4 @@
-package com.careerzip.domain.careerarchive.entity;
+package com.careerzip.domain.archive.entity;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class CareerArchive extends BaseTimeEntity {
+public class Archive extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class CareerArchive extends BaseTimeEntity {
     private Account account;
 
     @Builder
-    private CareerArchive(Long id, String title, QuestionPaper questionPaper, Account account) {
+    private Archive(Long id, String title, QuestionPaper questionPaper, Account account) {
         this.id = id;
         this.title = title;
         this.questionPaper = questionPaper;

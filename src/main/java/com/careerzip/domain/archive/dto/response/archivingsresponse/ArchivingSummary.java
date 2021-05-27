@@ -1,6 +1,6 @@
-package com.careerzip.domain.careerarchive.dto.response.archivingsresponse;
+package com.careerzip.domain.archive.dto.response.archivingsresponse;
 
-import com.careerzip.domain.careerarchive.entity.CareerArchive;
+import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import lombok.Builder;
@@ -34,18 +34,18 @@ public class ArchivingSummary {
         this.createdDateTime = createdDateTime;
     }
 
-    public static ArchivingSummary of(CareerArchive careerArchive, QuestionPaperForm questionPaperForm, QuestionPaper questionPaper) {
+    public static ArchivingSummary of(Archive archive, QuestionPaperForm questionPaperForm, QuestionPaper questionPaper) {
         return ArchivingSummary.builder()
-                            .id(careerArchive.getId())
+                            .id(archive.getId())
                             .letterFormTitle(questionPaperForm.getTitle())
                             .letterTitle(questionPaper.getTitle())
                             .build();
     }
 
-    public static List<ArchivingSummary> listOf(Page<CareerArchive> page) {
-        List<CareerArchive> careerArchives = page.getContent();
+    public static List<ArchivingSummary> listOf(Page<Archive> page) {
+        List<Archive> archives = page.getContent();
 
-        return careerArchives.stream()
+        return archives.stream()
                       .map(archiving -> {
                           QuestionPaper questionPaper = archiving.getQuestionPaper();
                           QuestionPaperForm questionPaperForm = questionPaper.getQuestionPaperForm();

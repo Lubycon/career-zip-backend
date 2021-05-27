@@ -1,7 +1,8 @@
 package com.careerzip.domain.answer.dto.response;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse.AnswerDetail;
+import com.careerzip.domain.archive.dto.response.archivedetailresponse.AnswerDetail;
+import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.project.dto.response.ProjectDetail;
 import com.careerzip.domain.project.entity.Project;
 import org.junit.jupiter.api.DisplayName;
@@ -23,13 +24,13 @@ class AnswerDetailTest {
 
         // when
         AnswerDetail answerDetail = AnswerDetail.from(answer);
-        ProjectDetail projectDetail = answerDetail.getProject();
+        ProjectSummary projectSummary = answerDetail.getProject();
 
         // then
         assertAll(
                 () -> assertThat(answerDetail.getComment()).isEqualTo(answer.getComment()),
-                () -> assertThat(projectDetail.getId()).isEqualTo(project.getId()),
-                () -> assertThat(projectDetail.getTitle()).isEqualTo(project.getTitle())
+                () -> assertThat(projectSummary.getId()).isEqualTo(project.getId()),
+                () -> assertThat(projectSummary.getTitle()).isEqualTo(project.getTitle())
         );
     }
 
@@ -41,10 +42,10 @@ class AnswerDetailTest {
 
         // when
         AnswerDetail answerDetail = AnswerDetail.from(answer);
-        ProjectDetail projectDetail = answerDetail.getProject();
+        ProjectSummary projectSummary = answerDetail.getProject();
 
         // then
         assertThat(answerDetail.getComment()).isEqualTo(answer.getComment());
-        assertThat(projectDetail).isNull();
+        assertThat(projectSummary).isNull();
     }
 }

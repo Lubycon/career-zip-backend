@@ -1,16 +1,16 @@
 package com.careerzip.testobject.answer;
 
+import com.careerzip.domain.archive.dto.response.archivedetailresponse.AnswerDetail;
+import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.project.entity.Project;
-import com.careerzip.domain.careerarchive.dto.response.archivingdetailresponse.AnswerDetail;
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.project.dto.response.ProjectDetail;
 import com.careerzip.domain.question.entity.Question;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
-import static com.careerzip.testobject.careerarchive.CareerArchiveFactory.createCareerArchive;
+import static com.careerzip.testobject.archive.ArchiveFactory.createArchive;
 import static com.careerzip.testobject.project.ProjectFactory.createProject;
 import static com.careerzip.testobject.question.QuestionFactory.createQuestion;
 
@@ -21,7 +21,7 @@ public class AnswerFactory {
         return Answer.builder()
                      .id(1L)
                      .comment("Answer comment")
-                     .careerArchive(createCareerArchive())
+                     .archive(createArchive())
                      .question(createQuestion())
                      .project(createProject())
                      .account(createMember())
@@ -32,7 +32,7 @@ public class AnswerFactory {
         return Answer.builder()
                      .id(1L)
                      .comment("Answer comment")
-                     .careerArchive(createCareerArchive())
+                     .archive(createArchive())
                      .question(createQuestion())
                      .project(project)
                      .account(createMember())
@@ -43,7 +43,7 @@ public class AnswerFactory {
         return Answer.builder()
                      .id(1L)
                      .comment("Answer comment")
-                     .careerArchive(createCareerArchive())
+                     .archive(createArchive())
                      .question(question)
                      .project(project)
                      .account(createMember())
@@ -55,7 +55,7 @@ public class AnswerFactory {
         return Arrays.asList(Answer.builder()
                                    .id(1L)
                                    .comment("Answer comment")
-                                   .careerArchive(createCareerArchive())
+                                   .archive(createArchive())
                                    .question(createQuestion())
                                    .project(createProject())
                                    .account(createMember())
@@ -63,7 +63,7 @@ public class AnswerFactory {
                             Answer.builder()
                                   .id(2L)
                                   .comment("Answer comment")
-                                  .careerArchive(createCareerArchive())
+                                  .archive(createArchive())
                                   .question(createQuestion())
                                   .project(createProject())
                                   .account(createMember())
@@ -71,7 +71,7 @@ public class AnswerFactory {
                             Answer.builder()
                                   .id(3L)
                                   .comment("Answer comment")
-                                  .careerArchive(createCareerArchive())
+                                  .archive(createArchive())
                                   .question(createQuestion())
                                   .project(createProject())
                                   .account(createMember())
@@ -85,7 +85,7 @@ public class AnswerFactory {
 
         return AnswerDetail.builder()
                            .comment(answer.getComment())
-                           .project(ProjectDetail.from(project))
+                           .project(ProjectSummary.from((project)))
                            .build();
     }
 }

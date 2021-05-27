@@ -1,6 +1,6 @@
-package com.careerzip.domain.careerarchive.dto.response.archivingsresponse;
+package com.careerzip.domain.archive.dto.response.archivingsresponse;
 
-import com.careerzip.domain.careerarchive.entity.CareerArchive;
+import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.global.pagination.dto.PageDetails;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class ArchivingsResponse {
         this.archivings = archivings;
     }
 
-    public static ArchivingsResponse of(Page<CareerArchive> page, List<ArchivingSummary> archivings) {
+    public static ArchivingsResponse of(Page<Archive> page, List<ArchivingSummary> archivings) {
         return ArchivingsResponse.builder()
                                  .pageDetails(PageDetails.from(page))
                                  .archivings(archivings)
