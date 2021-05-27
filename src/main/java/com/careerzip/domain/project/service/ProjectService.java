@@ -1,13 +1,14 @@
 package com.careerzip.domain.project.service;
 
-import com.careerzip.domain.archive.dto.response.archivedetailresponse.AnswerDetail;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
