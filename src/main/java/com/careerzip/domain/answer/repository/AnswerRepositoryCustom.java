@@ -1,11 +1,11 @@
 package com.careerzip.domain.answer.repository;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.archiving.entity.Archiving;
+import com.careerzip.domain.archive.entity.Archive;
 
 import java.util.List;
 
 public interface AnswerRepositoryCustom {
 
-    List<Answer> findAllBy(Archiving archiving, List<Long> letterFormQuestionIds);
+    List<Answer> findAllBy(Archive archive, List<Long> letterFormQuestionIds);
 }

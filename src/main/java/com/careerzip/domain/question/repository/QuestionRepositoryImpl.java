@@ -1,8 +1,7 @@
 package com.careerzip.domain.question.repository;
 
-import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.question.entity.Question;
-import com.careerzip.domain.questiontype.entity.QQuestionType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -18,12 +17,12 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<Question> findAllBy(LetterForm letterForm) {
+    public List<Question> findAllBy(QuestionPaperForm questionPaperForm) {
         return queryFactory.selectFrom(question)
                            .innerJoin(question.questionItem, questionItem).fetchJoin()
                            .innerJoin(questionItem.questionType, questionType).fetchJoin()
                            .leftJoin(questionItem.selectOptions, selectOption).fetchJoin()
-                           .where(question.letterForm.eq(letterForm))
+                           .where(question.questionPaperForm.eq(questionPaperForm))
                            .distinct()
                            .fetch();
     }

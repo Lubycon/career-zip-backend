@@ -1,7 +1,7 @@
 package com.careerzip.domain.question.entity;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.letterform.entity.LetterForm;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,8 +23,8 @@ public class Question {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "letter_form_id", nullable = false)
-    private LetterForm letterForm;
+    @JoinColumn(name = "question_paper_form_id", nullable = false)
+    private QuestionPaperForm questionPaperForm;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_item_id", nullable = false)
@@ -37,9 +37,9 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
 
     @Builder
-    private Question(Long id, LetterForm letterForm, QuestionItem questionItem, Integer priority) {
+    private Question(Long id, QuestionPaperForm questionPaperForm, QuestionItem questionItem, Integer priority) {
         this.id = id;
-        this.letterForm = letterForm;
+        this.questionPaperForm = questionPaperForm;
         this.questionItem = questionItem;
         this.priority = priority;
     }

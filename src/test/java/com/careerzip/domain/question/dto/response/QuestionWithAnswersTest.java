@@ -1,7 +1,7 @@
 package com.careerzip.domain.question.dto.response;
 
 import com.careerzip.domain.answer.entity.Answer;
-import com.careerzip.domain.archiving.dto.response.archivingdetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.questionitem.entity.QuestionItem;
 import com.careerzip.domain.selectoption.entity.SelectOption;
@@ -34,12 +34,12 @@ class QuestionWithAnswersTest {
         List<SelectOption> selectOptions = questionItem.getSelectOptions();
 
         // then
-        assertThat(questionWithAnswers.getAnswerOptions())
+        assertThat(questionWithAnswers.getSelectOptions())
                 .usingRecursiveComparison()
                 .isEqualTo(selectOptions.stream()
                                         .map(SelectOption::getDescription)
                                         .collect(Collectors.toList()));
-        assertThat(questionWithAnswers).hasNoNullFieldsOrProperties();
+        assertThat(questionWithAnswers).hasNoNullFieldsOrPropertiesExcept("example");
     }
 
     @Test
