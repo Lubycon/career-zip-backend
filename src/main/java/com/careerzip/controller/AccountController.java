@@ -31,7 +31,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public ApiResponse<AccountSummary> update(@LoginAccount OAuthAccount loginAccount, @PathVariable Long id,
-                              @Valid @RequestBody AccountUpdateRequest accountUpdateRequest) {
+                                            @Valid @RequestBody AccountUpdateRequest accountUpdateRequest) {
         AccountSummary account = accountService.update(loginAccount, id, accountUpdateRequest);
         return ApiResponse.success(account);
     }

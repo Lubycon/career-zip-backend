@@ -18,16 +18,16 @@ public class ArchiveController {
     private final ArchiveService archiveService;
 
     @GetMapping
-    public ApiResponse<ArchivingsResponse> archivingList(@LoginAccount OAuthAccount loginAccount,
+    public ApiResponse<ArchivingsResponse> archiveList(@LoginAccount OAuthAccount loginAccount,
                                                          @ModelAttribute Pagination pagination) {
-        ArchivingsResponse archivings = archiveService.findAll(loginAccount, pagination);
-        return ApiResponse.success(archivings);
+        ArchivingsResponse archives = archiveService.findAll(loginAccount, pagination);
+        return ApiResponse.success(archives);
     }
 
-    @GetMapping("/{archivingId}")
-    public ApiResponse<ArchiveDetailResponse> archivingDetail(@LoginAccount OAuthAccount loginAccount,
-                                                              @PathVariable Long archivingId) {
-        ArchiveDetailResponse archiving = archiveService.findBy(loginAccount, archivingId);
-        return ApiResponse.success(archiving);
+    @GetMapping("/{archiveId}")
+    public ApiResponse<ArchiveDetailResponse> archiveDetail(@LoginAccount OAuthAccount loginAccount,
+                                                            @PathVariable Long archiveId) {
+        ArchiveDetailResponse archive = archiveService.findBy(loginAccount, archiveId);
+        return ApiResponse.success(archive);
     }
 }
