@@ -17,7 +17,7 @@ public class Archive extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "career_archive_id", nullable = false)
+    @Column(name = "archive_id", nullable = false)
     private Long id;
 
     @Column(name = "title")

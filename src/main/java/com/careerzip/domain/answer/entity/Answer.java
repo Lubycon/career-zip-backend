@@ -39,7 +39,7 @@ public class Answer {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "archiving_id", nullable = false)
+    @JoinColumn(name = "archive_id", nullable = false)
     private Archive archive;
 
     @ManyToOne(fetch = FetchType.LAZY)
