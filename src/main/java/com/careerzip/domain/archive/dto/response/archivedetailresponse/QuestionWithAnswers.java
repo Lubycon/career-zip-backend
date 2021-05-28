@@ -61,6 +61,7 @@ public class QuestionWithAnswers {
                                                  .collect(Collectors.toList());
 
         return QuestionWithAnswers.builder()
+                                  .id(question.getId())
                                   .priority(question.getPriority())
                                   .inputType(questionItem.getInputType())
                                   .description(questionItem.getDescription())
