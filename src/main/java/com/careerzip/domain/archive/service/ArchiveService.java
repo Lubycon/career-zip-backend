@@ -2,11 +2,13 @@ package com.careerzip.domain.archive.service;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.domain.answer.service.AnswerService;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.service.ProjectService;
+import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.question.service.QuestionService;
 import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivingSummary;
 import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivingsResponse;
@@ -33,6 +35,7 @@ public class ArchiveService {
     private final ArchiveRepository archiveRepository;
     private final AccountRepository accountRepository;
     private final QuestionService questionService;
+    private final AnswerService answerService;
     private final ProjectService projectService;
 
     public ArchivingsResponse findAll(OAuthAccount loginAccount, Pagination pagination) {
@@ -46,7 +49,8 @@ public class ArchiveService {
     public ArchiveDetailResponse findBy(OAuthAccount loginAccount, Long archivingId) {
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow();
         Archive archive = archiveRepository.findBy(account, archivingId).orElseThrow(ArchiveNotFoundException::new);
-        List<QuestionWithAnswers> questionWithAnswers = questionService.findWithAnswers(archive);
+        List<Question> questions = questionService.findAllBy(archive);
+        List<QuestionWithAnswers> questionWithAnswers = answerService.groupingAnswersBy(archive, questions);
         Set<ProjectSummary> selectedProjects = projectService.findSelectedProjectsBy(questionWithAnswers);
         return ArchiveDetailResponse.of(archive, selectedProjects, questionWithAnswers);
     }

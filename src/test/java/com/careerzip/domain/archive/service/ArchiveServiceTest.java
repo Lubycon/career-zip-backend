@@ -2,11 +2,13 @@ package com.careerzip.domain.archive.service;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.domain.answer.service.AnswerService;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.service.ProjectService;
+import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivingsResponse;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
@@ -55,6 +57,9 @@ class ArchiveServiceTest {
     @Mock
     QuestionService questionService;
 
+    @Mock
+    AnswerService answerService;
+
     @Spy
     ProjectService projectService;
 
@@ -99,6 +104,7 @@ class ArchiveServiceTest {
         // given
         Account account = createMember();
         OAuthAccount loginAccount = createOAuthAccountOf(account);
+        List<Question> questions = createQuestions();
         List<QuestionWithAnswers> questionWithAnswers = QuestionWithAnswers.listOf(createQuestions(), createAnswers());
         Archive archive = createArchive();
         QuestionPaper questionPaper = archive.getQuestionPaper();
@@ -108,7 +114,8 @@ class ArchiveServiceTest {
         // when
         when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
         when(archiveRepository.findBy(account, archivingId)).thenReturn(Optional.of(archive));
-        when(questionService.findWithAnswers(archive)).thenReturn(questionWithAnswers);
+        when(questionService.findAllBy(archive)).thenReturn(questions);
+        when(answerService.groupingAnswersBy(archive, questions)).thenReturn(questionWithAnswers);
 
         ArchiveDetailResponse response = archiveService.findBy(loginAccount, archivingId);
 

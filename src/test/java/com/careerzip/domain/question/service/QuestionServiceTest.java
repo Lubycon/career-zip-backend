@@ -1,8 +1,6 @@
 package com.careerzip.domain.question.service;
 
-import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.answer.service.AnswerService;
-import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.question.entity.Question;
@@ -36,21 +34,18 @@ class QuestionServiceTest {
     AnswerService answerService;
 
     @Test
-    @DisplayName("특정 Archiving의 QuestionWithAnswers를 반환하는 테스트")
+    @DisplayName("특정 Archive의 Questions를 반환하는 테스트")
     void findWithAnswersTest() {
         // given
         Archive archive = createArchive();
-        List<Question> questions = createQuestions();
-        List<Answer> answers = createAnswers();
-        List<QuestionWithAnswers> testQuestionWithAnswers = QuestionWithAnswers.listOf(questions, answers);
+        List<Question> testQuestions = createQuestions();
 
         // when
-        when(questionRepository.findAllBy(any(QuestionPaperForm.class))).thenReturn(questions);
-        when(answerService.groupingAnswersBy(archive, questions)).thenReturn(testQuestionWithAnswers);
+        when(questionRepository.findAllBy(any(QuestionPaperForm.class))).thenReturn(testQuestions);
 
-        List<QuestionWithAnswers> questionWithAnswers = questionService.findWithAnswers(archive);
+        List<Question> questions = questionService.findAllBy(archive);
 
         // then
-        assertThat(testQuestionWithAnswers).usingRecursiveComparison().isEqualTo(questionWithAnswers);
+        assertThat(questions).usingRecursiveComparison().isEqualTo(testQuestions);
     }
 }
