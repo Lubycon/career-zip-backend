@@ -4,7 +4,7 @@ import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
-import com.careerzip.domain.questionpaper.repository.PaperRepository;
+import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
 import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.questionpaperform.repository.QuestionPaperFormRepository;
 import com.careerzip.global.error.exception.entity.ArchiveNotFoundException;
@@ -38,7 +38,7 @@ class ArchiveRepositoryTest extends BaseRepositoryTest {
     AccountRepository accountRepository;
 
     @Autowired
-    PaperRepository paperRepository;
+    QuestionPaperRepository questionPaperRepository;
 
     @Autowired
     QuestionPaperFormRepository questionPaperFormRepository;
@@ -51,7 +51,7 @@ class ArchiveRepositoryTest extends BaseRepositoryTest {
     void setup() {
         account = accountRepository.save(createJpaTestMember());
         questionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
-        questionPaper = paperRepository.save(createJpaTestQuestionPaperOf(questionPaperForm));
+        questionPaper = questionPaperRepository.save(createJpaTestQuestionPaperOf(questionPaperForm));
     }
 
     @Test
@@ -96,7 +96,7 @@ class ArchiveRepositoryTest extends BaseRepositoryTest {
 
         Account anotherAccount = accountRepository.save(createJpaTestMember());
         QuestionPaperForm anotherQuestionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
-        QuestionPaper anotherQuestionPaper = paperRepository.save(createJpaTestQuestionPaperOf(anotherQuestionPaperForm));
+        QuestionPaper anotherQuestionPaper = questionPaperRepository.save(createJpaTestQuestionPaperOf(anotherQuestionPaperForm));
         archiveRepository.save(createJpaTestArchiveOf(anotherAccount, anotherQuestionPaper));
 
         // when

@@ -23,7 +23,10 @@ public enum ErrorCode {
     ACCOUNT_NOT_FOUND(404, "해당 계정을 찾을 수 없습니다."),
 
     // Record
-    RECORD_NOT_FOUND(404, "해당 아카이빙 기록을 찾을 수 없습니다.")
+    RECORD_NOT_FOUND(404, "해당 아카이빙 기록을 찾을 수 없습니다."),
+
+    // QuestionPaper
+    QUESTION_PAPER_NOT_FOUND(404, "해당 질문지를 찾을 수 없습니다.")
     ;
 
     private final int statusCode;
