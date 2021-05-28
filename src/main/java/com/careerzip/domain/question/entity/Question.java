@@ -23,7 +23,7 @@ public class Question {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "letter_form_id", nullable = false)
+    @JoinColumn(name = "question_paper_form_id", nullable = false)
     private QuestionPaperForm questionPaperForm;
 
     @ManyToOne(fetch = FetchType.LAZY)

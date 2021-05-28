@@ -29,7 +29,7 @@ public class QuestionPaper {
     private LocalDateTime endDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_paer_form_id", nullable = false)
+    @JoinColumn(name = "question_paper_form_id", nullable = false)
     private QuestionPaperForm questionPaperForm;
 
     @Builder
