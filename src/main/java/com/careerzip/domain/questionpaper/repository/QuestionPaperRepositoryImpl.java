@@ -1,6 +1,5 @@
 package com.careerzip.domain.questionpaper.repository;
 
-import com.careerzip.domain.questionpaper.entity.QQuestionPaper;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.careerzip.domain.questionpaperform.entity.QQuestionPaperForm;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -18,6 +17,7 @@ public class QuestionPaperRepositoryImpl implements QuestionPaperRepositoryCusto
 
     public Optional<QuestionPaper> findLatest() {
         return Optional.ofNullable(queryFactory.selectFrom(questionPaper)
+                                               .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
                                                .orderBy(questionPaper.id.desc())
                                                .fetchFirst());
 
