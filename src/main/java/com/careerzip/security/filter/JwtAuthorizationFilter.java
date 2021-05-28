@@ -2,6 +2,7 @@ package com.careerzip.security.filter;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.global.error.exception.EntityNotFoundException;
 import com.careerzip.global.error.exception.JwtValidationException;
 import com.careerzip.global.error.exception.entity.AccountNotFoundException;
 import com.careerzip.global.error.response.ErrorCode;
@@ -59,7 +60,16 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         } catch (JwtValidationException exception) {
             // TODO: 에러 처리 중복 로직 정리
             log.error("handleJwtValidationException", exception);
-            ErrorCode errorCode =  exception.getErrorCode();
+            ErrorCode errorCode = exception.getErrorCode();
+            String errorResponse = objectMapper.writeValueAsString(ErrorResponse.from(errorCode));
+            response.getWriter().print(errorResponse);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setStatus(errorCode.getStatusCode());
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (EntityNotFoundException exception) {
+            log.error("handleEntityNotFoundException", exception);
+            ErrorCode errorCode = exception.getErrorCode();
             String errorResponse = objectMapper.writeValueAsString(ErrorResponse.from(errorCode));
             response.getWriter().print(errorResponse);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
