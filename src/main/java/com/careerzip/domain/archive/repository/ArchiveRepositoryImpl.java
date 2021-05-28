@@ -2,9 +2,6 @@ package com.careerzip.domain.archive.repository;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.archive.entity.Archive;
-import com.careerzip.domain.archive.entity.QArchive;
-import com.careerzip.domain.questionpaper.entity.QQuestionPaper;
-import com.careerzip.domain.questionpaperform.entity.QQuestionPaperForm;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +12,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 import static com.careerzip.domain.archive.entity.QArchive.archive;
-import static com.careerzip.domain.archive.entity.QArchiving.archiving;
-import static com.careerzip.domain.questionpaper.entity.QLetter.letter;
 import static com.careerzip.domain.questionpaper.entity.QQuestionPaper.questionPaper;
-import static com.careerzip.domain.questionpaperform.entity.QLetterForm.letterForm;
 import static com.careerzip.domain.questionpaperform.entity.QQuestionPaperForm.questionPaperForm;
 
 @RequiredArgsConstructor
