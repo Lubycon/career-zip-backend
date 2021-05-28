@@ -4,6 +4,7 @@ import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.project.entity.Project;
+import com.careerzip.domain.report.entity.Report;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,8 +47,12 @@ public class Answer {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_id")
+    private Report report;
+
     @Builder
-    private Answer(Long id, String comment, Boolean important, Boolean shared, Project project, Question question, Archive archive, Account account) {
+    private Answer(Long id, String comment, Boolean important, Boolean shared, Project project, Question question, Archive archive, Report report, Account account) {
         this.id = id;
         this.comment = comment;
         this.important = important;
@@ -55,6 +60,7 @@ public class Answer {
         this.project = project;
         this.question = question;
         this.archive = archive;
+        this.report = report;
         this.account = account;
     }
 
