@@ -28,21 +28,21 @@ public class ArchiveRepositoryImpl implements ArchiveRepositoryCustom {
 
     public Page<Archive> findAllBy(Account account, Pageable pageable) {
         QueryResults<Archive> results =
-                queryFactory.selectFrom(archiving)
-//                            .innerJoin(archiving.letter, letter).fetchJoin()
-                            .innerJoin(letter.letterForm, letterForm).fetchJoin()
-                            .where(archiving.account.eq(account))
+                queryFactory.selectFrom(archive)
+                            .innerJoin(archive.questionPaper, questionPaper).fetchJoin()
+                            .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
+                            .where(archive.account.eq(account))
                             .offset(pageable.getOffset())
                             .limit(pageable.getPageSize())
                             .fetchResults();
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    public Optional<Archive> findBy(Account account, Long archivingId) {
+    public Optional<Archive> findBy(Account account, Long archiveId) {
         return Optional.ofNullable(queryFactory.selectFrom(archive)
                                                .innerJoin(archive.questionPaper, questionPaper).fetchJoin()
                                                .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
-                                               .where(archive.account.eq(account), archive.id.eq(archivingId))
+                                               .where(archive.account.eq(account), archive.id.eq(archiveId))
                                                .fetchOne());
     }
 }
