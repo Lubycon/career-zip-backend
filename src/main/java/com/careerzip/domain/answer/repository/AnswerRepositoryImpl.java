@@ -18,7 +18,7 @@ public class AnswerRepositoryImpl implements AnswerRepositoryCustom {
     public List<Answer> findAllBy(Archive archive, List<Long> questionIds) {
         return queryFactory.selectFrom(answer)
                            .leftJoin(answer.project, project).fetchJoin()
-//                           .where(answer.archiving.eq(careerArchive), answer.question.id.in(questionIds))
+                           .where(answer.archive.eq(archive), answer.question.id.in(questionIds))
                            .fetch();
     }
 }
