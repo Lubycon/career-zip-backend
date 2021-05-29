@@ -11,5 +11,7 @@ public interface AnswerRepositoryCustom {
 
     List<Answer> findAllBy(List<Long> answerIds);
 
+    List<Answer> findAllByArchives(List<Archive> archives);
+
     List<Long> findAllPreviousIdsBy(Long accountId, List<Long> projectIds, List<Long> questionIds);
 }

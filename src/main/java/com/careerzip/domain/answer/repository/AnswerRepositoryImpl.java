@@ -2,16 +2,15 @@ package com.careerzip.domain.answer.repository;
 
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.archive.entity.Archive;
-import com.careerzip.domain.project.entity.QProject;
-import com.careerzip.domain.question.entity.QQuestion;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.careerzip.domain.answer.entity.QAnswer.answer;
+import static com.careerzip.domain.archive.entity.QArchive.archive;
 import static com.careerzip.domain.project.entity.QProject.project;
-import static com.careerzip.domain.question.entity.QQuestion.question;
 
 @RequiredArgsConstructor
 public class AnswerRepositoryImpl implements AnswerRepositoryCustom {
@@ -41,5 +40,17 @@ public class AnswerRepositoryImpl implements AnswerRepositoryCustom {
                            .groupBy(answer.project, answer.question)
                            .fetch();
 
+    }
+
+    public List<Answer> findAllByArchives(List<Archive> archives) {
+        List<Long> archiveIds = archives.stream()
+                                        .map(Archive::getId)
+                                        .collect(Collectors.toList());
+
+        return queryFactory.selectFrom(answer)
+                           .innerJoin(answer.project, project).fetchJoin()
+                           .innerJoin(answer.archive, archive).fetchJoin()
+                           .where(answer.archive.id.in(archiveIds))
+                           .fetch();
     }
 }

@@ -143,7 +143,31 @@ class AnswerRepositoryTest extends BaseRepositoryTest {
                 () -> assertThat(latestIds).contains(afterSecondProjectFirstQuestion.getId()),
                 () -> assertThat(latestIds).contains(latestFirstProjectSecondQuestion.getId())
         );
+    }
 
+    @Test
+    @DisplayName("Archive 리스트로부터 Answer 데이터를 조회하는 테스트")
+    void findAllByArchivesTest() {
+        // given
+        Question question = questionRepository.save(createJpaQuestionOf(questionPaperForm, questionItem));
+        List<Archive> testArchives = Arrays.asList(createJpaArchiveOf(account, questionPaper),
+                                                   createJpaArchiveOf(account, questionPaper),
+                                                   createJpaArchiveOf(account, questionPaper));
+
+        List<Archive> savedArchives = archiveRepository.saveAll(testArchives);
+        List<Answer> testAnswers = Arrays.asList(createJpaAnswerOf(project, question, savedArchives.get(0), account),
+                                                 createJpaAnswerOf(project, question, savedArchives.get(1), account),
+                                                 createJpaAnswerOf(project, question, savedArchives.get(2), account));
+        answerRepository.saveAll(testAnswers);
+
+        // when
+        List<Answer> answers = answerRepository.findAllByArchives(savedArchives);
+        List<Archive> archives = answers.stream()
+                                        .map(Answer::getArchive)
+                                        .collect(Collectors.toList());
+
+        // then
+        assertThat(archives).usingRecursiveComparison().isEqualTo(savedArchives);
     }
 
 }
