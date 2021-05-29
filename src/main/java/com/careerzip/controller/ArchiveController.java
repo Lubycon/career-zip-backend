@@ -1,7 +1,7 @@
 package com.careerzip.controller;
 
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
-import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivesResponse;
+import com.careerzip.domain.archive.dto.response.archivesresponse.ArchivesResponse;
 import com.careerzip.domain.archive.service.ArchiveService;
 import com.careerzip.global.api.ApiResponse;
 import com.careerzip.global.pagination.Pagination;
