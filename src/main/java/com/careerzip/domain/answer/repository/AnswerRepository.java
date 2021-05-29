@@ -9,4 +9,6 @@ import java.util.List;
 public interface AnswerRepository extends JpaRepository<Answer, Long>, AnswerRepositoryCustom {
 
     List<Answer> findAllBy(Archive archive, List<Long> letterFormQuestionIds);
+
+    List<Long> findAllPreviousIdsBy(Long accountId, List<Long> projectIds, List<Long> questionIds);
 }

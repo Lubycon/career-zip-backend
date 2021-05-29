@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.careerzip.controller.mockmvc.MockMvcRequest.post;
-import static com.careerzip.testobject.account.AccountFactory.createJpaTestMember;
+import static com.careerzip.testobject.account.AccountFactory.createJpaMember;
 import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static com.careerzip.testobject.jwt.JwtFactory.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -29,7 +29,7 @@ public class JwtIntegrationTest extends BaseIntegrationTest {
         String validJwtToken = createValidJwtTokenOf(createMember());
 
         // when
-        accountRepository.save(createJpaTestMember());
+        accountRepository.save(createJpaMember());
 
         ResultActions results = mockMvc.perform(post("/v1/accounts/auth")
                                                 .withToken(validJwtToken)

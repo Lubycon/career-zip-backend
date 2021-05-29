@@ -1,7 +1,9 @@
 package com.careerzip.testobject.answer;
 
+import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.AnswerDetail;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
+import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.question.entity.Question;
@@ -88,6 +90,18 @@ public class AnswerFactory {
                                   .project(createProject())
                                   .account(createMember())
                                   .build());
+    }
+
+    public static Answer createJpaAnswerOf(Project project, Question question, Archive archive, Account account) {
+        return Answer.builder()
+                     .comment("Answer Comment")
+                     .important(false)
+                     .shared(false)
+                     .project(project)
+                     .question(question)
+                     .archive(archive)
+                     .account(account)
+                     .build();
     }
 
     // AnswerDetail

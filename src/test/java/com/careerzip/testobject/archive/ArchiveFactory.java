@@ -33,7 +33,7 @@ public class ArchiveFactory {
                      .build();
     }
 
-    public static Archive createJpaTestArchiveOf(Account account, QuestionPaper questionPaper) {
+    public static Archive createJpaArchiveOf(Account account, QuestionPaper questionPaper) {
         return Archive.builder()
                      .title("Record Title")
                      .account(account)

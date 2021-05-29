@@ -43,7 +43,7 @@ public class QuestionItemFactory {
     }
 
     // Question - TEXT
-    public static QuestionItem createJpaTestTextQuestionItemOf(QuestionType questionType) {
+    public static QuestionItem createJpaTextQuestionItemOf(QuestionType questionType) {
         return QuestionItem.builder()
                            .description("Question Description")
                            .example("Question Example")

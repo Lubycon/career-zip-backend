@@ -20,10 +20,10 @@ import org.springframework.data.domain.PageRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.careerzip.testobject.account.AccountFactory.createJpaTestMember;
+import static com.careerzip.testobject.account.AccountFactory.createJpaMember;
 import static com.careerzip.testobject.pagination.PaginationFactory.createPaginationOf;
-import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createJpaTestQuestionPaperOf;
-import static com.careerzip.testobject.archive.ArchiveFactory.createJpaTestArchiveOf;
+import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createJpaQuestionPaperOf;
+import static com.careerzip.testobject.archive.ArchiveFactory.createJpaArchiveOf;
 import static com.careerzip.testobject.questionpaperform.QuestionPaperFormFactory.createJpaTestQuestionPaperForm;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -49,9 +49,9 @@ class ArchiveRepositoryTest extends BaseRepositoryTest {
 
     @BeforeEach
     void setup() {
-        account = accountRepository.save(createJpaTestMember());
+        account = accountRepository.save(createJpaMember());
         questionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
-        questionPaper = questionPaperRepository.save(createJpaTestQuestionPaperOf(questionPaperForm));
+        questionPaper = questionPaperRepository.save(createJpaQuestionPaperOf(questionPaperForm));
     }
 
     @Test
@@ -64,7 +64,7 @@ class ArchiveRepositoryTest extends BaseRepositoryTest {
 
         List<Archive> archiveList = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
-            archiveList.add(createJpaTestArchiveOf(account, questionPaper));
+            archiveList.add(createJpaArchiveOf(account, questionPaper));
         }
 
         // when
@@ -92,12 +92,12 @@ class ArchiveRepositoryTest extends BaseRepositoryTest {
     @DisplayName("Account, Id를 기준으로 Archive를 조회하는 테스트")
     void findByAccountAndIdTest() {
         // given
-        Archive targetArchive = archiveRepository.save(createJpaTestArchiveOf(account, questionPaper));
+        Archive targetArchive = archiveRepository.save(createJpaArchiveOf(account, questionPaper));
 
-        Account anotherAccount = accountRepository.save(createJpaTestMember());
+        Account anotherAccount = accountRepository.save(createJpaMember());
         QuestionPaperForm anotherQuestionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
-        QuestionPaper anotherQuestionPaper = questionPaperRepository.save(createJpaTestQuestionPaperOf(anotherQuestionPaperForm));
-        archiveRepository.save(createJpaTestArchiveOf(anotherAccount, anotherQuestionPaper));
+        QuestionPaper anotherQuestionPaper = questionPaperRepository.save(createJpaQuestionPaperOf(anotherQuestionPaperForm));
+        archiveRepository.save(createJpaArchiveOf(anotherAccount, anotherQuestionPaper));
 
         // when
         Archive foundArchive = archiveRepository.findBy(account, targetArchive.getId()).orElseThrow(ArchiveNotFoundException::new);

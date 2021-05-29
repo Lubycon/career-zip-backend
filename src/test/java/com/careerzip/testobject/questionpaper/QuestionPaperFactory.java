@@ -20,7 +20,7 @@ public class QuestionPaperFactory {
                             .build();
     }
 
-    public static QuestionPaper createJpaTestQuestionPaperOf(QuestionPaperForm questionPaperForm) {
+    public static QuestionPaper createJpaQuestionPaperOf(QuestionPaperForm questionPaperForm) {
         return QuestionPaper.builder()
                             .title("Paper Title")
                             .startDateTime(LocalDateTime.of(2021, 05, 20, 5, 2, 1))

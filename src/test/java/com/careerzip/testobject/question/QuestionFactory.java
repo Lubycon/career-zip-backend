@@ -40,7 +40,7 @@ public class QuestionFactory {
                        .build();
     }
 
-    public static Question createJpaTestQuestionOf(QuestionPaperForm questionPaperForm, QuestionItem questionItem) {
+    public static Question createJpaQuestionOf(QuestionPaperForm questionPaperForm, QuestionItem questionItem) {
             return Question.builder()
                            .questionPaperForm(questionPaperForm)
                            .questionItem(questionItem)

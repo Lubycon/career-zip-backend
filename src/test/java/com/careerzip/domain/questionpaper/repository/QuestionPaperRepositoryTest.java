@@ -12,10 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createJpaTestQuestionPaperOf;
+import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createJpaQuestionPaperOf;
 import static com.careerzip.testobject.questionpaperform.QuestionPaperFormFactory.createJpaTestQuestionPaperForm;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionPaperRepositoryTest extends BaseRepositoryTest {
 
@@ -30,7 +29,7 @@ class QuestionPaperRepositoryTest extends BaseRepositoryTest {
     void findLatestTest() {
         // given
         QuestionPaperForm questionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
-        List<QuestionPaper> papers = Arrays.asList(createJpaTestQuestionPaperOf(questionPaperForm), createJpaTestQuestionPaperOf(questionPaperForm));
+        List<QuestionPaper> papers = Arrays.asList(createJpaQuestionPaperOf(questionPaperForm), createJpaQuestionPaperOf(questionPaperForm));
         List<QuestionPaper> questionPapers = questionPaperRepository.saveAll(papers);
         QuestionPaper testPaper = questionPapers.get(questionPapers.size() - 1);
 

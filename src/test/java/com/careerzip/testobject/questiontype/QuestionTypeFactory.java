@@ -12,7 +12,7 @@ public class QuestionTypeFactory {
                            .build();
     }
 
-    public static QuestionType createJpaTestQuestionType() {
+    public static QuestionType createJpaQuestionType() {
         return QuestionType.builder()
                            .name("Question Type")
                            .build();
