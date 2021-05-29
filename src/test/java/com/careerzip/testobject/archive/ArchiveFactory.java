@@ -35,14 +35,14 @@ public class ArchiveFactory {
 
     public static Archive createJpaArchiveOf(Account account, QuestionPaper questionPaper) {
         return Archive.builder()
-                     .title("Record Title")
-                     .account(account)
-                     .questionPaper(questionPaper)
-                     .build();
+                      .title("Record Title")
+                      .account(account)
+                      .questionPaper(questionPaper)
+                      .build();
     }
 
     // RecordPage
-    public static Page<Archive> createArchivePageOf() {
+    public static Page<Archive> createArchivePage() {
         List<Archive> archives = Arrays.asList(createArchiveOf(1L), createArchiveOf(2L), createArchiveOf(3L));
         return new PageImpl<>(archives);
     }

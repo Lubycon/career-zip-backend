@@ -6,13 +6,14 @@ import com.careerzip.domain.answer.service.AnswerService;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
-import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivesResponse;
+import com.careerzip.domain.archive.dto.response.archivesresponse.ArchivesResponse;
+import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
+import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.project.service.ProjectService;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
-import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.question.service.QuestionService;
 import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.global.pagination.Pagination;
@@ -22,11 +23,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -36,7 +37,8 @@ import static com.careerzip.testobject.account.AccountFactory.createOAuthAccount
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswers;
 import static com.careerzip.testobject.archive.ArchiveFactory.createArchive;
 import static com.careerzip.testobject.pagination.PaginationFactory.createPaginationOf;
-import static com.careerzip.testobject.archive.ArchiveFactory.createArchivePageOf;
+import static com.careerzip.testobject.archive.ArchiveFactory.createArchivePage;
+import static com.careerzip.testobject.project.ProjectFactory.createProject;
 import static com.careerzip.testobject.question.QuestionFactory.createQuestions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -60,7 +62,7 @@ class ArchiveServiceTest {
     @Mock
     AnswerService answerService;
 
-    @Spy
+    @Mock
     ProjectService projectService;
 
     @Test
@@ -71,30 +73,33 @@ class ArchiveServiceTest {
 
         Pagination pagination = createPaginationOf(1, 10, "DESC");
         PageRequest pageRequest = CustomPageRequest.of(pagination);
-        Page<Archive> archivingPage = createArchivePageOf();
-        QuestionPaper questionPaper = archivingPage.getContent().get(firstIndex).getQuestionPaper();
-        QuestionPaperForm questionPaperForm = archivingPage.getContent().get(0).getQuestionPaper().getQuestionPaperForm();
+        Page<Archive> archivePage = createArchivePage();
+        QuestionPaper questionPaper = archivePage.getContent().get(firstIndex).getQuestionPaper();
+        Project testProject = createProject();
+        Archive testArchive = createArchive();
+        Set<RelatedProject> projects = Collections.singleton(RelatedProject.of(testProject, testArchive));
 
         Account account = createMember();
         OAuthAccount loginAccount = OAuthAccount.from(account);
 
         // when
         when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
-        when(archiveRepository.findAllBy(account, pageRequest)).thenReturn(archivingPage);
+        when(archiveRepository.findAllBy(account, pageRequest)).thenReturn(archivePage);
+        when(projectService.findAllRelatedBy(archivePage)).thenReturn(projects);
 
         ArchivesResponse response = archiveService.findAll(loginAccount, pagination);
 
         // then
         assertAll(
-                () -> assertThat(response.getArchives().size()).isEqualTo(archivingPage.getSize()),
+                () -> assertThat(response.getArchives().size()).isEqualTo(archivePage.getSize()),
                 () -> assertThat(response.getArchives()
                                          .stream()
                                          .filter(archive -> archive.getStartDate().equals(questionPaper.getStartDateTime().toLocalDate()))
-                                         .count()).isEqualTo(archivingPage.getSize()),
+                                         .count()).isEqualTo(archivePage.getSize()),
                 () -> assertThat(response.getArchives()
                                          .stream()
                                          .filter(archive -> archive.getEndDate().equals(questionPaper.getEndDateTime().toLocalDate()))
-                                         .count()).isEqualTo(archivingPage.getSize())
+                                         .count()).isEqualTo(archivePage.getSize())
         );
     }
 

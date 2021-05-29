@@ -6,12 +6,13 @@ import com.careerzip.domain.answer.service.AnswerService;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.service.ProjectService;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.question.service.QuestionService;
-import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchiveSummary;
-import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivesResponse;
+import com.careerzip.domain.archive.dto.response.archivesresponse.ArchiveSummary;
+import com.careerzip.domain.archive.dto.response.archivesresponse.ArchivesResponse;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.global.error.exception.entity.AccountNotFoundException;
 import com.careerzip.global.error.exception.entity.ArchiveNotFoundException;
@@ -41,9 +42,10 @@ public class ArchiveService {
     public ArchivesResponse findAll(OAuthAccount loginAccount, Pagination pagination) {
         PageRequest pageRequest = CustomPageRequest.of(pagination);
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
-        Page<Archive> archive = archiveRepository.findAllBy(account, pageRequest);
-        List<ArchiveSummary> archives = ArchiveSummary.listOf(archive);
-        return ArchivesResponse.of(archive, archives);
+        Page<Archive> archivePage = archiveRepository.findAllBy(account, pageRequest);
+        Set<RelatedProject> projects = projectService.findAllRelatedBy(archivePage);
+        List<ArchiveSummary> archives = ArchiveSummary.listOf(archivePage, projects);
+        return ArchivesResponse.of(archivePage, archives);
     }
 
     public ArchiveDetailResponse findBy(OAuthAccount loginAccount, Long archivingId) {

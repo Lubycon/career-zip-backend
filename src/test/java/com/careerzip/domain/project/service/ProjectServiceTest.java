@@ -1,30 +1,40 @@
 package com.careerzip.domain.project.service;
 
 import com.careerzip.domain.answer.entity.Answer;
+import com.careerzip.domain.answer.repository.AnswerRepository;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.question.entity.Question;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswers;
+import static com.careerzip.testobject.archive.ArchiveFactory.createArchivePage;
 import static com.careerzip.testobject.question.QuestionFactory.createQuestions;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectServiceTest {
 
     @InjectMocks
     ProjectService projectService;
+
+    @Mock
+    AnswerRepository answerRepository;
 
     @Test
     @DisplayName("QuestionWithAnswers 를 받아서 선택된 Project를 꺼내는 메서드 테스트")
