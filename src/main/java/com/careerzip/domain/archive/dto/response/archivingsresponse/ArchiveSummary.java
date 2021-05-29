@@ -8,48 +8,50 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class ArchivingSummary {
+public class ArchiveSummary {
 
     private final long id;
 
     @NotNull
-    private final String letterFormTitle;
+    private final LocalDate startDate;
 
     @NotNull
-    private final String letterTitle;
+    private final LocalDate endDate;
 
     @NotNull
     private final LocalDateTime createdDateTime;
 
     @Builder
-    private ArchivingSummary(long id, String letterFormTitle, String letterTitle, LocalDateTime createdDateTime) {
+    private ArchiveSummary(long id, LocalDate startDate, LocalDate endDate, LocalDateTime createdDateTime) {
         this.id = id;
-        this.letterFormTitle = letterFormTitle;
-        this.letterTitle = letterTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.createdDateTime = createdDateTime;
     }
 
-    public static ArchivingSummary of(Archive archive, QuestionPaperForm questionPaperForm, QuestionPaper questionPaper) {
-        return ArchivingSummary.builder()
+    public static ArchiveSummary of(Archive archive, QuestionPaperForm questionPaperForm, QuestionPaper questionPaper) {
+        return ArchiveSummary.builder()
                             .id(archive.getId())
-                            .letterFormTitle(questionPaperForm.getTitle())
-                            .letterTitle(questionPaper.getTitle())
+                            .startDate(questionPaper.getStartDateTime().toLocalDate())
+                            .endDate(questionPaper.getEndDateTime().toLocalDate())
+                            .createdDateTime(archive.getCreatedDateTime())
                             .build();
     }
 
-    public static List<ArchivingSummary> listOf(Page<Archive> page) {
+    public static List<ArchiveSummary> listOf(Page<Archive> page) {
         List<Archive> archives = page.getContent();
 
         return archives.stream()
-                      .map(archiving -> {
-                          QuestionPaper questionPaper = archiving.getQuestionPaper();
+                      .map(archive -> {
+                          QuestionPaper questionPaper = archive.getQuestionPaper();
                           QuestionPaperForm questionPaperForm = questionPaper.getQuestionPaperForm();
-                          return of(archiving, questionPaperForm, questionPaper);
+                          return of(archive, questionPaperForm, questionPaper);
                       }).collect(Collectors.toList());
     }
 }

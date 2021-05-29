@@ -6,11 +6,11 @@ import com.careerzip.domain.answer.service.AnswerService;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivesResponse;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.service.ProjectService;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
-import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivingsResponse;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.question.service.QuestionService;
@@ -82,18 +82,18 @@ class ArchiveServiceTest {
         when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
         when(archiveRepository.findAllBy(account, pageRequest)).thenReturn(archivingPage);
 
-        ArchivingsResponse response = archiveService.findAll(loginAccount, pagination);
+        ArchivesResponse response = archiveService.findAll(loginAccount, pagination);
 
         // then
         assertAll(
-                () -> assertThat(response.getArchivings().size()).isEqualTo(archivingPage.getSize()),
-                () -> assertThat(response.getArchivings()
+                () -> assertThat(response.getArchives().size()).isEqualTo(archivingPage.getSize()),
+                () -> assertThat(response.getArchives()
                                          .stream()
-                                         .filter(archiving -> archiving.getLetterTitle().equals(questionPaper.getTitle()))
+                                         .filter(archive -> archive.getStartDate().equals(questionPaper.getStartDateTime().toLocalDate()))
                                          .count()).isEqualTo(archivingPage.getSize()),
-                () -> assertThat(response.getArchivings()
+                () -> assertThat(response.getArchives()
                                          .stream()
-                                         .filter(archiving -> archiving.getLetterFormTitle().equals(questionPaperForm.getTitle()))
+                                         .filter(archive -> archive.getEndDate().equals(questionPaper.getEndDateTime().toLocalDate()))
                                          .count()).isEqualTo(archivingPage.getSize())
         );
     }

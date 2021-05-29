@@ -1,7 +1,7 @@
 package com.careerzip.controller;
 
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
-import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivingsResponse;
+import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivesResponse;
 import com.careerzip.domain.archive.service.ArchiveService;
 import com.careerzip.global.api.ApiResponse;
 import com.careerzip.global.pagination.Pagination;
@@ -18,9 +18,9 @@ public class ArchiveController {
     private final ArchiveService archiveService;
 
     @GetMapping
-    public ApiResponse<ArchivingsResponse> archiveList(@LoginAccount OAuthAccount loginAccount,
-                                                         @ModelAttribute Pagination pagination) {
-        ArchivingsResponse archives = archiveService.findAll(loginAccount, pagination);
+    public ApiResponse<ArchivesResponse> archiveList(@LoginAccount OAuthAccount loginAccount,
+                                                     @ModelAttribute Pagination pagination) {
+        ArchivesResponse archives = archiveService.findAll(loginAccount, pagination);
         return ApiResponse.success(archives);
     }
 

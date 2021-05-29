@@ -10,8 +10,8 @@ import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.service.ProjectService;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.question.service.QuestionService;
-import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivingSummary;
-import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivingsResponse;
+import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchiveSummary;
+import com.careerzip.domain.archive.dto.response.archivingsresponse.ArchivesResponse;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.global.error.exception.entity.AccountNotFoundException;
 import com.careerzip.global.error.exception.entity.ArchiveNotFoundException;
@@ -38,12 +38,12 @@ public class ArchiveService {
     private final AnswerService answerService;
     private final ProjectService projectService;
 
-    public ArchivingsResponse findAll(OAuthAccount loginAccount, Pagination pagination) {
+    public ArchivesResponse findAll(OAuthAccount loginAccount, Pagination pagination) {
         PageRequest pageRequest = CustomPageRequest.of(pagination);
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
-        Page<Archive> archivingPage = archiveRepository.findAllBy(account, pageRequest);
-        List<ArchivingSummary> archivings = ArchivingSummary.listOf(archivingPage);
-        return ArchivingsResponse.of(archivingPage, archivings);
+        Page<Archive> archive = archiveRepository.findAllBy(account, pageRequest);
+        List<ArchiveSummary> archives = ArchiveSummary.listOf(archive);
+        return ArchivesResponse.of(archive, archives);
     }
 
     public ArchiveDetailResponse findBy(OAuthAccount loginAccount, Long archivingId) {
