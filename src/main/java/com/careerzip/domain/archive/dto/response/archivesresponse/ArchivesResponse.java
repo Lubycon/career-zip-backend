@@ -1,4 +1,4 @@
-package com.careerzip.domain.archive.dto.response.archivingsresponse;
+package com.careerzip.domain.archive.dto.response.archivesresponse;
 
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.global.pagination.dto.PageDetails;
