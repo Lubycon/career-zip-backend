@@ -54,7 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers(HttpMethod.PUT, "/v1/accounts/{id}").hasRole(MEMBER.name())
             .antMatchers(HttpMethod.GET, "/v1/archives").hasRole(MEMBER.name())
-            .antMatchers(HttpMethod.GET, "/v1/archives/{archivingId}").hasRole(MEMBER.name())
+            .antMatchers(HttpMethod.GET, "/v1/archives/{archiveId}").hasRole(MEMBER.name())
+            .antMatchers(HttpMethod.GET, "/v1/answers/previous").hasRole(MEMBER.name())
             .anyRequest().authenticated();
 
         http.sessionManagement()
