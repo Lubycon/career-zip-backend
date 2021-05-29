@@ -18,12 +18,15 @@ import com.careerzip.domain.questionpaperform.repository.QuestionPaperFormReposi
 import com.careerzip.domain.questiontype.entity.QuestionType;
 import com.careerzip.domain.questiontype.repository.QuestionTypeRepository;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import static com.careerzip.testobject.QuestionPaperFormFactory.createJpaQuestionPaperForm;
 import static com.careerzip.testobject.account.AccountFactory.createJpaMember;
@@ -66,15 +69,50 @@ class AnswerRepositoryTest extends BaseRepositoryTest {
     @Autowired
     ArchiveRepository archiveRepository;
 
+    Account account;
+    QuestionPaperForm questionPaperForm;
+    QuestionType questionType;
+    QuestionItem questionItem;
+    Project project;
+    QuestionPaper questionPaper;
+    Archive archive;
+
+    @BeforeEach
+    void setup() {
+        account = accountRepository.save(createJpaMember());
+        questionPaperForm = questionPaperFormRepository.save(createJpaQuestionPaperForm());
+        questionType = questionTypeRepository.save(createJpaQuestionType());
+        questionItem = questionItemRepository.save(createJpaTextQuestionItemOf(questionType));
+        project = projectRepository.save(createJpaProjectOf(account));
+        questionPaper = questionPaperRepository.save(createJpaQuestionPaperOf(questionPaperForm));
+        archive = archiveRepository.save(createJpaArchiveOf(account, questionPaper));
+    }
+
     @Test
-    @DisplayName("가장 최근 기록한 Answer ID 목록을 조회하는 메서드 테스트")
+    @DisplayName("Answer ID 리스트로 Answer 리스트를 조회하는 테스트")
+    void findAllByIds() {
+        // given
+        Question question = questionRepository.save(createJpaQuestionOf(questionPaperForm, questionItem));
+        List<Answer> savedAnswers = answerRepository.saveAll(Arrays.asList(createJpaAnswerOf(project, question, archive, account),
+                                                                           createJpaAnswerOf(project, question, archive, account),
+                                                                           createJpaAnswerOf(project, question, archive, account)));
+        long firstId = savedAnswers.get(0).getId();
+        long lastId = savedAnswers.get(2).getId();
+        List<Long> answerIds = Arrays.asList(firstId, lastId);
+
+        // when
+        List<Answer> answers = answerRepository.findAllBy(answerIds);
+
+        // then
+        assertThat(answers.size()).isEqualTo(answerIds.size());
+        assertThat(answers.stream().map(Answer::getId).collect(Collectors.toList()))
+                .containsAll(answerIds);
+    }
+
+    @Test
+    @DisplayName("Account, Project를 기준으로 가장 최근 저장된 Answer ID 목록을 조회하는 메서드 테스트")
     void findAllIdsByTest() {
         // given
-        Account account = accountRepository.save(createJpaMember());
-        QuestionPaperForm questionPaperForm = questionPaperFormRepository.save(createJpaQuestionPaperForm());
-        QuestionType questionType = questionTypeRepository.save(createJpaQuestionType());
-        QuestionItem questionItem = questionItemRepository.save(createJpaTextQuestionItemOf(questionType));
-
         Question firstQuestion = questionRepository.save(createJpaQuestionOf(questionPaperForm, questionItem));
         Question secondQuestion = questionRepository.save(createJpaQuestionOf(questionPaperForm, questionItem));
         List<Long> questionIds = Arrays.asList(firstQuestion.getId(), secondQuestion.getId());
@@ -82,9 +120,6 @@ class AnswerRepositoryTest extends BaseRepositoryTest {
         Project firstProject = projectRepository.save(createJpaProjectOf(account));
         Project secondProject = projectRepository.save(createJpaProjectOf(account));
         List<Long> projectIds = Arrays.asList(firstProject.getId(), secondProject.getId());
-
-        QuestionPaper questionPaper = questionPaperRepository.save(createJpaQuestionPaperOf(questionPaperForm));
-        Archive archive = archiveRepository.save(createJpaArchiveOf(account, questionPaper));
 
         Answer beforeFirstProjectFirstQuestion = answerRepository.save(createJpaAnswerOf(firstProject, firstQuestion, archive, account));
         Answer beforeSecondProjectFirstQuestion = answerRepository.save(createJpaAnswerOf(secondProject, firstQuestion, archive, account));

@@ -25,6 +25,13 @@ public class AnswerRepositoryImpl implements AnswerRepositoryCustom {
                            .fetch();
     }
 
+    public List<Answer> findAllBy(List<Long> answerIds) {
+        return queryFactory.selectFrom(answer)
+                           .leftJoin(answer.project, project).fetchJoin()
+                           .where(answer.id.in(answerIds))
+                           .fetch();
+    }
+
     public List<Long> findAllPreviousIdsBy(Long accountId, List<Long> projectIds, List<Long> questionIds) {
         return queryFactory.select(answer.id.max())
                            .from(answer)

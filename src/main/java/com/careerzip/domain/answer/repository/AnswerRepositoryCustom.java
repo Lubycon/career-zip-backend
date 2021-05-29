@@ -9,5 +9,7 @@ public interface AnswerRepositoryCustom {
 
     List<Answer> findAllBy(Archive archive, List<Long> letterFormQuestionIds);
 
+    List<Answer> findAllBy(List<Long> answerIds);
+
     List<Long> findAllPreviousIdsBy(Long accountId, List<Long> projectIds, List<Long> questionIds);
 }
