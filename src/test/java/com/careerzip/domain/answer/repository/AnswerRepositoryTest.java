@@ -115,7 +115,7 @@ class AnswerRepositoryTest extends BaseRepositoryTest {
         // given
         Question firstQuestion = questionRepository.save(createJpaQuestionOf(questionPaperForm, questionItem));
         Question secondQuestion = questionRepository.save(createJpaQuestionOf(questionPaperForm, questionItem));
-        List<Long> questionIds = Arrays.asList(firstQuestion.getId(), secondQuestion.getId());
+        List<Question> questions = Arrays.asList(firstQuestion, secondQuestion);
 
         Project firstProject = projectRepository.save(createJpaProjectOf(account));
         Project secondProject = projectRepository.save(createJpaProjectOf(account));
@@ -134,7 +134,7 @@ class AnswerRepositoryTest extends BaseRepositoryTest {
                                                latestFirstProjectSecondQuestion));
 
         // when
-        List<Long> latestIds = answerRepository.findAllPreviousIdsBy(account.getId(), projectIds, questionIds);
+        List<Long> latestIds = answerRepository.findAllPreviousIdsBy(account.getId(), projectIds, questions);
 
         // then
         assertAll(
