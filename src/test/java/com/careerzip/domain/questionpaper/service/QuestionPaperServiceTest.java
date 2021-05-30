@@ -48,7 +48,7 @@ class QuestionPaperServiceTest {
 
         // then
         assertAll(
-                () -> assertThat(response.getQuestionPaperId()).isEqualTo(questionPaper.getId()),
+                () -> assertThat(response.getId()).isEqualTo(questionPaper.getId()),
                 () -> assertThat(response.getStartDate()).isEqualTo(questionPaper.getStartDateTime().toLocalDate()),
                 () -> assertThat(response.getEndDate()).isEqualTo(questionPaper.getEndDateTime().toLocalDate()),
                 () -> assertThat(response.getQuestions().size()).isEqualTo(questions.size())

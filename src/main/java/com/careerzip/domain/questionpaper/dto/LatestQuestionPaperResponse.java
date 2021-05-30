@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Getter
 public class LatestQuestionPaperResponse {
 
-    private final long questionPaperId;
+    private final long id;
 
     @NotNull
     private final LocalDate startDate;
@@ -25,9 +25,9 @@ public class LatestQuestionPaperResponse {
     private final List<QuestionDetail> questions;
 
     @Builder
-    private LatestQuestionPaperResponse(long questionPaperId, LocalDate startDate, LocalDate endDate,
-                                       List<QuestionDetail> questions) {
-        this.questionPaperId = questionPaperId;
+    private LatestQuestionPaperResponse(long id, LocalDate startDate, LocalDate endDate,
+                                        List<QuestionDetail> questions) {
+        this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.questions = questions;
@@ -39,7 +39,7 @@ public class LatestQuestionPaperResponse {
                                                         .collect(Collectors.toList());;
 
         return LatestQuestionPaperResponse.builder()
-                                          .questionPaperId(questionPaper.getId())
+                                          .id(questionPaper.getId())
                                           .startDate(questionPaper.getStartDateTime().toLocalDate())
                                           .endDate(questionPaper.getEndDateTime().toLocalDate())
                                           .questions(questionDetails)

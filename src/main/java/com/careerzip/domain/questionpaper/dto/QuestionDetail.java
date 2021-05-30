@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 public class QuestionDetail {
 
-    private final long questionId;
+    private final long id;
 
     private final int priority;
 
@@ -31,9 +31,9 @@ public class QuestionDetail {
     private final List<String> selectOptions;
 
     @Builder
-    private QuestionDetail(long questionId, int priority, InputType inputType, String description, String example,
+    private QuestionDetail(long id, int priority, InputType inputType, String description, String example,
                            List<String> selectOptions) {
-        this.questionId = questionId;
+        this.id = id;
         this.priority = priority;
         this.inputType = inputType;
         this.description = description;
@@ -49,7 +49,7 @@ public class QuestionDetail {
                                                  .collect(Collectors.toList());
 
         return QuestionDetail.builder()
-                             .questionId(question.getId())
+                             .id(question.getId())
                              .priority(question.getPriority())
                              .inputType(questionItem.getInputType())
                              .description(questionItem.getDescription())
