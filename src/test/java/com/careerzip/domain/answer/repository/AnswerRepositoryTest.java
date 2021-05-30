@@ -113,8 +113,10 @@ class AnswerRepositoryTest extends BaseRepositoryTest {
     @DisplayName("Account, Project를 기준으로 가장 최근 저장된 Answer ID 목록을 조회하는 메서드 테스트")
     void findAllIdsByTest() {
         // given
-        Question firstQuestion = questionRepository.save(createJpaQuestionOf(questionPaperForm, questionItem));
-        Question secondQuestion = questionRepository.save(createJpaQuestionOf(questionPaperForm, questionItem));
+        QuestionItem firstQuestionItem = questionItemRepository.save(createJpaTextQuestionItemOf(questionType));
+        QuestionItem secondQuestionItem = questionItemRepository.save(createJpaTextQuestionItemOf(questionType));
+        Question firstQuestion = questionRepository.save(createJpaQuestionOf(questionPaperForm, firstQuestionItem));
+        Question secondQuestion = questionRepository.save(createJpaQuestionOf(questionPaperForm, secondQuestionItem));
         List<Question> questions = Arrays.asList(firstQuestion, secondQuestion);
 
         Project firstProject = projectRepository.save(createJpaProjectOf(account));
@@ -126,11 +128,11 @@ class AnswerRepositoryTest extends BaseRepositoryTest {
         Answer afterFirstProjectFirstQuestion = answerRepository.save(createJpaAnswerOf(firstProject, firstQuestion, archive, account));
         Answer afterSecondProjectFirstQuestion = answerRepository.save(createJpaAnswerOf(secondProject, firstQuestion, archive, account));
         Answer beforeFirstProjectSecondQuestion = answerRepository.save(createJpaAnswerOf(firstProject, secondQuestion, archive, account));
-        Answer afterFirstProjectSecondQuestion = answerRepository.save(createJpaAnswerOf(firstProject, secondQuestion, archive, account));
+        Answer afterSecondProjectSecondQuestion = answerRepository.save(createJpaAnswerOf(secondProject, secondQuestion, archive, account));
         Answer latestFirstProjectSecondQuestion = answerRepository.save(createJpaAnswerOf(firstProject, secondQuestion, archive, account));
         answerRepository.saveAll(Arrays.asList(beforeFirstProjectFirstQuestion, beforeSecondProjectFirstQuestion,
                                                afterFirstProjectFirstQuestion, afterSecondProjectFirstQuestion,
-                                               beforeFirstProjectSecondQuestion, afterFirstProjectSecondQuestion,
+                                               beforeFirstProjectSecondQuestion, afterSecondProjectSecondQuestion,
                                                latestFirstProjectSecondQuestion));
 
         // when
@@ -138,9 +140,10 @@ class AnswerRepositoryTest extends BaseRepositoryTest {
 
         // then
         assertAll(
-                () -> assertThat(latestIds.size()).isEqualTo(3),
+                () -> assertThat(latestIds.size()).isEqualTo(4),
                 () -> assertThat(latestIds).contains(afterFirstProjectFirstQuestion.getId()),
                 () -> assertThat(latestIds).contains(afterSecondProjectFirstQuestion.getId()),
+                () -> assertThat(latestIds).contains(afterSecondProjectSecondQuestion.getId()),
                 () -> assertThat(latestIds).contains(latestFirstProjectSecondQuestion.getId())
         );
     }
