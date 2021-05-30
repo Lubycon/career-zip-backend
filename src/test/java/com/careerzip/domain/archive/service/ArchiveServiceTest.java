@@ -126,7 +126,7 @@ class ArchiveServiceTest {
 
         // then
         assertAll(
-                () -> assertThat(response.getArchiveId()).isEqualTo(archive.getId()),
+                () -> assertThat(response.getId()).isEqualTo(archive.getId()),
                 () -> assertThat(response.getStartDate()).isEqualTo(questionPaper.getStartDateTime().toLocalDate()),
                 () -> assertThat(response.getEndDate()).isEqualTo(questionPaper.getEndDateTime().toLocalDate()),
                 () -> assertThat(response.getCreatedDateTime()).isEqualTo(archive.getCreatedDateTime()),

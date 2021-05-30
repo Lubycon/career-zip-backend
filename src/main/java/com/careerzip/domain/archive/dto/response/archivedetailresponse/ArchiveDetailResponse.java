@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 public class ArchiveDetailResponse {
 
-    private final long archiveId;
+    private final long id;
 
     @NotNull
     private final LocalDate startDate;
@@ -32,9 +32,9 @@ public class ArchiveDetailResponse {
     private final List<QuestionWithAnswers> questions;
 
     @Builder
-    private ArchiveDetailResponse(long archiveId, LocalDate startDate, LocalDate endDate, LocalDateTime createdDateTime,
+    private ArchiveDetailResponse(long id, LocalDate startDate, LocalDate endDate, LocalDateTime createdDateTime,
                                   Set<ProjectSummary> selectedProjects, List<QuestionWithAnswers> questions) {
-        this.archiveId = archiveId;
+        this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.createdDateTime = createdDateTime;
@@ -46,7 +46,7 @@ public class ArchiveDetailResponse {
         QuestionPaper questionPaper = archive.getQuestionPaper();
 
         return ArchiveDetailResponse.builder()
-                                    .archiveId(archive.getId())
+                                    .id(archive.getId())
                                     .startDate(questionPaper.getStartDateTime().toLocalDate())
                                     .endDate(questionPaper.getEndDateTime().toLocalDate())
                                     .createdDateTime(archive.getCreatedDateTime())
