@@ -56,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, "/v1/archives").hasRole(MEMBER.name())
             .antMatchers(HttpMethod.GET, "/v1/archives/{archiveId}").hasRole(MEMBER.name())
             .antMatchers(HttpMethod.POST, "/v1/answers/previous").hasRole(MEMBER.name())
+            .antMatchers(HttpMethod.GET, "/v1/questionpapers").hasRole(MEMBER.name())
+            .antMatchers(HttpMethod.GET, "/v1/projects").hasRole(MEMBER.name())
             .anyRequest().authenticated();
 
         http.sessionManagement()
