@@ -38,4 +38,11 @@ public class Archive extends BaseTimeEntity {
         this.questionPaper = questionPaper;
         this.account = account;
     }
+
+    public static Archive of(QuestionPaper questionPaper, Account account) {
+        return Archive.builder()
+                      .questionPaper(questionPaper)
+                      .account(account)
+                      .build();
+    }
 }
