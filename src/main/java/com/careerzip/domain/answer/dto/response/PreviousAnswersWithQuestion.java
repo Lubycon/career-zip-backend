@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 @Getter
 public class PreviousAnswersWithQuestion {
 
-    private final long questionId;
+    private final long id;
 
     @NotNull
     private final List<PreviousAnswer> answers;
 
     @Builder
-    private PreviousAnswersWithQuestion(long questionId, List<PreviousAnswer> answers) {
-        this.questionId = questionId;
+    private PreviousAnswersWithQuestion(long id, List<PreviousAnswer> answers) {
+        this.id = id;
         this.answers = answers;
     }
 
@@ -35,9 +35,9 @@ public class PreviousAnswersWithQuestion {
                                                       .collect(Collectors.toList());
 
         return PreviousAnswersWithQuestion.builder()
-                                           .questionId(question.getId())
-                                           .answers(previousAnswers)
-                                           .build();
+                                          .id(question.getId())
+                                          .answers(previousAnswers)
+                                          .build();
     }
 
     public static List<PreviousAnswersWithQuestion> listOf(List<Question> questions, List<Answer> answers) {
