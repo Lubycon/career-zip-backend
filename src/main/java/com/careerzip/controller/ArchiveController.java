@@ -9,6 +9,7 @@ import com.careerzip.global.pagination.Pagination;
 import com.careerzip.security.oauth.annotation.LoginAccount;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class ArchiveController {
 
     private final ArchiveService archiveService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ApiResponse<ArchivesResponse> archiveList(@LoginAccount OAuthAccount loginAccount,
                                                      @ModelAttribute Pagination pagination) {
@@ -25,6 +27,7 @@ public class ArchiveController {
         return ApiResponse.success(archives);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{archiveId}")
     public ApiResponse<ArchiveDetailResponse> archiveDetail(@LoginAccount OAuthAccount loginAccount,
                                                             @PathVariable Long archiveId) {
@@ -32,6 +35,7 @@ public class ArchiveController {
         return ApiResponse.success(archive);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ApiResponse<Long> createArchive(@LoginAccount OAuthAccount loginAccount,
                                                             @RequestBody CreateArchiveRequest request) {

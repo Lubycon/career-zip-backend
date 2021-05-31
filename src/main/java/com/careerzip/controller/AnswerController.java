@@ -7,10 +7,8 @@ import com.careerzip.global.api.ApiResponse;
 import com.careerzip.security.oauth.annotation.LoginAccount;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,7 @@ public class AnswerController {
 
     private final AnswerService answerService;
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/previous")
     public ApiResponse<List<PreviousAnswersWithQuestion>> previousAnswers(@LoginAccount OAuthAccount loginAccount,
                                                                           @RequestBody PreviousAnswersRequest previousAnswersRequest) {
