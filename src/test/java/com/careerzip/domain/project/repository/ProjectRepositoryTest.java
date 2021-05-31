@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.careerzip.testobject.account.AccountFactory.createJpaMember;
 import static com.careerzip.testobject.project.ProjectFactory.createJpaProjectOf;
@@ -37,5 +38,24 @@ class ProjectRepositoryTest extends BaseRepositoryTest {
 
         // then
         assertThat(projects).usingRecursiveComparison().isEqualTo(savedProjects);
+    }
+
+    @Test
+    @DisplayName("Id 리스트를 기준으로 Project 리스트를 조회하는 테스트")
+    void findAllByIds() {
+        // given
+        Account account = accountRepository.save(createJpaMember());
+        List<Project> projects = projectRepository.saveAll(Arrays.asList(createJpaProjectOf(account),
+                                                                         createJpaProjectOf(account),
+                                                                         createJpaProjectOf(account)));
+        List<Long> projectIds = projects.stream()
+                                        .map(Project::getId)
+                                        .collect(Collectors.toList());
+
+        // when
+        List<Project> foundProjects = projectRepository.findAllByIds(projectIds);
+
+        // then
+        assertThat(foundProjects.size()).isEqualTo(projects.size());
     }
 }

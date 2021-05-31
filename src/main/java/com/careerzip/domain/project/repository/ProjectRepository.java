@@ -9,4 +9,6 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project, Long>, ProjectRepositoryCustom {
 
     List<Project> findAllByAccount(Account account);
+
+    List<Project> findAllByIds(List<Long> projectIds);
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface ProjectRepositoryCustom {
 
     List<Project> findAllByAccount(Account account);
+
+    List<Project> findAllByIds(List<Long> projectIds);
 }

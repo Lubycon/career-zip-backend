@@ -2,7 +2,6 @@ package com.careerzip.domain.project.repository;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.project.entity.Project;
-import com.careerzip.domain.project.entity.QProject;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +17,12 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
     public List<Project> findAllByAccount(Account account) {
         return queryFactory.selectFrom(project)
                            .where(project.account.eq(account))
+                           .fetch();
+    }
+
+    public List<Project> findAllByIds(List<Long> projectIds) {
+        return queryFactory.selectFrom(project)
+                           .where(project.id.in(projectIds))
                            .fetch();
     }
 }
