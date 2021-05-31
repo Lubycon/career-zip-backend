@@ -5,6 +5,7 @@ import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.answer.repository.AnswerRepository;
 import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswerDetail;
+import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
@@ -35,7 +36,7 @@ public class ProjectService {
     private final AccountRepository accountRepository;
     private final AnswerRepository answerRepository;
 
-    public Set<com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary> findSelectedProjectsBy(List<QuestionWithAnswers> questionWithAnswers) {
+    public Set<ProjectSummary> findSelectedProjectsBy(List<QuestionWithAnswers> questionWithAnswers) {
         return questionWithAnswers.stream()
                                   .flatMap(questionWithAnswer -> Stream.of(questionWithAnswer.getAnswers()))
                                   .flatMap(List::stream)
