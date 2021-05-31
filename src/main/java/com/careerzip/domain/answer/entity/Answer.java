@@ -67,4 +67,16 @@ public class Answer {
     public Long getQuestionId() {
         return question.getId();
     }
+
+    public static Answer of(Project project, Question question, Archive archive, Account account, String comment) {
+        return Answer.builder()
+                     .comment(comment)
+                     .important(false)
+                     .shared(false)
+                     .project(project)
+                     .question(question)
+                     .archive(archive)
+                     .account(account)
+                     .build();
+    }
 }

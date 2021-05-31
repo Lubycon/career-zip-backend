@@ -92,8 +92,9 @@ class ProjectServiceTest {
     void findAllMapByAnswersTest() {
         // given
         List<Question> questions = createQuestions();
-        List<CreateAnswerDetail> answerDetails = createCreateAnswerDetailsOf(questions);
-        List<Project> projects = List.of(createProject());
+        Project project = createProject();
+        List<CreateAnswerDetail> answerDetails = createCreateAnswerDetailsOf(questions, project);
+        List<Project> projects = List.of(project);
 
         // when
         when(projectRepository.findAllByIds(anyList())).thenReturn(projects);
