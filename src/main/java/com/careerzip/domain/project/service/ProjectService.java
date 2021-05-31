@@ -4,6 +4,7 @@ import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.domain.answer.entity.Answer;
 import com.careerzip.domain.answer.repository.AnswerRepository;
+import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswerDetail;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
@@ -19,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,5 +60,14 @@ public class ProjectService {
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
         List<Project> projects = projectRepository.findAllByAccount(account);
         return ProjectSummaryResponse.listOf(projects);
+    }
+
+    public Map<Long, Project> findAllMapBy(List<CreateAnswerDetail> answerDetails) {
+        List<Long> projectIds = answerDetails.stream()
+                                             .map(CreateAnswerDetail::getProjectId)
+                                             .collect(Collectors.toList());
+        List<Project> projects = projectRepository.findAllByIds(projectIds);
+        return projects.stream()
+                       .collect(Collectors.toMap(Project::getId, Function.identity()));
     }
 }
