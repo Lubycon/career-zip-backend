@@ -128,9 +128,7 @@ public class AnswerFactory {
     }
 
     // CreateAnswerDetails
-    public static List<CreateAnswerDetail> createCreateAnswerDetailsOf(List<Question> questions) {
-        Project project = createProject();
-
+    public static List<CreateAnswerDetail> createCreateAnswerDetailsOf(List<Question> questions, Project project) {
         return Arrays.asList(createCreateAnswerDetail(questions.get(0), project),
                              createCreateAnswerDetail(questions.get(1), project),
                              createCreateAnswerDetail(questions.get(2), project));

@@ -51,10 +51,9 @@ public class ArchiveFactory {
     }
 
     // CreateArchiveRequest
-    public static CreateArchiveRequest createCreateArchiveRequestOf(List<CreateAnswerDetail> answers) {
-        QuestionPaper questionPaper = createQuestionPaper();
+    public static CreateArchiveRequest createCreateArchiveRequestOf(long questionPaperId, List<CreateAnswerDetail> answers) {
         return CreateArchiveRequestBuilder.newBuilder()
-                                          .questionPaperId(questionPaper.getId())
+                                          .questionPaperId(questionPaperId)
                                           .answers(answers)
                                           .build();
     }
