@@ -1,6 +1,9 @@
 package com.careerzip.testobject.archive;
 
 import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswerDetail;
+import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateArchiveRequest;
+import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateArchiveRequestBuilder;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import org.springframework.data.domain.Page;
@@ -41,9 +44,18 @@ public class ArchiveFactory {
                       .build();
     }
 
-    // RecordPage
+    // ArchivePage
     public static Page<Archive> createArchivePage() {
         List<Archive> archives = Arrays.asList(createArchiveOf(1L), createArchiveOf(2L), createArchiveOf(3L));
         return new PageImpl<>(archives);
+    }
+
+    // CreateArchiveRequest
+    public static CreateArchiveRequest createCreateArchiveRequestOf(List<CreateAnswerDetail> answers) {
+        QuestionPaper questionPaper = createQuestionPaper();
+        return CreateArchiveRequestBuilder.newBuilder()
+                                          .questionPaperId(questionPaper.getId())
+                                          .answers(answers)
+                                          .build();
     }
 }

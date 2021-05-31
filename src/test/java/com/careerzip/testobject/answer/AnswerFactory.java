@@ -1,6 +1,8 @@
 package com.careerzip.testobject.answer;
 
 import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswerDetail;
+import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswerDetailBuilder;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.AnswerDetail;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.entity.Archive;
@@ -15,6 +17,7 @@ import static com.careerzip.testobject.account.AccountFactory.createMember;
 import static com.careerzip.testobject.archive.ArchiveFactory.createArchive;
 import static com.careerzip.testobject.project.ProjectFactory.createProject;
 import static com.careerzip.testobject.question.QuestionFactory.createQuestion;
+import static com.careerzip.testobject.question.QuestionFactory.createQuestions;
 
 public class AnswerFactory {
 
@@ -113,5 +116,23 @@ public class AnswerFactory {
                            .comment(answer.getComment())
                            .project(ProjectSummary.from((project)))
                            .build();
+    }
+
+    // CreateAnswerDetail
+    public static CreateAnswerDetail createCreateAnswerDetail(Question question, Project project) {
+        return CreateAnswerDetailBuilder.newBuilder()
+                                        .questionId(question.getId())
+                                        .comment("new Comment")
+                                        .projectId(project.getId())
+                                        .build();
+    }
+
+    // CreateAnswerDetails
+    public static List<CreateAnswerDetail> createCreateAnswerDetailsOf(List<Question> questions) {
+        Project project = createProject();
+
+        return Arrays.asList(createCreateAnswerDetail(questions.get(0), project),
+                             createCreateAnswerDetail(questions.get(1), project),
+                             createCreateAnswerDetail(questions.get(2), project));
     }
 }
