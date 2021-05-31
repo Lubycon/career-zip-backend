@@ -33,10 +33,9 @@ public class ArchiveController {
     }
 
     @PostMapping
-    public ApiResponse<ArchiveDetailResponse> createArchive(@LoginAccount OAuthAccount loginAccount,
+    public ApiResponse<Long> createArchive(@LoginAccount OAuthAccount loginAccount,
                                                             @RequestBody CreateArchiveRequest request) {
         Long archiveId = archiveService.createBy(loginAccount, request);
-        ArchiveDetailResponse archive = archiveService.findBy(loginAccount, archiveId);
-        return ApiResponse.success(archive);
+        return ApiResponse.success(archiveId);
     }
 }
