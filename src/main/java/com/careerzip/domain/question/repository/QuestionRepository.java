@@ -9,4 +9,6 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question, Long>, QuestionRepositoryCustom {
 
     List<Question> findAllBy(QuestionPaperForm questionPaperForm);
+
+    List<Question> findAllByIds(List<Long> questionIds);
 }

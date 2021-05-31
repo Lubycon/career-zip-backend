@@ -26,4 +26,10 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                            .distinct()
                            .fetch();
     }
+
+    public List<Question> findAllByIds(List<Long> questionIds) {
+        return queryFactory.selectFrom(question)
+                           .where(question.id.in(questionIds))
+                           .fetch();
+    }
 }

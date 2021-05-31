@@ -8,4 +8,6 @@ import java.util.List;
 public interface QuestionRepositoryCustom {
 
     List<Question> findAllBy(QuestionPaperForm questionPaperForm);
+
+    List<Question> findAllByIds(List<Long> questionIds);
 }
