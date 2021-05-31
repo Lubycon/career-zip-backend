@@ -1,5 +1,6 @@
 package com.careerzip.controller;
 
+import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateArchiveRequest;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
 import com.careerzip.domain.archive.dto.response.archivesresponse.ArchivesResponse;
 import com.careerzip.domain.archive.service.ArchiveService;
@@ -27,6 +28,14 @@ public class ArchiveController {
     @GetMapping("/{archiveId}")
     public ApiResponse<ArchiveDetailResponse> archiveDetail(@LoginAccount OAuthAccount loginAccount,
                                                             @PathVariable Long archiveId) {
+        ArchiveDetailResponse archive = archiveService.findBy(loginAccount, archiveId);
+        return ApiResponse.success(archive);
+    }
+
+    @PostMapping
+    public ApiResponse<ArchiveDetailResponse> createArchive(@LoginAccount OAuthAccount loginAccount,
+                                                            @RequestBody CreateArchiveRequest request) {
+        Long archiveId = archiveService.createBy(loginAccount, request);
         ArchiveDetailResponse archive = archiveService.findBy(loginAccount, archiveId);
         return ApiResponse.success(archive);
     }
