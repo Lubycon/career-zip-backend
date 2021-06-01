@@ -9,7 +9,13 @@ public class PreviousAnswersRequestBuilder {
     }
 
     public static class Builder {
+        Long questionPaperId;
         List<Long> projectIds;
+
+        public Builder questionPaperId(Long questionPaperId) {
+            this.questionPaperId = questionPaperId;
+            return this;
+        }
 
         public Builder projectIds(List<Long> projectIds) {
             this.projectIds = projectIds;
@@ -17,7 +23,7 @@ public class PreviousAnswersRequestBuilder {
         }
 
         public PreviousAnswersRequest build() {
-            return new PreviousAnswersRequest(projectIds);
+            return new PreviousAnswersRequest(questionPaperId, projectIds);
         }
     }
 }

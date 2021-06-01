@@ -38,7 +38,8 @@ public class AnswerService {
     }
 
     public List<PreviousAnswersWithQuestion> findAllPreviousBy(OAuthAccount loginAccount, PreviousAnswersRequest previousAnswersRequest) {
-        QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
+        QuestionPaper questionPaper = questionPaperRepository.findById(previousAnswersRequest.getQuestionPaperId())
+                                                             .orElseThrow(QuestionPaperNotFoundException::new);
         List<Question> questions = questionRepository.findAllBy(questionPaper.getQuestionPaperForm());
         List<Long> answerIds = answerRepository.findAllPreviousIdsBy(loginAccount.getId(), previousAnswersRequest.getProjectIds(), questions);
         List<Answer> previousAnswers = answerRepository.findAllBy(answerIds);

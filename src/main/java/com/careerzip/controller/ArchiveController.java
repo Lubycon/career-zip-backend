@@ -38,7 +38,7 @@ public class ArchiveController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ApiResponse<Long> createArchive(@LoginAccount OAuthAccount loginAccount,
-                                                            @RequestBody CreateArchiveRequest request) {
+                                           @RequestBody CreateArchiveRequest request) {
         Long archiveId = archiveService.createBy(loginAccount, request);
         return ApiResponse.success(archiveId);
     }

@@ -10,9 +10,11 @@ import java.util.List;
 @Getter
 public class PreviousAnswersRequest {
 
+    private Long questionPaperId;
     private List<Long> projectIds;
 
-    PreviousAnswersRequest(List<Long> projectIds) {
+    PreviousAnswersRequest(Long questionPaperId, List<Long> projectIds) {
+        this.questionPaperId = questionPaperId;
         this.projectIds = projectIds;
     }
 }

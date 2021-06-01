@@ -85,11 +85,12 @@ class AnswerServiceTest {
                                        .map(answer -> answer.getProject().getId())
                                        .collect(Collectors.toList());
         PreviousAnswersRequest request = PreviousAnswersRequestBuilder.newBuilder()
+                                                                      .questionPaperId(questionPaper.getId())
                                                                       .projectIds(projectIds)
                                                                       .build();
 
         // when
-        when(questionPaperRepository.findLatest()).thenReturn(Optional.of(questionPaper));
+        when(questionPaperRepository.findById(questionPaper.getId())).thenReturn(Optional.of(questionPaper));
         when(questionRepository.findAllBy(questionPaper.getQuestionPaperForm())).thenReturn(questions);
         when(answerRepository.findAllPreviousIdsBy(loginAccount.getId(), request.getProjectIds(), questions)).thenReturn(answerIds);
         when(answerRepository.findAllBy(answerIds)).thenReturn(answers);
