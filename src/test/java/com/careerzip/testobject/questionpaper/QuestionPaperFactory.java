@@ -16,6 +16,7 @@ public class QuestionPaperFactory {
                             .title("Paper Title")
                             .startDateTime(LocalDateTime.of(2021, 05, 20, 5, 2, 1))
                             .endDateTime(LocalDateTime.of(2021, 05, 20, 7, 2, 1))
+                            .opened(true)
                             .questionPaperForm(createQuestionPaperForm())
                             .build();
     }
@@ -25,6 +26,7 @@ public class QuestionPaperFactory {
                             .title("Paper Title")
                             .startDateTime(LocalDateTime.of(2021, 05, 20, 5, 2, 1))
                             .endDateTime(LocalDateTime.of(2021, 05, 20, 7, 2, 1))
+                            .opened(true)
                             .questionPaperForm(questionPaperForm)
                             .build();
     }

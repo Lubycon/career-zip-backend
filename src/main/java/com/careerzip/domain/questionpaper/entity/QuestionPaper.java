@@ -28,16 +28,21 @@ public class QuestionPaper {
     @Column(name = "end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 
+    @Column(name = "opened", nullable = false)
+    private Boolean opened;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_paper_form_id", nullable = false)
     private QuestionPaperForm questionPaperForm;
 
     @Builder
-    private QuestionPaper(Long id, String title, LocalDateTime startDateTime, LocalDateTime endDateTime, QuestionPaperForm questionPaperForm) {
+    private QuestionPaper(Long id, String title, LocalDateTime startDateTime, LocalDateTime endDateTime, Boolean opened,
+                          QuestionPaperForm questionPaperForm) {
         this.id = id;
         this.title = title;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
+        this.opened = opened;
         this.questionPaperForm = questionPaperForm;
     }
 }
