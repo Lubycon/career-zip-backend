@@ -25,6 +25,8 @@ public class ArchiveDetailResponse {
     @NotNull
     private final LocalDateTime createdDateTime;
 
+    private final Long questionPaperId;
+
     @NotNull
     private final Set<ProjectSummary> selectedProjects;
 
@@ -33,11 +35,12 @@ public class ArchiveDetailResponse {
 
     @Builder
     private ArchiveDetailResponse(long id, LocalDate startDate, LocalDate endDate, LocalDateTime createdDateTime,
-                                  Set<ProjectSummary> selectedProjects, List<QuestionWithAnswers> questions) {
+                                  Long questionPaperId, Set<ProjectSummary> selectedProjects, List<QuestionWithAnswers> questions) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.createdDateTime = createdDateTime;
+        this.questionPaperId = questionPaperId;
         this.selectedProjects = selectedProjects;
         this.questions = questions;
     }
@@ -50,6 +53,7 @@ public class ArchiveDetailResponse {
                                     .startDate(questionPaper.getStartDateTime().toLocalDate())
                                     .endDate(questionPaper.getEndDateTime().toLocalDate())
                                     .createdDateTime(archive.getCreatedDateTime())
+                                    .questionPaperId(questionPaper.getId())
                                     .selectedProjects(selectedProjects)
                                     .questions(questions)
                                     .build();

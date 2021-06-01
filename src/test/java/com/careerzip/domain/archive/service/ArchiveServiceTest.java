@@ -130,6 +130,7 @@ class ArchiveServiceTest {
                 () -> assertThat(response.getStartDate()).isEqualTo(questionPaper.getStartDateTime().toLocalDate()),
                 () -> assertThat(response.getEndDate()).isEqualTo(questionPaper.getEndDateTime().toLocalDate()),
                 () -> assertThat(response.getCreatedDateTime()).isEqualTo(archive.getCreatedDateTime()),
+                () -> assertThat(response.getQuestionPaperId()).isEqualTo(questionPaper.getId()),
                 () -> assertThat(response.getSelectedProjects().size()).isEqualTo(selectedProjects.size()),
                 () -> assertThat(response.getQuestions()).usingRecursiveComparison().isEqualTo(questionWithAnswers)
         );
