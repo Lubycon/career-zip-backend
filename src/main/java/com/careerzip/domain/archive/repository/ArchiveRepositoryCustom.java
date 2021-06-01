@@ -11,5 +11,5 @@ public interface ArchiveRepositoryCustom {
 
     Page<Archive> findAllBy(Account account, Pageable pageable);
 
-    Optional<Archive> findBy(Account account, Long recordId);
+    Optional<Archive> findBy(Account account, Long archiveId);
 }

@@ -12,5 +12,5 @@ public interface ArchiveRepository extends JpaRepository<Archive, Long>, Archive
 
     Page<Archive> findAllBy(Account account, Pageable pageable);
 
-    Optional<Archive> findBy(Account account, Long recordId);
+    Optional<Archive> findBy(Account account, Long archiveId);
 }
