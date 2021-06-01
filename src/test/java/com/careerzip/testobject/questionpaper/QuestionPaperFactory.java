@@ -30,4 +30,14 @@ public class QuestionPaperFactory {
                             .questionPaperForm(questionPaperForm)
                             .build();
     }
+
+    public static QuestionPaper createJpaQuestionPaperOf(QuestionPaperForm questionPaperForm, boolean opened) {
+        return QuestionPaper.builder()
+                            .title("Paper Title")
+                            .startDateTime(LocalDateTime.of(2021, 05, 20, 5, 2, 1))
+                            .endDateTime(LocalDateTime.of(2021, 05, 20, 7, 2, 1))
+                            .opened(opened)
+                            .questionPaperForm(questionPaperForm)
+                            .build();
+    }
 }

@@ -18,6 +18,7 @@ public class QuestionPaperRepositoryImpl implements QuestionPaperRepositoryCusto
     public Optional<QuestionPaper> findLatest() {
         return Optional.ofNullable(queryFactory.selectFrom(questionPaper)
                                                .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
+                                               .where(questionPaper.opened.eq(true))
                                                .orderBy(questionPaper.id.desc())
                                                .fetchFirst());
 

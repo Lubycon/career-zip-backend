@@ -25,18 +25,17 @@ class QuestionPaperRepositoryTest extends BaseRepositoryTest {
     QuestionPaperFormRepository questionPaperFormRepository;
 
     @Test
-    @DisplayName("가장 최근의 QuestionPaper를 찾는 메서드 테스트")
+    @DisplayName("최근 QuestionPaper 중에서 open 되어 있는 데이터를 찾는 메서드 테스트")
     void findLatestTest() {
         // given
         QuestionPaperForm questionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
-        List<QuestionPaper> papers = Arrays.asList(createJpaQuestionPaperOf(questionPaperForm), createJpaQuestionPaperOf(questionPaperForm));
-        List<QuestionPaper> questionPapers = questionPaperRepository.saveAll(papers);
-        QuestionPaper testPaper = questionPapers.get(questionPapers.size() - 1);
+        QuestionPaper latestOpenedPaper = questionPaperRepository.save(createJpaQuestionPaperOf(questionPaperForm, true));
+        QuestionPaper latestClosedPaper = questionPaperRepository.save(createJpaQuestionPaperOf(questionPaperForm, false));
 
         // when
         QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
 
         // then
-        assertThat(questionPaper.getId()).isEqualTo(testPaper.getId());
+        assertThat(questionPaper.getId()).isEqualTo(latestOpenedPaper.getId());
     }
 }
