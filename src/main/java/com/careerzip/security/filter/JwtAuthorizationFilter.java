@@ -58,34 +58,25 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } catch (JwtValidationException exception) {
-            // TODO: 에러 처리 중복 로직 정리
             log.error("handleJwtValidationException", exception);
-            ErrorCode errorCode = exception.getErrorCode();
-            String errorResponse = objectMapper.writeValueAsString(ErrorResponse.from(errorCode));
-            response.getWriter().print(errorResponse);
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setStatus(errorCode.getStatusCode());
-            response.getWriter().flush();
-            response.getWriter().close();
+            handleException(response, exception.getErrorCode());
         } catch (EntityNotFoundException exception) {
             log.error("handleEntityNotFoundException", exception);
-            ErrorCode errorCode = exception.getErrorCode();
-            String errorResponse = objectMapper.writeValueAsString(ErrorResponse.from(errorCode));
-            response.getWriter().print(errorResponse);
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setStatus(errorCode.getStatusCode());
-            response.getWriter().flush();
-            response.getWriter().close();
+            handleException(response, exception.getErrorCode());
         } catch (Exception exception) {
             log.error("Exception", exception);
-            ErrorCode errorCode =  ErrorCode.INTERNAL_SERVER_ERROR;
-            String errorResponse = objectMapper.writeValueAsString(ErrorResponse.from(errorCode));
-            response.getWriter().print(errorResponse);
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setStatus(errorCode.getStatusCode());
-            response.getWriter().flush();
-            response.getWriter().close();
+            handleException(response, ErrorCode.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private void handleException(HttpServletResponse response, ErrorCode errorCode) throws IOException {
+        String errorResponse = objectMapper.writeValueAsString(ErrorResponse.from(errorCode));
+        response.getWriter().print(errorResponse);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(errorCode.getStatusCode());
+        response.getWriter().flush();
+        response.getWriter().close();
+
     }
 
     public static JwtAuthorizationFilter of(JwtTokenProvider jwtTokenProvider, AccountRepository accountRepository,
