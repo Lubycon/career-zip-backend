@@ -52,7 +52,6 @@ public class JwtTokenProvider {
     }
 
     public AccountClaims parseJwtToken(String authorizationHeader) {
-        validateAuthorizationHeader(authorizationHeader);
         String token = extractToken(authorizationHeader);
 
         try {
@@ -69,7 +68,6 @@ public class JwtTokenProvider {
     }
 
     public Long parsePreAuthToken(String authorizationHeader) {
-        validateAuthorizationHeader(authorizationHeader);
         String token = extractToken(authorizationHeader);
 
         try {
@@ -92,13 +90,7 @@ public class JwtTokenProvider {
                                    .toString();
     }
 
-    // TODO: 중복 로직 개선
     public String extractToken(String authorizationHeader) {
-        validateAuthorizationHeader(authorizationHeader);
-        return authorizationHeader.substring(jwtProperties.getTokenPrefix().length());
-    }
-
-    private void validateAuthorizationHeader(String authorizationHeader) {
         if (StringUtils.isEmpty(authorizationHeader)) {
             throw new JwtRequiredException();
         }
@@ -106,5 +98,7 @@ public class JwtTokenProvider {
         if (!authorizationHeader.startsWith(jwtProperties.getTokenPrefix())) {
             throw new InvalidJwtTokenException();
         }
+
+        return authorizationHeader.substring(jwtProperties.getTokenPrefix().length());
     }
 }
