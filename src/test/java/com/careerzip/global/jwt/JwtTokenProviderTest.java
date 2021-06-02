@@ -88,13 +88,8 @@ class JwtTokenProviderTest {
         AccountClaims tokenBody = jwtTokenProvider.parseJwtToken(jwtToken);
 
         // then
-        assertAll(
-                () -> assertThat(tokenBody.getId()).isEqualTo(account.getId()),
-                () -> assertThat(tokenBody.getName()).isEqualTo(account.getName()),
-                () -> assertThat(tokenBody.getEmail()).isEqualTo(account.getEmail()),
-                () -> assertThat(tokenBody.getAvatarUrl()).isEqualTo(account.getAvatarUrl()),
-                () -> assertThat(tokenBody.getRole()).isEqualTo(account.getRole().name())
-        );
+        assertThat(tokenBody.getId()).isEqualTo(account.getId());
+        assertThat(tokenBody.getEmail()).isEqualTo(account.getEmail());
     }
 
     @Test

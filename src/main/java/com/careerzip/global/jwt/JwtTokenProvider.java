@@ -24,7 +24,6 @@ public class JwtTokenProvider {
 
     public String issueJwtToken(Account account) {
         Date now = new Date();
-        String jobName = Optional.ofNullable(account.getJob()).map(Job::getName).orElse("");
 
         String token = Jwts.builder()
                            .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
@@ -32,11 +31,7 @@ public class JwtTokenProvider {
                            .setIssuedAt(now)
                            .setExpiration(new Date(now.getTime() + Long.parseLong(jwtProperties.getTokenExpiration())))
                            .claim("id", account.getId())
-                           .claim("name", account.getName())
                            .claim("email", account.getEmail())
-                           .claim("job", jobName)
-                           .claim("avatarUrl", account.getAvatarUrl())
-                           .claim("role", account.getRole())
                            .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                            .compact();
 
