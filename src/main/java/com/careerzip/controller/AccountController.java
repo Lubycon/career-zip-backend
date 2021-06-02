@@ -25,8 +25,9 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/auth")
     public ApiResponse<AccountDetail> authorize(@RequestHeader HttpHeaders headers, HttpServletResponse response) {
-        String jwtToken = accountService.issueJwtToken(headers.getFirst(HttpHeaders.AUTHORIZATION));
-        AccountDetail account = accountService.findBy(headers.getFirst(HttpHeaders.AUTHORIZATION));
+        String authorizationHeader = headers.getFirst(HttpHeaders.AUTHORIZATION);
+        String jwtToken = accountService.issueJwtToken(authorizationHeader);
+        AccountDetail account = accountService.findBy(authorizationHeader);
         response.addHeader(HttpHeaders.AUTHORIZATION, jwtToken);
         return ApiResponse.success(account);
     }
