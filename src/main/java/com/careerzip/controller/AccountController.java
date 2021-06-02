@@ -1,6 +1,7 @@
 package com.careerzip.controller;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.response.AccountDetail;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.service.AccountService;
 import com.careerzip.global.api.ApiResponse;
@@ -23,15 +24,17 @@ public class AccountController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/auth")
-    public void authorize(@RequestHeader HttpHeaders headers, HttpServletResponse response) {
+    public ApiResponse<AccountDetail> authorize(@RequestHeader HttpHeaders headers, HttpServletResponse response) {
         String jwtToken = accountService.issueJwtToken(headers.getFirst(HttpHeaders.AUTHORIZATION));
+        AccountDetail account = accountService.findBy(headers.getFirst(HttpHeaders.AUTHORIZATION));
         response.addHeader(HttpHeaders.AUTHORIZATION, jwtToken);
+        return ApiResponse.success(account);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public ApiResponse<AccountSummary> update(@LoginAccount OAuthAccount loginAccount, @PathVariable Long id,
-                                            @Valid @RequestBody AccountUpdateRequest accountUpdateRequest) {
+                                              @Valid @RequestBody AccountUpdateRequest accountUpdateRequest) {
         AccountSummary account = accountService.update(loginAccount, id, accountUpdateRequest);
         return ApiResponse.success(account);
     }
