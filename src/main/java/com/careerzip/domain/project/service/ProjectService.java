@@ -10,9 +10,11 @@ import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionW
 import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.dto.request.CreateProjectRequest;
+import com.careerzip.domain.project.dto.response.ProjectDetail;
 import com.careerzip.domain.project.dto.response.ProjectSummaryResponse;
 import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.project.repository.ProjectRepository;
+import com.careerzip.global.error.exception.entity.ProjectNotFoundException;
 import com.careerzip.global.error.exception.entity.AccountNotFoundException;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import lombok.RequiredArgsConstructor;
@@ -71,6 +73,12 @@ public class ProjectService {
         List<Project> projects = projectRepository.findAllByIds(projectIds);
         return projects.stream()
                        .collect(Collectors.toMap(Project::getId, Function.identity()));
+    }
+
+    public ProjectDetail findBy(OAuthAccount loginAccount, Long id) {
+        Account account = accountRepository.findById(loginAccount.getId()).orElseThrow();
+        Project project = projectRepository.findBy(account, id).orElseThrow(ProjectNotFoundException::new);
+        return ProjectDetail.from(project);
     }
 
     @Transactional
