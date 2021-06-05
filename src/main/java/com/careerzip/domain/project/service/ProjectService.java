@@ -9,6 +9,7 @@ import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSu
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
+import com.careerzip.domain.project.dto.request.CreateProjectRequest;
 import com.careerzip.domain.project.dto.response.ProjectSummaryResponse;
 import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.project.repository.ProjectRepository;
@@ -70,5 +71,13 @@ public class ProjectService {
         List<Project> projects = projectRepository.findAllByIds(projectIds);
         return projects.stream()
                        .collect(Collectors.toMap(Project::getId, Function.identity()));
+    }
+
+    @Transactional
+    public Long createBy(OAuthAccount loginAccount, CreateProjectRequest createProjectRequest) {
+        Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
+        Project project = createProjectRequest.toEntity(account);
+        Project newProject = projectRepository.save(project);
+        return newProject.getId();
     }
 }
