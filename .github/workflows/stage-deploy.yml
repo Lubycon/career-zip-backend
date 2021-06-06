@@ -56,8 +56,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws deploy create-deployment \
-          --application-name career-zip-api-codedeploy-app \
-          --deployment-group-name career-zip-codedeploy-group \
+          --application-name career-zip-stage-codedeploy \
+          --deployment-group-name career-zip-stage-codedeploy-group \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=career-zip-stage-api,bundleType=zip,key=career-zip-api-build.zip \
           --region ap-northeast-2
