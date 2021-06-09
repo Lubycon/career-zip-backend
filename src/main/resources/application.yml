@@ -60,3 +60,7 @@ jwt:
 
 sentry:
   dsn: ${SENTRY_DSN}
+  logging:
+    minimum-event-level: error
+    minimum-breadcrumb-level: error
+
