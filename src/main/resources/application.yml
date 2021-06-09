@@ -57,3 +57,6 @@ jwt:
   preAuthTokenExpiration: ${JWT_PRE_AUTH_TOKEN_EXPIRATION}
   tokenPrefix: ${JWT_TOKEN_PREFIX}
   redirectUrl: ${JWT_REDIRECT_URL}
+
+sentry:
+  dsn: ${SENTRY_DSN}
