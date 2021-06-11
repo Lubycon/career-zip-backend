@@ -82,10 +82,9 @@ public class ProjectService {
     }
 
     @Transactional
-    public Long createBy(OAuthAccount loginAccount, CreateProjectRequest createProjectRequest) {
+    public Project createBy(OAuthAccount loginAccount, CreateProjectRequest createProjectRequest) {
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
         Project project = createProjectRequest.toEntity(account);
-        Project newProject = projectRepository.save(project);
-        return newProject.getId();
+        return projectRepository.save(project);
     }
 }

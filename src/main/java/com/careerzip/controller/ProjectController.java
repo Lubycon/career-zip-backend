@@ -1,8 +1,9 @@
 package com.careerzip.controller;
 
+import com.careerzip.domain.project.dto.request.CreateProjectRequest;
 import com.careerzip.domain.project.dto.response.ProjectDetail;
 import com.careerzip.domain.project.dto.response.ProjectSummaryResponse;
-import com.careerzip.domain.project.dto.request.CreateProjectRequest;
+import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.project.service.ProjectService;
 import com.careerzip.global.api.ApiResponse;
 import com.careerzip.security.oauth.annotation.LoginAccount;
@@ -31,8 +32,8 @@ public class ProjectController {
     @PostMapping
     public ApiResponse<Long> create(@LoginAccount OAuthAccount loginAccount,
                                     @RequestBody CreateProjectRequest request) {
-        Long newProjectId = projectService.createBy(loginAccount, request);
-        return ApiResponse.success(newProjectId);
+        Project project = projectService.createBy(loginAccount, request);
+        return ApiResponse.success(project.getId());
     }
 
     @ResponseStatus(HttpStatus.OK)
