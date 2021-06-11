@@ -3,6 +3,7 @@ package com.careerzip.domain.project.repository;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.domain.project.entity.Project;
+import com.careerzip.global.error.exception.entity.ProjectNotFoundException;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,22 @@ class ProjectRepositoryTest extends BaseRepositoryTest {
 
         // then
         assertThat(foundProjects.size()).isEqualTo(projects.size());
+    }
+
+    @Test
+    @DisplayName("Account, Id를 기준으로 Project를 조회하는 테스트")
+    void findByAccountAndIdTest() {
+        // given
+        int first = 0;
+        Account account = accountRepository.save(createJpaMember());
+        List<Project> projects = projectRepository.saveAll(List.of(createJpaProjectOf(account), createJpaProjectOf(account),
+                                                                   createJpaProjectOf(account)));
+        Project project = projects.get(first);
+
+        // when
+        Project foundProject = projectRepository.findBy(account, project.getId()).orElseThrow(ProjectNotFoundException::new);
+
+        // then
+        assertThat(foundProject).usingRecursiveComparison().isEqualTo(project);
     }
 }
