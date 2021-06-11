@@ -1,7 +1,11 @@
 package com.careerzip.testobject.project;
 
 import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.project.dto.request.CreateProjectRequest;
+import com.careerzip.domain.project.dto.request.CreateProjectRequestBuilder;
 import com.careerzip.domain.project.entity.Project;
+
+import java.time.LocalDate;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
 
@@ -35,5 +39,21 @@ public class ProjectFactory {
                       .teamMembers("Member1, Member2, Member3")
                       .account(account)
                       .build();
+    }
+
+    // CreateProjectRequest
+    public static CreateProjectRequest createProjectRequest() {
+        return CreateProjectRequestBuilder.newBuilder()
+                                          .title("New Title")
+                                          .description("Description")
+                                          .aim("Aim")
+                                          .role("Role")
+                                          .mainBusiness("Main Business")
+                                          .participantsCount(3)
+                                          .contribution(70)
+                                          .teamMembers("Person1, Person2, Person3")
+                                          .startDate(LocalDate.of(2021, 6, 11))
+                                          .endDate(LocalDate.of(2021, 6, 12))
+                                          .build();
     }
 }
