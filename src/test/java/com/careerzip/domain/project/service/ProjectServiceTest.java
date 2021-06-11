@@ -7,12 +7,12 @@ import com.careerzip.domain.answer.repository.AnswerRepository;
 import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswerDetail;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
+import com.careerzip.domain.project.dto.request.CreateProjectRequest;
 import com.careerzip.domain.project.dto.response.ProjectSummaryResponse;
 import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.project.repository.ProjectRepository;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.security.oauth.dto.OAuthAccount;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,8 +28,10 @@ import static com.careerzip.testobject.account.AccountFactory.createOAuthAccount
 import static com.careerzip.testobject.answer.AnswerFactory.createAnswers;
 import static com.careerzip.testobject.answer.AnswerFactory.createCreateAnswerDetailsOf;
 import static com.careerzip.testobject.project.ProjectFactory.createProject;
+import static com.careerzip.testobject.project.ProjectFactory.createProjectRequest;
 import static com.careerzip.testobject.question.QuestionFactory.createQuestions;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
@@ -102,9 +104,27 @@ class ProjectServiceTest {
         Map<Long, Project> projectsMap = projectService.findAllMapBy(answerDetails);
 
         // then
-        Assertions.assertThat(projectsMap.keySet()).containsAll(projects.stream()
-                                                                        .map(Project::getId)
-                                                                        .collect(Collectors.toList()));
-        Assertions.assertThat(projectsMap.size()).isEqualTo(projects.size());
+        assertThat(projectsMap.keySet()).containsAll(projects.stream()
+                                                             .map(Project::getId)
+                                                             .collect(Collectors.toList()));
+        assertThat(projectsMap.size()).isEqualTo(projects.size());
+    }
+
+    @Test
+    @DisplayName("새로운 Project를 생성하는 테스트")
+    void createByTest() {
+        // given
+        Account account = createMember();
+        OAuthAccount loginAccount = createOAuthAccountOf(account);
+        CreateProjectRequest request = createProjectRequest();
+        Project project = request.toEntity(account);
+
+        // when
+        when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
+        when(projectRepository.save(any(Project.class))).thenReturn(project);
+        Project newProject = projectService.createBy(loginAccount, request);
+
+        // then
+        assertThat(newProject).usingRecursiveComparison().isEqualTo(project);
     }
 }
