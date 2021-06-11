@@ -8,6 +8,7 @@ import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswe
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.project.dto.request.CreateProjectRequest;
+import com.careerzip.domain.project.dto.response.ProjectDetail;
 import com.careerzip.domain.project.dto.response.ProjectSummaryResponse;
 import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.project.repository.ProjectRepository;
@@ -108,6 +109,25 @@ class ProjectServiceTest {
                                                              .map(Project::getId)
                                                              .collect(Collectors.toList()));
         assertThat(projectsMap.size()).isEqualTo(projects.size());
+    }
+
+    @Test
+    @DisplayName("Project를 조회해서 ProjectDetail DTO로 반환하는 테스트")
+    void findByTest() {
+        // given
+        Account account = createMember();
+        OAuthAccount loginAccount = createOAuthAccountOf(account);
+        Project project = createProject();
+
+        // when
+        when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
+        when(projectRepository.findBy(account, project.getId())).thenReturn(Optional.of(project));
+
+        ProjectDetail projectDetail = projectService.findBy(loginAccount, project.getId());
+
+        // then
+        assertThat(projectDetail.getId()).isEqualTo(project.getId());
+        assertThat(projectDetail.getTitle()).isEqualTo(project.getTitle());
     }
 
     @Test
