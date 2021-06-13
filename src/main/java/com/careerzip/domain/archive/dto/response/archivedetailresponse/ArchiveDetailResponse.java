@@ -2,6 +2,7 @@ package com.careerzip.domain.archive.dto.response.archivedetailresponse;
 
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,7 @@ public class ArchiveDetailResponse {
     private final LocalDate endDate;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy년 MM월 dd일")
     private final LocalDateTime createdDateTime;
 
     private final Long questionPaperId;
