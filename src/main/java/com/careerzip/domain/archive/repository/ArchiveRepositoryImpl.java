@@ -54,6 +54,8 @@ public class ArchiveRepositoryImpl implements ArchiveRepositoryCustom {
         return Optional.ofNullable(queryFactory.selectFrom(archive)
                                                .innerJoin(archive.questionPaper, QQuestionPaper.questionPaper)
                                                .where(archive.account.eq(account), archive.questionPaper.eq(questionPaper))
+                                               .orderBy(archive.id.desc())
+                                               .limit(1L)
                                                .fetchOne());
     }
 
