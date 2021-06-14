@@ -39,4 +39,11 @@ public class AccountController {
         AccountSummary account = accountService.update(loginAccount, id, accountUpdateRequest);
         return ApiResponse.success(account);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/post/exist")
+    public ApiResponse<Boolean> hasPostedArchive(@LoginAccount OAuthAccount loginAccount) {
+        boolean exist = accountService.hasPostedArchiveThisWeek(loginAccount);
+        return ApiResponse.success(exist);
+    }
 }

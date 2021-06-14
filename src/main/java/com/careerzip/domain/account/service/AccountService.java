@@ -5,9 +5,12 @@ import com.careerzip.domain.account.dto.response.AccountDetail;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
-import com.careerzip.domain.job.entity.Job;
+import com.careerzip.domain.archive.repository.ArchiveRepository;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
+import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
 import com.careerzip.global.error.exception.business.AccountMismatchException;
 import com.careerzip.global.error.exception.entity.AccountNotFoundException;
+import com.careerzip.global.error.exception.entity.QuestionPaperNotFoundException;
 import com.careerzip.global.jwt.JwtTokenProvider;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final ArchiveRepository archiveRepository;
+    private final QuestionPaperRepository questionPaperRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
     public String issueJwtToken(String authorizationHeader) {
@@ -44,5 +49,11 @@ public class AccountService {
 
         account.update(updateRequest.getName(), updateRequest.getEmail());
         return AccountSummary.from(account);
+    }
+
+    public boolean hasPostedArchiveThisWeek(OAuthAccount loginAccount) {
+        Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
+        QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
+        return archiveRepository.findBy(account, questionPaper).isPresent();
     }
 }

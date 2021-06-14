@@ -4,6 +4,10 @@ import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.domain.archive.entity.Archive;
+import com.careerzip.domain.archive.repository.ArchiveRepository;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
+import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
 import com.careerzip.global.error.exception.BusinessException;
 import com.careerzip.global.error.exception.business.AccountMismatchException;
 import com.careerzip.global.error.response.ErrorCode;
@@ -19,6 +23,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static com.careerzip.testobject.account.AccountFactory.*;
+import static com.careerzip.testobject.archive.ArchiveFactory.createArchive;
+import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createQuestionPaper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
@@ -31,6 +37,12 @@ class AccountServiceTest {
 
     @Mock
     AccountRepository accountRepository;
+
+    @Mock
+    ArchiveRepository archiveRepository;
+
+    @Mock
+    QuestionPaperRepository questionPaperRepository;
 
     @Mock
     JwtTokenProvider jwtTokenProvider;
@@ -72,5 +84,25 @@ class AccountServiceTest {
                 .isExactlyInstanceOf(AccountMismatchException.class)
                 .isInstanceOf(BusinessException.class)
                 .hasMessage(errorCode.getMessage());
+    }
+
+    @Test
+    @DisplayName("Archive를 이미 등록 했을 때 True가 반환 되는 테스트")
+    void hasPostedArchiveThisWeekTest() {
+        // given
+        Account account = createMember();
+        OAuthAccount loginAccount = createOAuthAccountOf(account);
+        QuestionPaper questionPaper = createQuestionPaper();
+        Archive archive = createArchive();
+
+        // when
+        when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
+        when(questionPaperRepository.findLatest()).thenReturn(Optional.of(questionPaper));
+        when(archiveRepository.findBy(account, questionPaper)).thenReturn(Optional.of(archive));
+
+        boolean exist = accountService.hasPostedArchiveThisWeek(loginAccount);
+
+        // then
+        assertThat(exist).isTrue();
     }
 }
