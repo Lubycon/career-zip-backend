@@ -5,6 +5,7 @@ import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.report.entity.Report;
+import com.careerzip.global.jpa.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Answer {
+public class Answer extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
