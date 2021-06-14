@@ -105,4 +105,22 @@ class ArchiveRepositoryTest extends BaseRepositoryTest {
         // then
         assertThat(foundArchive).usingRecursiveComparison().isEqualTo(targetArchive);
     }
+
+    @Test
+    @DisplayName("Account, QuestionPaper를 기준으로 조회하는 테스트")
+    void findByAccountAndQuestionPaperTest() {
+        // given
+        Archive targetArchive = archiveRepository.save(createJpaArchiveOf(account, questionPaper));
+
+        Account anotherAccount = accountRepository.save(createJpaMember());
+        QuestionPaperForm anotherQuestionPaperForm = questionPaperFormRepository.save(createJpaTestQuestionPaperForm());
+        QuestionPaper anotherQuestionPaper = questionPaperRepository.save(createJpaQuestionPaperOf(anotherQuestionPaperForm));
+        archiveRepository.save(createJpaArchiveOf(anotherAccount, anotherQuestionPaper));
+
+        // when
+        Archive foundArchive = archiveRepository.findBy(account, targetArchive.getQuestionPaper()).orElseThrow(ArchiveNotFoundException::new);
+
+        // then
+        assertThat(foundArchive).usingRecursiveComparison().isEqualTo(targetArchive);
+    }
 }

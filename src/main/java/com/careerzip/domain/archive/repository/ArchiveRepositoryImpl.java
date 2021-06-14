@@ -2,6 +2,8 @@ package com.careerzip.domain.archive.repository;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.archive.entity.Archive;
+import com.careerzip.domain.questionpaper.entity.QQuestionPaper;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -45,6 +47,13 @@ public class ArchiveRepositoryImpl implements ArchiveRepositoryCustom {
                                                .innerJoin(archive.questionPaper, questionPaper).fetchJoin()
                                                .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
                                                .where(archive.account.eq(account), archive.id.eq(archiveId))
+                                               .fetchOne());
+    }
+
+    public Optional<Archive> findBy(Account account, QuestionPaper questionPaper) {
+        return Optional.ofNullable(queryFactory.selectFrom(archive)
+                                               .innerJoin(archive.questionPaper, QQuestionPaper.questionPaper)
+                                               .where(archive.account.eq(account), archive.questionPaper.eq(questionPaper))
                                                .fetchOne());
     }
 
