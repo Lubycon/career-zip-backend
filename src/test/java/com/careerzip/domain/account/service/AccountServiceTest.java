@@ -107,4 +107,24 @@ class AccountServiceTest {
         assertThat(accountArchiveExist.isArchived()).isTrue();
         assertThat(accountArchiveExist.getId()).isEqualTo(archive.getId());
     }
+
+    @Test
+    @DisplayName("Archive가 아직 등록되어 있지 않을 때 id 값 없이 반환 되는 테스트")
+    void hasPostedArchiveThisWeekWhenHasNotArchivedTest() {
+        // given
+        Account account = createMember();
+        OAuthAccount loginAccount = createOAuthAccountOf(account);
+        QuestionPaper questionPaper = createQuestionPaper();
+
+        // when
+        when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
+        when(questionPaperRepository.findLatest()).thenReturn(Optional.of(questionPaper));
+        when(archiveRepository.findBy(account, questionPaper)).thenReturn(Optional.empty());
+
+        AccountArchiveExist accountArchiveExist = accountService.hasPostedArchiveThisWeek(loginAccount);
+
+        // then
+        assertThat(accountArchiveExist.isArchived()).isFalse();
+        assertThat(accountArchiveExist.getId()).isNull();
+    }
 }
