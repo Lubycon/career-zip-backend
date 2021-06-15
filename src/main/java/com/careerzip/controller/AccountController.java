@@ -1,6 +1,7 @@
 package com.careerzip.controller;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.response.AccountArchiveExist;
 import com.careerzip.domain.account.dto.response.AccountDetail;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.service.AccountService;
@@ -42,8 +43,8 @@ public class AccountController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/post/exist")
-    public ApiResponse<Boolean> hasPostedArchive(@LoginAccount OAuthAccount loginAccount) {
-        boolean exist = accountService.hasPostedArchiveThisWeek(loginAccount);
-        return ApiResponse.success(exist);
+    public ApiResponse<AccountArchiveExist> hasPostedArchive(@LoginAccount OAuthAccount loginAccount) {
+        AccountArchiveExist accountArchiveExist = accountService.hasPostedArchiveThisWeek(loginAccount);
+        return ApiResponse.success(accountArchiveExist);
     }
 }

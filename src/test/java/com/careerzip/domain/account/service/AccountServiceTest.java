@@ -1,6 +1,7 @@
 package com.careerzip.domain.account.service;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.response.AccountArchiveExist;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
@@ -87,7 +88,7 @@ class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("Archive를 이미 등록 했을 때 True가 반환 되는 테스트")
+    @DisplayName("Archive를 이미 등록 했을 때 id 값과 함께 반환 되는 테스트")
     void hasPostedArchiveThisWeekTest() {
         // given
         Account account = createMember();
@@ -100,9 +101,10 @@ class AccountServiceTest {
         when(questionPaperRepository.findLatest()).thenReturn(Optional.of(questionPaper));
         when(archiveRepository.findBy(account, questionPaper)).thenReturn(Optional.of(archive));
 
-        boolean exist = accountService.hasPostedArchiveThisWeek(loginAccount);
+        AccountArchiveExist accountArchiveExist = accountService.hasPostedArchiveThisWeek(loginAccount);
 
         // then
-        assertThat(exist).isTrue();
+        assertThat(accountArchiveExist.isArchived()).isTrue();
+        assertThat(accountArchiveExist.getId()).isEqualTo(archive.getId());
     }
 }

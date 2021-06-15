@@ -1,6 +1,7 @@
 package com.careerzip.domain.account.service;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.response.AccountArchiveExist;
 import com.careerzip.domain.account.dto.response.AccountDetail;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
@@ -51,9 +52,11 @@ public class AccountService {
         return AccountSummary.from(account);
     }
 
-    public boolean hasPostedArchiveThisWeek(OAuthAccount loginAccount) {
+    public AccountArchiveExist hasPostedArchiveThisWeek(OAuthAccount loginAccount) {
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
         QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
-        return archiveRepository.findBy(account, questionPaper).isPresent();
+        return archiveRepository.findBy(account, questionPaper)
+                                .map(AccountArchiveExist::hasArchived)
+                                .orElseGet(AccountArchiveExist::notArchived);
     }
 }
