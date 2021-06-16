@@ -8,13 +8,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
+import static com.careerzip.global.jpa.JpaProperties.Seoul;
+
 @EnableConfigurationProperties({JwtProperties.class})
 @SpringBootApplication
 public class CareerZipApplication {
 
     @PostConstruct
     public void setTimeZone() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+        TimeZone.setDefault(TimeZone.getTimeZone(Seoul));
     }
 
     public static void main(String[] args) {
