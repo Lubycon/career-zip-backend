@@ -5,6 +5,7 @@ import com.careerzip.global.jwt.JwtTokenProvider;
 import com.careerzip.security.filter.JwtAuthorizationFilter;
 import com.careerzip.security.oauth.handler.CustomAuthenticationEntryPoint;
 import com.careerzip.security.oauth.handler.CustomAuthenticationSuccessHandler;
+import com.careerzip.security.oauth.handler.CustomOAuth2AuthenticationFailureHandler;
 import com.careerzip.security.oauth.service.CustomOAuth2UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final CustomOAuth2AuthenticationFailureHandler customOAuth2AuthenticationFailureHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final JwtTokenProvider jwtTokenProvider;
     private final AccountRepository accountRepository;
@@ -44,7 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/v1/accounts/auth")
                       .antMatchers(HttpMethod.GET, "/actuator/**")
-//                      .antMatchers(HttpMethod.GET, "/actuator/prometheus")
                       .antMatchers(HttpMethod.GET, "/v1/events/share-link")
                       .antMatchers(HttpMethod.POST, "/v1/events/share-link");
     }
@@ -72,7 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .userInfoEndpoint()
             .userService(customOAuth2UserService)
                 .and()
-            .successHandler(customAuthenticationSuccessHandler);
+            .successHandler(customAuthenticationSuccessHandler)
+            .failureHandler(customOAuth2AuthenticationFailureHandler);
 
         http.cors(withDefaults());
 

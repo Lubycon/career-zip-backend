@@ -81,3 +81,6 @@ management:
     export:
       prometheus:
         enabled: true
+
+oauth2:
+  failureRedirectUrl: http://localhost:3000/login
