@@ -22,9 +22,11 @@ public class ArchiveSummary {
     private final long id;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy. MM. dd")
     private final LocalDate startDate;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy. MM. dd")
     private final LocalDate endDate;
 
     @NotNull
