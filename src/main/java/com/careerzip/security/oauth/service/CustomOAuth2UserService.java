@@ -3,6 +3,8 @@ package com.careerzip.security.oauth.service;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.entity.Provider;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.global.error.exception.auth.InvalidOAuthAuthenticationException;
+import com.careerzip.global.error.exception.auth.InvalidOAuthProviderException;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import com.careerzip.security.oauth.dto.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private Account findOrElseCreate(OAuthAttributes oAuthAccount) {
+        if (oAuthAccount.getOAuthEmail() == null) {
+            throw new InvalidOAuthAuthenticationException();
+        }
+
         return accountRepository.findByOAuth(oAuthAccount.getProvider(), oAuthAccount.getOAuthId())
                                 .orElseGet(() -> {
                                     Account newAccount = oAuthAccount.toEntity();

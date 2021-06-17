@@ -25,13 +25,13 @@ public class OAuthAttributes {
     @NotNull
     private final String oAuthId;
 
-    @NotNull
+    @Nullable
     private final String oAuthEmail;
 
     @NotNull
     private final String name;
 
-    @NotNull
+    @Nullable
     private final String email;
 
     @Nullable
