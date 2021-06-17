@@ -75,7 +75,7 @@ public class OAuthAttributes {
     private static OAuthAttributes ofNaver(Provider provider, Map<String, Object> attributes, String attributeKey) {
         Map<String, Object> naverAttributes = (Map<String, Object>) attributes.get(attributeKey);
 
-        String email = (String) attributes.get(provider.getEmailKey());
+        String email = (String) naverAttributes.get(provider.getEmailKey());
 
         if (email == null) {
             throw new InvalidOAuthAuthenticationException();
