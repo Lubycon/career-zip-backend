@@ -11,6 +11,7 @@ public enum ErrorCode {
 
     // Auth
     INVALID_OAUTH_PROVIDER_ERROR(400, "올바른 인증 요청이 아닙니다."),
+    INVALID_OAUTH_AUTHENTICATION_ERROR(400, "올바른 가입 요청이 아닙니다."),
     UNAUTHORIZED_ERROR(401, "인증이 필요합니다. 로그인을 해주세요."),
 
     // JWT
