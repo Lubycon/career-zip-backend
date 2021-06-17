@@ -43,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/v1/accounts/auth")
+                      .antMatchers(HttpMethod.GET, "/actuator/**")
+//                      .antMatchers(HttpMethod.GET, "/actuator/prometheus")
                       .antMatchers(HttpMethod.GET, "/v1/events/share-link")
                       .antMatchers(HttpMethod.POST, "/v1/events/share-link");
     }
