@@ -42,3 +42,6 @@ aws:
   s3:
     image:
       bucket: AWS_S3_BUCKET
+
+oauth2:
+  failureRedirectUrl: http://localhost:3000
