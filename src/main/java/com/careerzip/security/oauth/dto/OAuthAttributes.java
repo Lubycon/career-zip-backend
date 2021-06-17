@@ -3,6 +3,7 @@ package com.careerzip.security.oauth.dto;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.entity.Provider;
 import com.careerzip.domain.account.entity.Role;
+import com.careerzip.global.error.exception.auth.InvalidOAuthAuthenticationException;
 import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -73,6 +74,12 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofNaver(Provider provider, Map<String, Object> attributes, String attributeKey) {
         Map<String, Object> naverAttributes = (Map<String, Object>) attributes.get(attributeKey);
+
+        String email = (String) attributes.get(provider.getEmailKey());
+
+        if (email == null) {
+            throw new InvalidOAuthAuthenticationException();
+        }
 
         return OAuthAttributes.builder()
                               .attributes(naverAttributes)

@@ -46,10 +46,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private Account findOrElseCreate(OAuthAttributes oAuthAccount) {
-        if (oAuthAccount.getOAuthEmail() == null) {
-            throw new InvalidOAuthAuthenticationException();
-        }
-
         return accountRepository.findByOAuth(oAuthAccount.getProvider(), oAuthAccount.getOAuthId())
                                 .orElseGet(() -> {
                                     Account newAccount = oAuthAccount.toEntity();
