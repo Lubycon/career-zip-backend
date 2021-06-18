@@ -24,6 +24,21 @@ class AccountTest {
     }
 
     @Test
+    @DisplayName("submitCount 증가 메서드 테스트")
+    void addSubmitCountTest() {
+        // given
+        Account account = createMember();
+        int beforeCount = account.getSubmitCount();
+
+        // when
+        account.addSubmitCount();
+        int afterCount = account.getSubmitCount();
+
+        // then
+        assertThat(afterCount).isEqualTo(beforeCount + 1);
+    }
+
+    @Test
     @DisplayName("프로필 업데이트 메서드 테스트")
     void updateTest() {
         // given
