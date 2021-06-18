@@ -28,6 +28,9 @@ public class QuestionPaper {
     @Column(name = "end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 
+    @Column(name = "finish_date_time")
+    private LocalDateTime finishDateTime;
+
     @Column(name = "opened", nullable = false)
     private Boolean opened;
 
@@ -36,12 +39,13 @@ public class QuestionPaper {
     private QuestionPaperForm questionPaperForm;
 
     @Builder
-    private QuestionPaper(Long id, String title, LocalDateTime startDateTime, LocalDateTime endDateTime, Boolean opened,
-                          QuestionPaperForm questionPaperForm) {
+    private QuestionPaper(Long id, String title, LocalDateTime startDateTime, LocalDateTime endDateTime, LocalDateTime finishDateTime,
+                          Boolean opened, QuestionPaperForm questionPaperForm) {
         this.id = id;
         this.title = title;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
+        this.finishDateTime = finishDateTime;
         this.opened = opened;
         this.questionPaperForm = questionPaperForm;
     }
