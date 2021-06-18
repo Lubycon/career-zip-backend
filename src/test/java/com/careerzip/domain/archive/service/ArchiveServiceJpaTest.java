@@ -21,6 +21,7 @@ import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.questionpaperform.repository.QuestionPaperFormRepository;
 import com.careerzip.domain.questiontype.entity.QuestionType;
 import com.careerzip.domain.questiontype.repository.QuestionTypeRepository;
+import com.careerzip.global.error.exception.entity.AccountNotFoundException;
 import com.careerzip.global.error.exception.entity.ArchiveNotFoundException;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import com.careerzip.testconfig.base.BaseRepositoryTest;
@@ -80,15 +81,20 @@ public class ArchiveServiceJpaTest extends BaseServiceJpaTest {
         List<CreateAnswerDetail> answerDetails = createCreateAnswerDetailsOf(questions, project);
         CreateArchiveRequest request = createCreateArchiveRequestOf(questionPaper.getId(), answerDetails);
 
+        int beforeCount = account.getSubmitCount();
+
         // when
         Long createdArchiveId = archiveService.createBy(loginAccount, request);
         Archive archive = archiveRepository.findById(createdArchiveId).orElseThrow(ArchiveNotFoundException::new);
+        Account updatedAccount = accountRepository.findById(account.getId()).orElseThrow(AccountNotFoundException::new);
+
+        int afterCount = updatedAccount.getSubmitCount();
 
         // then
         assertAll(
                 () -> assertThat(archiveRepository.count()).isEqualTo(1),
                 () -> assertThat(archive.getQuestionPaper()).isEqualTo(questionPaper),
-                () -> assertThat(accountRepository.findById(account.getId())).isEqualTo(Optional.of(account)),
+                () -> assertThat(afterCount).isEqualTo(beforeCount + 1),
                 () -> assertThat(answerRepository.count()).isEqualTo(answerDetails.size()),
                 () -> assertThat(projectRepository.count()).isEqualTo(1)
         );

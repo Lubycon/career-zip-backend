@@ -77,6 +77,7 @@ public class ArchiveService {
         Map<Long, Project> projectsMap = projectService.findAllMapBy(answerDetails);
 
         answerService.createBy(answerDetails, questionsMap, projectsMap, newArchive, account);
+        account.addSubmitCount();
 
         return newArchive.getId();
     }
