@@ -1,6 +1,7 @@
 package com.careerzip.domain.account.dto.response;
 
 import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.acquisition.Acquisition;
 import com.careerzip.domain.job.entity.Job;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
@@ -28,17 +29,22 @@ public class AccountDetail {
     @JsonIgnore
     private final String job;
 
+    @Nullable
+    private final String utmSource;
+
     @Builder
-    private AccountDetail(long id, String name, String email, String avatarUrl, String job) {
+    private AccountDetail(long id, String name, String email, String avatarUrl, String job, String utmSource) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.avatarUrl = avatarUrl;
         this.job = job;
+        this.utmSource = utmSource;
     }
 
     public static AccountDetail from(Account account) {
         String jobName = Optional.ofNullable(account.getJob()).map(Job::getName).orElse(null);
+        String utmSource = Optional.ofNullable(account.getAcquisition()).map(Acquisition::getUtmSource).orElse(null);
 
         return AccountDetail.builder()
                             .id(account.getId())
@@ -46,6 +52,7 @@ public class AccountDetail {
                             .email(account.getEmail())
                             .avatarUrl(account.getAvatarUrl())
                             .job(jobName)
+                            .utmSource(utmSource)
                             .build();
     }
 }
