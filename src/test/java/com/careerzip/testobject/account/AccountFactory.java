@@ -11,6 +11,9 @@ import com.careerzip.domain.account.entity.Role;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import com.careerzip.security.oauth.dto.OAuthAttributes;
 
+import static com.careerzip.testobject.acquisition.AcquisitionFactory.createAcquisition;
+import static com.careerzip.testobject.job.JobFactory.createJob;
+
 public class AccountFactory {
 
     /*
@@ -38,6 +41,8 @@ public class AccountFactory {
                       .email("Email")
                       .avatarUrl("https://avatarUrl")
                       .role(Role.MEMBER)
+                      .job(createJob())
+                      .acquisition(createAcquisition())
                       .build();
     }
 

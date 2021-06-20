@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
-import static com.careerzip.testobject.account.AccountFactory.createMember;
-import static com.careerzip.testobject.account.AccountFactory.createOAuthAccountOf;
+import static com.careerzip.testobject.account.AccountFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AccountRepositoryTest extends BaseRepositoryTest {
@@ -26,7 +25,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
     void accountDefaultValueTest() {
         // given
         int defaultSubmitCount = 0;
-        Account account = createMember();
+        Account account = createJpaMember();
 
         // when
         Account savedAccount = accountRepository.save(account);
@@ -40,7 +39,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
     @DisplayName("성공 - Account 시간 생성 (Jpa Auditing) 테스트")
     void jpaAuditingCreatedDateTimeTest() {
         // given
-        Account account = createMember();
+        Account account = createJpaMember();
 
         // when
         LocalDateTime testTime = LocalDateTime.now();
@@ -55,7 +54,7 @@ class AccountRepositoryTest extends BaseRepositoryTest {
     @DisplayName("OAuth 관련 데이터로 사용자를 조회하는 메서드 테스트")
     void findByOAuthTest() {
         // given
-        Account account = createMember();
+        Account account = createJpaMember();
         OAuthAccount oAuthAccount = createOAuthAccountOf(account);
         Account newAccount = accountRepository.save(account);
 

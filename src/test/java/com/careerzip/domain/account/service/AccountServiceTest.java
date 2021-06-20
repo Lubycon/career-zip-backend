@@ -2,6 +2,7 @@ package com.careerzip.domain.account.service;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
 import com.careerzip.domain.account.dto.response.AccountArchiveExist;
+import com.careerzip.domain.account.dto.response.AccountDetail;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
@@ -25,9 +26,12 @@ import java.util.Optional;
 
 import static com.careerzip.testobject.account.AccountFactory.*;
 import static com.careerzip.testobject.archive.ArchiveFactory.createArchive;
+import static com.careerzip.testobject.jwt.JwtFactory.createValidJwtTokenOf;
 import static com.careerzip.testobject.questionpaper.QuestionPaperFactory.createQuestionPaper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,6 +51,30 @@ class AccountServiceTest {
 
     @Mock
     JwtTokenProvider jwtTokenProvider;
+
+    @Test
+    @DisplayName("임시 토큰으로 Account 데이터를 찾아서 AccountDetail DTO로 반환하는 테스트")
+    void findByTest() {
+        // given
+        Account account = createMember();
+        String preAuthToken = createValidJwtTokenOf(account);
+
+        // when
+        when(jwtTokenProvider.parsePreAuthToken(preAuthToken)).thenReturn(account.getId());
+        when(accountRepository.findById((account.getId()))).thenReturn(Optional.ofNullable(account));
+
+        AccountDetail accountDetail = accountService.findBy(preAuthToken);
+
+        // then
+        assertAll(
+                () -> assertThat(accountDetail.getId()).isEqualTo(account.getId()),
+                () -> assertThat(accountDetail.getName()).isEqualTo(account.getName()),
+                () -> assertThat(accountDetail.getEmail()).isEqualTo(account.getEmail()),
+                () -> assertThat(accountDetail.getAvatarUrl()).isEqualTo(account.getAvatarUrl()),
+                () -> assertThat(accountDetail.getJob()).isEqualTo(account.getJob().getName()),
+                () -> assertThat(accountDetail.getUtmSource()).isEqualTo(account.getAcquisition().getUtmSource())
+        );
+    }
 
     @Test
     @DisplayName("성공 - 회원 정보 수정 메서드 테스트")
