@@ -83,9 +83,10 @@ public class Account extends BaseTimeEntity {
         return !id.equals(accountId);
     }
 
-    public void addSubmitCount() {
+    public Account addSubmitCount() {
         // Archive를 submit 할 때 마다 값이 1씩 증가 합니다.
         this.submitCount += 1;
+        return this;
     }
 
     public void update(String name, String email) {

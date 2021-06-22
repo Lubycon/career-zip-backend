@@ -31,11 +31,10 @@ class AccountTest {
         int beforeCount = account.getSubmitCount();
 
         // when
-        account.addSubmitCount();
-        int afterCount = account.getSubmitCount();
+        Account updatedAccount = account.addSubmitCount();
 
         // then
-        assertThat(afterCount).isEqualTo(beforeCount + 1);
+        assertThat(updatedAccount.getSubmitCount()).isEqualTo(beforeCount + 1);
     }
 
     @Test
