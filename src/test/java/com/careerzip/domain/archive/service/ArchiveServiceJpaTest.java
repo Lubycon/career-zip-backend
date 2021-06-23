@@ -6,6 +6,7 @@ import com.careerzip.domain.answer.repository.AnswerRepository;
 import com.careerzip.domain.answer.service.AnswerService;
 import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswerDetail;
 import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateArchiveRequest;
+import com.careerzip.domain.archive.dto.response.newarchiveresponse.NewArchiveResponse;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.domain.project.entity.Project;
@@ -84,9 +85,9 @@ public class ArchiveServiceJpaTest extends BaseServiceJpaTest {
         int beforeCount = account.getSubmitCount();
 
         // when
-        Long createdArchiveId = archiveService.createBy(loginAccount, request);
-        Archive archive = archiveRepository.findById(createdArchiveId).orElseThrow(ArchiveNotFoundException::new);
+        NewArchiveResponse response = archiveService.createBy(loginAccount, request);
         Account updatedAccount = accountRepository.findById(account.getId()).orElseThrow(AccountNotFoundException::new);
+        Archive archive = archiveRepository.findById(response.getArchiveId()).orElseThrow(ArchiveNotFoundException::new);
 
         int afterCount = updatedAccount.getSubmitCount();
 
@@ -96,7 +97,9 @@ public class ArchiveServiceJpaTest extends BaseServiceJpaTest {
                 () -> assertThat(archive.getQuestionPaper()).isEqualTo(questionPaper),
                 () -> assertThat(afterCount).isEqualTo(beforeCount + 1),
                 () -> assertThat(answerRepository.count()).isEqualTo(answerDetails.size()),
-                () -> assertThat(projectRepository.count()).isEqualTo(1)
+                () -> assertThat(projectRepository.count()).isEqualTo(1),
+                () -> assertThat(response.getArchiveId()).isEqualTo(archive.getId()),
+                () -> assertThat(response.isFirstArchive()).isTrue()
         );
     }
 }

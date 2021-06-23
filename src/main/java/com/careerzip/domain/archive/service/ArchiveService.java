@@ -9,6 +9,7 @@ import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDe
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
+import com.careerzip.domain.archive.dto.response.newarchiveresponse.NewArchiveResponse;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.project.entity.Project;
 import com.careerzip.domain.project.service.ProjectService;
@@ -66,7 +67,7 @@ public class ArchiveService {
     }
 
     @Transactional
-    public Long createBy(OAuthAccount loginAccount, CreateArchiveRequest request) {
+    public NewArchiveResponse createBy(OAuthAccount loginAccount, CreateArchiveRequest request) {
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
         QuestionPaper questionPaper = questionPaperRepository.findById(request.getQuestionPaperId())
                                                              .orElseThrow(QuestionPaperNotFoundException::new);
@@ -77,8 +78,8 @@ public class ArchiveService {
         Map<Long, Project> projectsMap = projectService.findAllMapBy(answerDetails);
 
         answerService.createBy(answerDetails, questionsMap, projectsMap, newArchive, account);
-        account.addSubmitCount();
+        Account updatedAccount = account.addSubmitCount();
 
-        return newArchive.getId();
+        return NewArchiveResponse.of(newArchive, updatedAccount);
     }
 }

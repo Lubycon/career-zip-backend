@@ -3,6 +3,7 @@ package com.careerzip.controller;
 import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateArchiveRequest;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
 import com.careerzip.domain.archive.dto.response.archivesresponse.ArchivesResponse;
+import com.careerzip.domain.archive.dto.response.newarchiveresponse.NewArchiveResponse;
 import com.careerzip.domain.archive.service.ArchiveService;
 import com.careerzip.global.api.ApiResponse;
 import com.careerzip.global.pagination.Pagination;
@@ -37,9 +38,9 @@ public class ArchiveController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ApiResponse<Long> createArchive(@LoginAccount OAuthAccount loginAccount,
-                                           @RequestBody CreateArchiveRequest request) {
-        Long archiveId = archiveService.createBy(loginAccount, request);
-        return ApiResponse.success(archiveId);
+    public ApiResponse<NewArchiveResponse> createArchive(@LoginAccount OAuthAccount loginAccount,
+                                                         @RequestBody CreateArchiveRequest request) {
+        NewArchiveResponse response = archiveService.createBy(loginAccount, request);
+        return ApiResponse.success(response);
     }
 }
