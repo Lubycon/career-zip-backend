@@ -1,6 +1,7 @@
 package com.careerzip.domain.archive.repository;
 
 import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.account.entity.QAccount;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.questionpaper.entity.QQuestionPaper;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.careerzip.domain.account.entity.QAccount.account;
 import static com.careerzip.domain.archive.entity.QArchive.archive;
 import static com.careerzip.domain.questionpaper.entity.QQuestionPaper.questionPaper;
 import static com.careerzip.domain.questionpaperform.entity.QQuestionPaperForm.questionPaperForm;
@@ -54,7 +56,7 @@ public class ArchiveRepositoryImpl implements ArchiveRepositoryCustom {
         QueryResults<Archive> results =
                 queryFactory.selectFrom(archive)
                             .innerJoin(archive.questionPaper, questionPaper).fetchJoin()
-                            .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
+                            .innerJoin(archive.account, account).fetchJoin()
                             .where(archive.createdDateTime.between(LocalDateTime.of(startDate, startTime), LocalDateTime.of(endDate, endTime)))
                             .orderBy(specifyOrder(pageable.getSort())
                                                           .toArray(OrderSpecifier[]::new))
