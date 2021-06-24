@@ -15,6 +15,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +37,25 @@ public class ArchiveRepositoryImpl implements ArchiveRepositoryCustom {
                             .innerJoin(archive.questionPaper, questionPaper).fetchJoin()
                             .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
                             .where(archive.account.eq(account))
+                            .orderBy(specifyOrder(pageable.getSort())
+                                                          .toArray(OrderSpecifier[]::new))
+                            .offset(pageable.getOffset())
+                            .limit(pageable.getPageSize())
+                            .fetchResults();
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    public Page<Archive> findAllBy(LocalDate startDate, LocalDate endDate, Pageable pageable) {
+        // startTime - 아카이빙 시작 시간은 자정 입니다.
+        // endTime - 아카이빙 끝 시간은 23분 59분 59초 입니다.
+        LocalTime startTime = LocalTime.of(0, 0, 0);
+        LocalTime endTime = LocalTime.of(23, 59, 59);
+
+        QueryResults<Archive> results =
+                queryFactory.selectFrom(archive)
+                            .innerJoin(archive.questionPaper, questionPaper).fetchJoin()
+                            .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
+                            .where(archive.createdDateTime.between(LocalDateTime.of(startDate, startTime), LocalDateTime.of(endDate, endTime)))
                             .orderBy(specifyOrder(pageable.getSort())
                                                           .toArray(OrderSpecifier[]::new))
                             .offset(pageable.getOffset())
