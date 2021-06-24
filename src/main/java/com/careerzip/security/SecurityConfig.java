@@ -10,6 +10,7 @@ import com.careerzip.security.oauth.service.CustomOAuth2UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
+@Order(2)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -56,7 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
             .httpBasic().disable();
 
-        http.authorizeRequests()
+        http.antMatcher("/**")
+            .authorizeRequests()
             .antMatchers(HttpMethod.PUT, "/v1/accounts/{id}").hasRole(MEMBER.name())
             .antMatchers(HttpMethod.GET, "/v1/archives").hasRole(MEMBER.name())
             .antMatchers(HttpMethod.POST, "/v1/archives").hasRole(MEMBER.name())
