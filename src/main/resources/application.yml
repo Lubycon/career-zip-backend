@@ -84,3 +84,10 @@ management:
 
 oauth2:
   failureRedirectUrl: http://localhost:3000/login
+
+admin:
+  security:
+    defaultSuccessUrl: ${ADMIN_LOGIN_SUCCESS_URL}
+    loginFailureUrl: ${ADMIN_LOGIN_FAILURE_URL}
+    usernameParameter: ${ADMIN_USERNAME_PARAMTER}
+    passwordParameter: ${ADMIN_PASSWORD_PARAMETER}

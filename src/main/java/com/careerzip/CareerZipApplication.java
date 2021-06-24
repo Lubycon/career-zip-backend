@@ -1,6 +1,7 @@
 package com.careerzip;
 
 import com.careerzip.global.jwt.JwtProperties;
+import com.careerzip.security.admin.AdminSecurityProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -10,7 +11,7 @@ import java.util.TimeZone;
 
 import static com.careerzip.global.jpa.JpaProperties.Seoul;
 
-@EnableConfigurationProperties({JwtProperties.class})
+@EnableConfigurationProperties({JwtProperties.class, AdminSecurityProperties.class})
 @SpringBootApplication
 public class CareerZipApplication {
 
