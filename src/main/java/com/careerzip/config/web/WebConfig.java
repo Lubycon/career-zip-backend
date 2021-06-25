@@ -2,15 +2,16 @@ package com.careerzip.config.web;
 
 import com.careerzip.security.admin.AdminSecurityProperties;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.Context;
-import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.SessionCookieConfig;
+import javax.servlet.SessionTrackingMode;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
@@ -32,14 +33,12 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ServletWebServerFactory servletContainer() {
-        return new TomcatServletWebServerFactory() {
-            @Override
-            protected void postProcessContext(Context context) {
-                Rfc6265CookieProcessor rfc6265CookieProcessor = new Rfc6265CookieProcessor();
-                rfc6265CookieProcessor.setSameSiteCookies("Lax");
-                context.setCookieProcessor(rfc6265CookieProcessor);
-            }
+    public ServletContextInitializer servletContextInitializer() {
+        return servletContext -> {
+            servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
+            SessionCookieConfig sessionCookieConfig = servletContext.getSessionCookieConfig();
+            sessionCookieConfig.setHttpOnly(false);
+            sessionCookieConfig.setSecure(false);
         };
     }
 }
