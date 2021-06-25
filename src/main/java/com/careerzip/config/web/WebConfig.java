@@ -37,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
             @Override
             protected void postProcessContext(Context context) {
                 Rfc6265CookieProcessor rfc6265CookieProcessor = new Rfc6265CookieProcessor();
-                rfc6265CookieProcessor.setSameSiteCookies("None");
+                rfc6265CookieProcessor.setSameSiteCookies("Lax");
                 context.setCookieProcessor(rfc6265CookieProcessor);
             }
         };
