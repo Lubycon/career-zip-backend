@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.careerzip.domain.account.entity.Role.ADMIN;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @RequiredArgsConstructor
 @Profile(value = {"prod", "dev"})
@@ -24,6 +25,7 @@ import static com.careerzip.domain.account.entity.Role.ADMIN;
 public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final AdminSecurityProperties securityProperties;
 
     @Override
@@ -46,6 +48,8 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .headers().frameOptions().disable();
 
+        http.cors(withDefaults());
+
         http.exceptionHandling()
             .authenticationEntryPoint(customAuthenticationEntryPoint);
 
@@ -53,7 +57,6 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/admin/login").permitAll()
             .antMatchers("/admin/**").hasRole(ADMIN.name())
-                .antMatchers("/admin/test").hasRole(ADMIN.name())
             .anyRequest().authenticated();
 
         http.formLogin()

@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "admin.security")
 public class AdminSecurityProperties {
 
+    private final String baseUrl;
     private final String defaultSuccessUrl;
     private final String loginFailureUrl;
     private final String usernameParameter;

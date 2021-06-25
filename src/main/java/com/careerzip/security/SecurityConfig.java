@@ -2,6 +2,7 @@ package com.careerzip.security;
 
 import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.global.jwt.JwtTokenProvider;
+import com.careerzip.security.admin.AdminSecurityProperties;
 import com.careerzip.security.filter.JwtAuthorizationFilter;
 import com.careerzip.security.oauth.handler.CustomAuthenticationEntryPoint;
 import com.careerzip.security.oauth.handler.CustomAuthenticationSuccessHandler;
@@ -43,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final AccountRepository accountRepository;
     private final ObjectMapper objectMapper;
+    private final AdminSecurityProperties securityProperties;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -98,10 +100,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://career-zip.com", "https://dev.career-zip.com", "http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("https://career-zip.com", "https://dev.career-zip.com", "http://localhost:3000", securityProperties.getBaseUrl()));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
-        configuration.setExposedHeaders(Collections.singletonList(HttpHeaders.AUTHORIZATION));
+        configuration.setExposedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.SET_COOKIE));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

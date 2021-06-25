@@ -87,6 +87,7 @@ oauth2:
 
 admin:
   security:
+    baseUrl: ${ADMIN_BASE_URL}
     defaultSuccessUrl: ${ADMIN_LOGIN_SUCCESS_URL}
     loginFailureUrl: ${ADMIN_LOGIN_FAILURE_URL}
     usernameParameter: ${ADMIN_USERNAME_PARAMETER}
