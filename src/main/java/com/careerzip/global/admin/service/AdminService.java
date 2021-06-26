@@ -44,7 +44,7 @@ public class AdminService {
     }
 
     public AdminArchiveResponse findArchiveBy(Long archiveId) {
-        Archive archive = archiveRepository.findById(archiveId).orElseThrow(ArchiveNotFoundException::new);
+        Archive archive = archiveRepository.findBy(archiveId).orElseThrow(ArchiveNotFoundException::new);
         List<Question> questions = questionService.findAllBy(archive);
         List<QuestionWithAnswers> questionWithAnswers = answerService.groupingAnswersBy(archive, questions);
         Set<ProjectSummary> projects = projectService.findSelectedProjectsBy(questionWithAnswers);

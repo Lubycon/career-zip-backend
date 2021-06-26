@@ -7,10 +7,7 @@ import com.careerzip.global.admin.service.AdminService;
 import com.careerzip.global.api.ApiResponse;
 import com.careerzip.global.pagination.Pagination;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @RestController

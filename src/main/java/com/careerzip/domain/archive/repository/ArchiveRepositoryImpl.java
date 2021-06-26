@@ -68,6 +68,7 @@ public class ArchiveRepositoryImpl implements ArchiveRepositoryCustom {
 
     public Optional<Archive> findBy(Long archiveId) {
         return Optional.ofNullable(queryFactory.selectFrom(archive)
+                       .innerJoin(archive.account, account).fetchJoin()
                        .innerJoin(archive.questionPaper, questionPaper).fetchJoin()
                        .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
                        .where(archive.id.eq(archiveId))
