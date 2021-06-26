@@ -16,4 +16,6 @@ public class AdminSecurityProperties {
     private final String loginFailureUrl;
     private final String usernameParameter;
     private final String passwordParameter;
+    private final String rememberMeKey;
+    private final String rememberMeParameter;
 }
