@@ -25,7 +25,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final FormLoginService formLoginService;
     private final AdminSecurityProperties securityProperties;
 
     @Override
@@ -66,6 +66,12 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
             .failureUrl(securityProperties.getLoginFailureUrl())
             .usernameParameter(securityProperties.getUsernameParameter())
             .passwordParameter(securityProperties.getPasswordParameter());
+
+        http.rememberMe()
+            .userDetailsService(formLoginService)
+            .key(securityProperties.getRememberMeKey())
+            .rememberMeParameter(securityProperties.getRememberMeParameter())
+            .tokenValiditySeconds(Integer.parseInt(securityProperties.getCookieExpiration()));
     }
 
     @Bean
