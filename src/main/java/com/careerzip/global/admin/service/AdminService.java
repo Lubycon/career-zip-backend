@@ -1,11 +1,19 @@
 package com.careerzip.global.admin.service;
 
+import com.careerzip.domain.account.entity.Account;
+import com.careerzip.domain.answer.service.AnswerService;
+import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
+import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
 import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.domain.project.service.ProjectService;
+import com.careerzip.domain.question.entity.Question;
+import com.careerzip.domain.question.service.QuestionService;
+import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
 import com.careerzip.global.admin.dto.response.ArchiveRelatedData;
+import com.careerzip.global.error.exception.entity.ArchiveNotFoundException;
 import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.global.pagination.Pagination;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +31,8 @@ public class AdminService {
 
     private final ArchiveRepository archiveRepository;
     private final ProjectService projectService;
+    private final QuestionService questionService;
+    private final AnswerService answerService;
 
     public AdminArchivesResponse findAllArchives(Pagination pagination, LocalDate startDate, LocalDate endDate) {
         PageRequest pageRequest = CustomPageRequest.of(pagination);
@@ -32,6 +42,12 @@ public class AdminService {
         return AdminArchivesResponse.of(archivePage, archives);
     }
 
-    public void findArchiveBy(Long archiveId) {
+    public AdminArchiveResponse findArchiveBy(Long archiveId) {
+        Archive archive = archiveRepository.findById(archiveId).orElseThrow(ArchiveNotFoundException::new);
+        List<Question> questions = questionService.findAllBy(archive);
+        List<QuestionWithAnswers> questionWithAnswers = answerService.groupingAnswersBy(archive, questions);
+        Set<ProjectSummary> projects = projectService.findSelectedProjectsBy(questionWithAnswers);
+        Account account = archive.getAccount();
+        return AdminArchiveResponse.of(archive, projects, account, questionWithAnswers);
     }
 }
