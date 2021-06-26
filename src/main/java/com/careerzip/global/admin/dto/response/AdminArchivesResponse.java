@@ -15,15 +15,15 @@ public class AdminArchivesResponse {
     @NotNull
     private final PageDetails pageDetails;
 
-    private final List<ArchiveWithAccount> archives;
+    private final List<ArchiveRelatedData> archives;
 
     @Builder
-    private AdminArchivesResponse(PageDetails pageDetails, List<ArchiveWithAccount> archives) {
+    private AdminArchivesResponse(PageDetails pageDetails, List<ArchiveRelatedData> archives) {
         this.pageDetails = pageDetails;
         this.archives = archives;
     }
 
-    public static AdminArchivesResponse of(Page<Archive> page, List<ArchiveWithAccount> archives) {
+    public static AdminArchivesResponse of(Page<Archive> page, List<ArchiveRelatedData> archives) {
         return AdminArchivesResponse.builder()
                                     .pageDetails(PageDetails.from(page))
                                     .archives(archives)

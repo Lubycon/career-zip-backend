@@ -1,14 +1,11 @@
 package com.careerzip.global.admin.service;
 
-import com.careerzip.domain.answer.service.AnswerService;
 import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.domain.project.service.ProjectService;
-import com.careerzip.domain.question.service.QuestionService;
-import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
-import com.careerzip.global.admin.dto.response.ArchiveWithAccount;
+import com.careerzip.global.admin.dto.response.ArchiveRelatedData;
 import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.global.pagination.Pagination;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +28,10 @@ public class AdminService {
         PageRequest pageRequest = CustomPageRequest.of(pagination);
         Page<Archive> archivePage = archiveRepository.findAllBy(startDate, endDate, pageRequest);
         Set<RelatedProject> projects = projectService.findAllRelatedBy(archivePage);
-        List<ArchiveWithAccount> archives = ArchiveWithAccount.listOf(archivePage, projects);
+        List<ArchiveRelatedData> archives = ArchiveRelatedData.listOf(archivePage, projects);
         return AdminArchivesResponse.of(archivePage, archives);
+    }
+
+    public void findArchiveBy(Long archiveId) {
     }
 }

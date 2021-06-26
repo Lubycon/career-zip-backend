@@ -4,7 +4,6 @@ import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.archive.dto.response.archivesresponse.RelatedProject;
 import com.careerzip.domain.archive.entity.Archive;
-import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
-public class ArchiveWithAccount {
+public class ArchiveRelatedData {
 
     private final long id;
 
@@ -33,15 +32,15 @@ public class ArchiveWithAccount {
     private final AccountSummary account;
 
     @Builder
-    private ArchiveWithAccount(long id, LocalDateTime createdDateTime, List<RelatedProject> projects, AccountSummary account) {
+    private ArchiveRelatedData(long id, LocalDateTime createdDateTime, List<RelatedProject> projects, AccountSummary account) {
         this.id = id;
         this.createdDateTime = createdDateTime;
         this.projects = projects;
         this.account = account;
     }
 
-    public static ArchiveWithAccount of(Archive archive, List<RelatedProject> projects, Account account) {
-        return ArchiveWithAccount.builder()
+    public static ArchiveRelatedData of(Archive archive, List<RelatedProject> projects, Account account) {
+        return ArchiveRelatedData.builder()
                                  .id(archive.getId())
                                  .createdDateTime(archive.getCreatedDateTime())
                                  .projects(projects)
@@ -49,7 +48,7 @@ public class ArchiveWithAccount {
                                  .build();
     }
 
-    public static List<ArchiveWithAccount> listOf(Page<Archive> archivePage, Set<RelatedProject> projects) {
+    public static List<ArchiveRelatedData> listOf(Page<Archive> archivePage, Set<RelatedProject> projects) {
         List<Archive> archives = archivePage.getContent();
         Map<Long, List<RelatedProject>> projectsMap = projects.stream()
                                                               .collect(Collectors.groupingBy(RelatedProject::getArchiveId));
