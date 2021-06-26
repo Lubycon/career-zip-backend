@@ -1,6 +1,6 @@
 package com.careerzip.controller;
 
-import com.careerzip.domain.archive.dto.response.archivesresponse.ArchivesResponse;
+import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
 import com.careerzip.global.admin.service.AdminService;
 import com.careerzip.global.api.ApiResponse;
@@ -24,5 +24,11 @@ public class AdminController {
                                                               @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         AdminArchivesResponse archives = adminService.findAllArchives(pagination, startDate, endDate);
         return ApiResponse.success(archives);
+    }
+
+    @GetMapping("/archives/{archiveId}")
+    public ApiResponse<AdminArchiveResponse> findArchive(@PathVariable Long archiveId) {
+        AdminArchiveResponse archive = adminService.findArchiveBy(archiveId);
+        return ApiResponse.success(archive);
     }
 }
