@@ -66,6 +66,14 @@ public class ArchiveRepositoryImpl implements ArchiveRepositoryCustom {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
+    public Optional<Archive> findBy(Long archiveId) {
+        return Optional.ofNullable(queryFactory.selectFrom(archive)
+                       .innerJoin(archive.questionPaper, questionPaper).fetchJoin()
+                       .innerJoin(questionPaper.questionPaperForm, questionPaperForm).fetchJoin()
+                       .where(archive.id.eq(archiveId))
+                       .fetchOne());
+    }
+
     public Optional<Archive> findBy(Account account, Long archiveId) {
         return Optional.ofNullable(queryFactory.selectFrom(archive)
                                                .innerJoin(archive.questionPaper, questionPaper).fetchJoin()

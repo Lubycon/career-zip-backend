@@ -15,6 +15,8 @@ public interface ArchiveRepositoryCustom {
 
     Page<Archive> findAllBy(LocalDate startDate, LocalDate endDate, Pageable pageable);
 
+    Optional<Archive> findBy(Long archiveId);
+
     Optional<Archive> findBy(Account account, Long archiveId);
 
     Optional<Archive> findBy(Account account, QuestionPaper questionPaper);
