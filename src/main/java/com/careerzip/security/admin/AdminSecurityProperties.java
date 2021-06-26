@@ -18,4 +18,5 @@ public class AdminSecurityProperties {
     private final String passwordParameter;
     private final String rememberMeKey;
     private final String rememberMeParameter;
+    private final String cookieExpiration;
 }

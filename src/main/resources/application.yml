@@ -94,3 +94,4 @@ admin:
     passwordParameter: ${ADMIN_PASSWORD_PARAMETER}
     rememberMeKey: ${ADMIN_REMEMBER_ME_KEY}
     rememberMeParameter: ${ADMIN_REMEMBER_ME_PARAMETER}
+    cookieExpiration: ${ADMIN_COOKIE_EXPIRATION}
