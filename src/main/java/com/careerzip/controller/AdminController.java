@@ -1,5 +1,6 @@
 package com.careerzip.controller;
 
+import com.careerzip.global.admin.dto.request.DateParameters;
 import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
 import com.careerzip.global.admin.service.AdminService;
@@ -20,9 +21,8 @@ public class AdminController {
 
     @GetMapping("/archives")
     public ApiResponse<AdminArchivesResponse> findAllArchives(@ModelAttribute Pagination pagination,
-                                                              @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                              @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        AdminArchivesResponse archives = adminService.findAllArchives(pagination, startDate, endDate);
+                                                              @ModelAttribute DateParameters dateParameters) {
+        AdminArchivesResponse archives = adminService.findAllArchives(pagination, dateParameters);
         return ApiResponse.success(archives);
     }
 

@@ -10,6 +10,7 @@ import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.domain.project.service.ProjectService;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.question.service.QuestionService;
+import com.careerzip.global.admin.dto.request.DateParameters;
 import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
 import com.careerzip.global.admin.dto.response.ArchiveRelatedData;
@@ -34,9 +35,9 @@ public class AdminService {
     private final QuestionService questionService;
     private final AnswerService answerService;
 
-    public AdminArchivesResponse findAllArchives(Pagination pagination, LocalDate startDate, LocalDate endDate) {
+    public AdminArchivesResponse findAllArchives(Pagination pagination, DateParameters dateParameters) {
         PageRequest pageRequest = CustomPageRequest.of(pagination);
-        Page<Archive> archivePage = archiveRepository.findAllBy(startDate, endDate, pageRequest);
+        Page<Archive> archivePage = archiveRepository.findAllBy(dateParameters.getStartDate(), dateParameters.getEndDate(), pageRequest);
         Set<RelatedProject> projects = projectService.findAllRelatedBy(archivePage);
         List<ArchiveRelatedData> archives = ArchiveRelatedData.listOf(archivePage, projects);
         return AdminArchivesResponse.of(archivePage, archives);
