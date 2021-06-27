@@ -21,17 +21,17 @@ public class ContactRequest {
         this.email = email;
     }
 
-    public static ContactRequest from(Account account) {
+    public static ContactRequest of(CampaignRequest campaign, Account account) {
         return ContactRequest.builder()
-                             .campaign(CampaignRequest.from("zKaDh"))
+                             .campaign(campaign)
                              .name(account.getName())
                              .email(account.getEmail())
                              .build();
     }
 
-    public static List<ContactRequest> listOf(List<Account> accounts) {
+    public static List<ContactRequest> listOf(CampaignRequest campaign, List<Account> accounts) {
         return accounts.stream()
-                       .map(ContactRequest::from)
+                       .map(account -> ContactRequest.of(campaign, account))
                        .collect(Collectors.toList());
     }
 }
