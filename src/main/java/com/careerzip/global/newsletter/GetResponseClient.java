@@ -28,7 +28,7 @@ public class GetResponseClient {
         return response.getBody();
     }
 
-    public <T, B> T postRequest(String requestPath, Class<T> payloadType, B requestBody) {
+    public <B, T> T postRequest(String requestPath, B requestBody, Class<T> payloadType) {
         RestTemplate restTemplate = new RestTemplate();
         URI requestURI = createGetResponseRequestURI(requestPath);
         HttpHeaders headers = createRequestHeaders();
