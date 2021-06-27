@@ -99,3 +99,4 @@ admin:
 getresponse:
   baseUrl: ${GET_RESPONSE_BASE_URL}
   apiKey: ${GET_RESPONSE_API_KEY}
+  authHeaderName: ${GET_RESPONSE_AUTH_HEADER_NAME}
