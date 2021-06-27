@@ -43,6 +43,11 @@ public class AdminController {
         return ApiResponse.success(campaigns);
     }
 
+    @PostMapping("/news-letter/campaigns/reminders")
+    public void addRemindersCampaign() {
+        newsLetterService.addRemindersCampaign();
+    }
+
     @PostMapping("/news-letter/campaigns/main/contacts")
     public ApiResponse<List<ContactSummary>> addContactsToMainCampaign() {
         List<ContactSummary> contacts = newsLetterService.addContactsToMainCampaign();

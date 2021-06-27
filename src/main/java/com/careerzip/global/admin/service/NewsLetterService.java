@@ -2,17 +2,23 @@ package com.careerzip.global.admin.service;
 
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
+import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
 import com.careerzip.global.admin.dto.response.CampaignDetail;
 import com.careerzip.global.admin.dto.response.CampaignsResponse;
 import com.careerzip.global.admin.dto.response.ContactSummary;
+import com.careerzip.global.error.exception.entity.QuestionPaperNotFoundException;
 import com.careerzip.global.newsletter.GetResponseClient;
 import com.careerzip.global.newsletter.GetResponseProperties;
 import com.careerzip.global.newsletter.JsonTranslator;
 import com.careerzip.global.newsletter.dto.request.CampaignRequest;
 import com.careerzip.global.newsletter.dto.request.ContactRequest;
+import com.careerzip.global.newsletter.dto.request.CreateCampaignRequest;
 import com.careerzip.global.newsletter.dto.response.Campaign;
+import com.careerzip.global.newsletter.dto.response.NewCampaign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +28,7 @@ import java.util.List;
 public class NewsLetterService {
 
     private final AccountRepository accountRepository;
+    private final QuestionPaperRepository questionPaperRepository;
     private final GetResponseClient getResponseClient;
     private final GetResponseProperties getResponseProperties;
     private final JsonTranslator jsonTranslator;
@@ -42,5 +49,11 @@ public class NewsLetterService {
         List<ContactRequest> requests = ContactRequest.listOf(campaign, accounts);
         requests.forEach(request -> getResponseClient.postRequest("/contacts", request, Void.class));
         return ContactSummary.listOf(accounts);
+    }
+
+    public void addRemindersCampaign() {
+        QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
+        CreateCampaignRequest request = CreateCampaignRequest.from(questionPaper);
+        NewCampaign createdCampaign = getResponseClient.postRequest("/campaigns", request, NewCampaign.class);
     }
 }
