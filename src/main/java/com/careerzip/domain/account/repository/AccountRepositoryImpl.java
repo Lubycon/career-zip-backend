@@ -5,6 +5,8 @@ import com.careerzip.domain.account.entity.Provider;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static com.careerzip.domain.account.entity.QAccount.account;
@@ -20,5 +22,12 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
                                                .where(account.provider.eq(provider),
                                                       account.oAuthId.eq(oAuthId))
                                                .fetchOne());
+    }
+
+    @Override
+    public List<Account> findAllBy(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return queryFactory.selectFrom(account)
+                           .where(account.createdDateTime.between(startDateTime, endDateTime))
+                           .fetch();
     }
 }
