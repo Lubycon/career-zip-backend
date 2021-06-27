@@ -19,11 +19,11 @@ public class GetResponseClient {
 
     private final GetResponseProperties getResponseProperties;
 
-    public <T> T requestGetResponse(String requestPath, HttpMethod httpMethod, Class<T> payloadType) {
+    public <T> T getRequest(String requestPath, Class<T> payloadType) {
         RestTemplate restTemplate = new RestTemplate();
         URI requestURI = createGetResponseRequestURI(requestPath);
         HttpEntity requestEntity = createRequestEntity();
-        ResponseEntity<T> response = restTemplate.exchange(requestURI, httpMethod, requestEntity, payloadType);
+        ResponseEntity<T> response = restTemplate.exchange(requestURI, HttpMethod.GET, requestEntity, payloadType);
         return response.getBody();
     }
 

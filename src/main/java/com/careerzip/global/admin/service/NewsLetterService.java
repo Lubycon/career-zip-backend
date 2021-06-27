@@ -6,7 +6,6 @@ import com.careerzip.global.newsletter.GetResponseClient;
 import com.careerzip.global.newsletter.JsonTranslator;
 import com.careerzip.global.newsletter.dto.response.Campaign;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class NewsLetterService {
     private final JsonTranslator jsonTranslator;
 
     public CampaignsResponse findAllCampaigns() {
-        String json = getResponseClient.requestGetResponse("/campaigns", HttpMethod.GET, String.class);
+        String json = getResponseClient.getRequest("/campaigns", String.class);
         List<Campaign> campaigns = jsonTranslator.mapToList(json, Campaign.class);
         List<CampaignDetail> campaignDetails = CampaignDetail.listOf(campaigns);
         return CampaignsResponse.from(campaignDetails);
