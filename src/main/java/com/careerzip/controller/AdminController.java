@@ -4,6 +4,7 @@ import com.careerzip.global.admin.dto.request.DateParameters;
 import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
 import com.careerzip.global.admin.dto.response.CampaignsResponse;
+import com.careerzip.global.admin.dto.response.ContactSummary;
 import com.careerzip.global.admin.service.AdminService;
 import com.careerzip.global.admin.service.NewsLetterService;
 import com.careerzip.global.api.ApiResponse;
@@ -11,6 +12,8 @@ import com.careerzip.global.pagination.Pagination;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,5 +41,11 @@ public class AdminController {
     public ApiResponse<CampaignsResponse> findAllCampaigns() {
         CampaignsResponse campaigns = newsLetterService.findAllCampaigns();
         return ApiResponse.success(campaigns);
+    }
+
+    @PostMapping("/news-letter/campaigns/main/contacts")
+    public ApiResponse<List<ContactSummary>> addContactsToMainCampaign() {
+        List<ContactSummary> contacts = newsLetterService.addContactsToMainCampaign();
+        return ApiResponse.success(contacts);
     }
 }
