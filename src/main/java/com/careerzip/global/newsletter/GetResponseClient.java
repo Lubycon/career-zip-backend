@@ -22,16 +22,30 @@ public class GetResponseClient {
     public <T> T getRequest(String requestPath, Class<T> payloadType) {
         RestTemplate restTemplate = new RestTemplate();
         URI requestURI = createGetResponseRequestURI(requestPath);
-        HttpEntity requestEntity = createRequestEntity();
+        HttpHeaders headers = createRequestHeaders();
+        HttpEntity requestEntity = createRequestEntity(null, headers);
         ResponseEntity<T> response = restTemplate.exchange(requestURI, HttpMethod.GET, requestEntity, payloadType);
         return response.getBody();
     }
 
-    private HttpEntity createRequestEntity() {
+    public <T, B> T postRequest(String requestPath, Class<T> payloadType, B requestBody) {
+        RestTemplate restTemplate = new RestTemplate();
+        URI requestURI = createGetResponseRequestURI(requestPath);
+        HttpHeaders headers = createRequestHeaders();
+        HttpEntity requestEntity = createRequestEntity(requestBody, headers);
+        ResponseEntity<T> response = restTemplate.exchange(requestURI, HttpMethod.POST, requestEntity, payloadType);
+        return response.getBody();
+    }
+
+    private HttpHeaders createRequestHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.add(getResponseProperties.getAuthHeaderName(), getResponseProperties.getApiKey());
         headers.add(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE);
-        return new HttpEntity(headers);
+        return headers;
+    }
+
+    private <T> HttpEntity<T> createRequestEntity(T requestBody, HttpHeaders headers) {
+        return new HttpEntity<>(requestBody, headers);
     }
 
     private URI createGetResponseRequestURI(String requestPath) {
