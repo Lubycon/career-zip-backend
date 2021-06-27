@@ -3,18 +3,23 @@ package com.careerzip.controller;
 import com.careerzip.global.admin.dto.request.DateParameters;
 import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
+import com.careerzip.global.admin.dto.response.CampaignsResponse;
 import com.careerzip.global.admin.service.AdminService;
+import com.careerzip.global.admin.service.NewsLetterService;
 import com.careerzip.global.api.ApiResponse;
 import com.careerzip.global.pagination.Pagination;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
     private final AdminService adminService;
+    private final NewsLetterService newsLetterService;
 
     @GetMapping("/archives")
     public ApiResponse<AdminArchivesResponse> findAllArchives(@ModelAttribute Pagination pagination,
@@ -27,5 +32,11 @@ public class AdminController {
     public ApiResponse<AdminArchiveResponse> findArchive(@PathVariable Long archiveId) {
         AdminArchiveResponse archive = adminService.findArchiveBy(archiveId);
         return ApiResponse.success(archive);
+    }
+
+    @GetMapping("/news-letter/campaigns")
+    public ApiResponse<CampaignsResponse> findAllCampaigns() {
+        CampaignsResponse campaigns = newsLetterService.findAllCampaigns();
+        return ApiResponse.success(campaigns);
     }
 }
