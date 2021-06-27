@@ -14,4 +14,5 @@ public class GetResponseProperties {
     private final String baseUrl;
     private final String apiKey;
     private final String authHeaderName;
+    private final String mainCampaignId;
 }
