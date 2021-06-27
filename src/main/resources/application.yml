@@ -95,3 +95,7 @@ admin:
     rememberMeKey: ${ADMIN_REMEMBER_ME_KEY}
     rememberMeParameter: ${ADMIN_REMEMBER_ME_PARAMETER}
     cookieExpiration: ${ADMIN_COOKIE_EXPIRATION}
+
+getresponse:
+  baseUrl: ${GET_RESPONSE_BASE_URL}
+  apiKey: ${GET_RESPONSE_API_KEY}
