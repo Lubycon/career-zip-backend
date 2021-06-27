@@ -1,16 +1,16 @@
 package com.careerzip.global.newsletter;
 
+import com.nimbusds.common.contenttype.ContentType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @Getter
@@ -30,6 +30,7 @@ public class GetResponseClient {
     private HttpEntity createRequestEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.add(getResponseProperties.getAuthHeaderName(), getResponseProperties.getApiKey());
+        headers.add(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE);
         return new HttpEntity(headers);
     }
 
