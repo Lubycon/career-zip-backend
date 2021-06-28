@@ -17,12 +17,15 @@ import com.careerzip.global.newsletter.dto.request.CreateCampaignRequest;
 import com.careerzip.global.newsletter.dto.response.Campaign;
 import com.careerzip.global.newsletter.dto.response.NewCampaign;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class NewsLetterService {
@@ -41,8 +44,8 @@ public class NewsLetterService {
     }
 
     public List<ContactSummary> addContactsToMainCampaign() {
-        // 기본 조회 시작 시간은 오늘 날짜로부터 5일 전입니다.
-        long days = 5L;
+        // 기본 조회 시작 시간은 오늘 날짜로부터 8일 전입니다.
+        long days = 8L;
         LocalDateTime now = LocalDateTime.now();
         List<Account> accounts = accountRepository.findAllBy(now.minusDays(days), now);
         CampaignRequest campaign = CampaignRequest.from(getResponseProperties.getMainCampaignId());
@@ -53,7 +56,22 @@ public class NewsLetterService {
 
     public void addRemindersCampaign() {
         QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
-        CreateCampaignRequest request = CreateCampaignRequest.from(questionPaper);
-        NewCampaign createdCampaign = getResponseClient.postRequest("/campaigns", request, NewCampaign.class);
+        CreateCampaignRequest createRequest = CreateCampaignRequest.from(questionPaper);
+        NewCampaign createdCampaign = getResponseClient.postRequest("/campaigns", createRequest, NewCampaign.class);
+        CampaignRequest campaign = CampaignRequest.from(createdCampaign.getCampaignId());
+        List<Account> accounts = accountRepository.findAllNotArchivedBy(questionPaper);
+
+        List<ContactRequest> requests = ContactRequest.listOf(campaign, accounts);
+        Iterator<ContactRequest> iterator = requests.iterator();
+
+        while (iterator.hasNext()) {
+            try {
+                ContactRequest request = iterator.next();
+                getResponseClient.postRequest("/contacts", request, Void.class);
+            } catch (HttpClientErrorException exception) {
+                exception.printStackTrace();
+                log.error("Contact Insert Error Email");
+            }
+        }
     }
 }
