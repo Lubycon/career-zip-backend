@@ -34,6 +34,12 @@ public class AdminController {
         return ApiResponse.success(archive);
     }
 
+    @GetMapping("/questionpapers")
+    public ApiResponse<List<AdminQuestionPaperDetail>> findAllQuestionPapers() {
+        List<AdminQuestionPaperDetail> questionPapers = adminService.findAllQuestionPapers();
+        return ApiResponse.success(questionPapers);
+    }
+
     @GetMapping("/news-letter/campaigns")
     public ApiResponse<CampaignsResponse> findAllCampaigns() {
         CampaignsResponse campaigns = newsLetterService.findAllCampaigns();
