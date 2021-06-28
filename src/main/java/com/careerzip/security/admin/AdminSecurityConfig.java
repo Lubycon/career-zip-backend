@@ -56,12 +56,6 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/admin/**")
             .authorizeRequests()
             .antMatchers("/admin/login").permitAll()
-            // 원활한 GetResponse API 연동 테스트를 위해 잠시 권한을 오픈 합니다.
-            .antMatchers("/admin/news-letter/campaigns").permitAll()
-            .antMatchers("/admin/news-letter/campaigns/reminders").permitAll()
-            .antMatchers("/admin/news-letter/campaigns/main/contacts").permitAll()
-            .antMatchers("/admin/news-letter/contacts/not-archived").permitAll()
-            .antMatchers("/admin/questionpapers").permitAll()
             .antMatchers("/admin/**").hasRole(ADMIN.name())
             .anyRequest().authenticated();
 
