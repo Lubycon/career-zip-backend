@@ -3,6 +3,7 @@ package com.careerzip.security.oauth.service;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.entity.Provider;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.global.admin.service.NewsLetterService;
 import com.careerzip.global.error.exception.auth.InvalidOAuthAuthenticationException;
 import com.careerzip.global.error.exception.auth.InvalidOAuthProviderException;
 import com.careerzip.security.oauth.dto.OAuthAccount;
@@ -27,6 +28,7 @@ import java.util.Collections;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final AccountRepository accountRepository;
+    private final NewsLetterService newsLetterService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -49,6 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return accountRepository.findByOAuth(oAuthAccount.getProvider(), oAuthAccount.getOAuthId())
                                 .orElseGet(() -> {
                                     Account newAccount = oAuthAccount.toEntity();
+                                    newsLetterService.addToMainCampaignBy(newAccount);
                                     return accountRepository.save(newAccount);
                                 });
     }

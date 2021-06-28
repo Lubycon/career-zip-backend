@@ -44,6 +44,16 @@ public class NewsLetterService {
         return CampaignsResponse.from(campaignDetails);
     }
 
+    public void addToMainCampaignBy(Account account) {
+        try {
+            CampaignRequest campaign = CampaignRequest.from(getResponseProperties.getMainCampaignId());
+            ContactRequest request = ContactRequest.of(campaign, account);
+            getResponseClient.postRequest("/contacts", request, Void.class);
+        } catch (HttpClientErrorException exception) {
+            log.error("handleGetResponseError - Email : {}", account.getEmail());
+        }
+    }
+
     public List<ContactSummary> addContactsToMainCampaign() {
         // 기본 조회 시작 시간은 오늘 날짜로부터 8일 전입니다.
         long days = 8L;
