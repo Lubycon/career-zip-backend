@@ -7,6 +7,7 @@ import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
 import com.careerzip.global.admin.dto.response.CampaignDetail;
 import com.careerzip.global.admin.dto.response.CampaignsResponse;
 import com.careerzip.global.admin.dto.response.ContactSummary;
+import com.careerzip.global.admin.dto.response.NotArchivedContactsResponse;
 import com.careerzip.global.error.exception.entity.QuestionPaperNotFoundException;
 import com.careerzip.global.newsletter.GetResponseClient;
 import com.careerzip.global.newsletter.GetResponseProperties;
@@ -75,9 +76,10 @@ public class NewsLetterService {
         }
     }
 
-    public List<ContactSummary> findAllNotArchivedContacts() {
+    public NotArchivedContactsResponse findAllNotArchivedContacts() {
         QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
         List<Account> accounts = accountRepository.findAllNotArchivedBy(questionPaper);
-        return ContactSummary.listOf(accounts);
+        List<ContactSummary> contacts = ContactSummary.listOf(accounts);
+        return NotArchivedContactsResponse.of(questionPaper, contacts);
     }
 }

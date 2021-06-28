@@ -1,10 +1,7 @@
 package com.careerzip.controller;
 
 import com.careerzip.global.admin.dto.request.DateParameters;
-import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
-import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
-import com.careerzip.global.admin.dto.response.CampaignsResponse;
-import com.careerzip.global.admin.dto.response.ContactSummary;
+import com.careerzip.global.admin.dto.response.*;
 import com.careerzip.global.admin.service.AdminService;
 import com.careerzip.global.admin.service.NewsLetterService;
 import com.careerzip.global.api.ApiResponse;
@@ -55,8 +52,8 @@ public class AdminController {
     }
 
     @GetMapping("/news-letter/contacts/not-archived")
-    public ApiResponse<List<ContactSummary>> findAllNotArchivedContacts() {
-        List<ContactSummary> contacts = newsLetterService.findAllNotArchivedContacts();
+    public ApiResponse<NotArchivedContactsResponse> findAllNotArchivedContacts() {
+        NotArchivedContactsResponse contacts = newsLetterService.findAllNotArchivedContacts();
         return ApiResponse.success(contacts);
     }
 }
