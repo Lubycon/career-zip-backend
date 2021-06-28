@@ -26,7 +26,7 @@ public class CreateQuestionPaperRequest {
                             .startDateTime(LocalDateTime.of(startDate, startTime))
                             .endDateTime(LocalDateTime.of(endDate, endTime))
                             .finishDateTime(LocalDateTime.of(finishDate, finishTime))
-                            .opened(false)
+                            .opened(true)
                             .questionPaperForm(questionPaperForm)
                             .build();
     }

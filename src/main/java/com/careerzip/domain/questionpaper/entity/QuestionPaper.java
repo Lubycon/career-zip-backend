@@ -55,6 +55,6 @@ public class QuestionPaper {
         if (finishDateTime.isAfter(LocalDateTime.now())) {
             throw new QuestionPaperNotFinishedException();
         }
-        this.opened = true;
+        this.opened = false;
     }
 }
