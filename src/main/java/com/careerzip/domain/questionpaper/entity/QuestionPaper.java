@@ -1,6 +1,7 @@
 package com.careerzip.domain.questionpaper.entity;
 
 import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
+import com.careerzip.global.error.exception.business.QuestionPaperNotFinishedException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,5 +49,12 @@ public class QuestionPaper {
         this.finishDateTime = finishDateTime;
         this.opened = opened;
         this.questionPaperForm = questionPaperForm;
+    }
+
+    public void finishPaper() {
+        if (finishDateTime.isAfter(LocalDateTime.now())) {
+            throw new QuestionPaperNotFinishedException();
+        }
+        this.opened = true;
     }
 }

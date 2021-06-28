@@ -27,6 +27,7 @@ public enum ErrorCode {
     RECORD_NOT_FOUND(404, "해당 아카이빙 기록을 찾을 수 없습니다."),
 
     // QuestionPaper
+    QUESTION_PAPER_NOT_FINISHED(400, "질문지가 마감되지 않아 종료할 수 없습니다."),
     QUESTION_PAPER_NOT_FOUND(404, "해당 질문지를 찾을 수 없습니다."),
 
     // Project
