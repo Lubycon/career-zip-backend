@@ -1,5 +1,6 @@
 package com.careerzip.controller;
 
+import com.careerzip.global.admin.dto.request.CreateQuestionPaperRequest;
 import com.careerzip.global.admin.dto.request.DateParameters;
 import com.careerzip.global.admin.dto.response.*;
 import com.careerzip.global.admin.service.AdminService;
@@ -38,6 +39,12 @@ public class AdminController {
     public ApiResponse<List<AdminQuestionPaperDetail>> findAllQuestionPapers() {
         List<AdminQuestionPaperDetail> questionPapers = adminService.findAllQuestionPapers();
         return ApiResponse.success(questionPapers);
+    }
+
+    @PostMapping("/questionpapers")
+    public ApiResponse<AdminQuestionPaperDetail> createQuestionPaper(@RequestBody CreateQuestionPaperRequest request) {
+        AdminQuestionPaperDetail questionPaper = adminService.createQuestionPaper(request);
+        return ApiResponse.success(questionPaper);
     }
 
     @GetMapping("/news-letter/campaigns")
