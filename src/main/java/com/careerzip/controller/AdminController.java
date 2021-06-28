@@ -53,4 +53,10 @@ public class AdminController {
         List<ContactSummary> contacts = newsLetterService.addContactsToMainCampaign();
         return ApiResponse.success(contacts);
     }
+
+    @GetMapping("/news-letter/contacts/not-archived")
+    public ApiResponse<List<ContactSummary>> findAllNotArchivedContacts() {
+        List<ContactSummary> contacts = newsLetterService.findAllNotArchivedContacts();
+        return ApiResponse.success(contacts);
+    }
 }

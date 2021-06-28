@@ -60,6 +60,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/admin/news-letter/campaigns").permitAll()
             .antMatchers("/admin/news-letter/campaigns/reminders").permitAll()
             .antMatchers("/admin/news-letter/campaigns/main/contacts").permitAll()
+            .antMatchers("/admin/news-letter/contacts/not-archived").permitAll()
             .antMatchers("/admin/**").hasRole(ADMIN.name())
             .anyRequest().authenticated();
 
