@@ -74,4 +74,10 @@ public class NewsLetterService {
             }
         }
     }
+
+    public List<ContactSummary> findAllNotArchivedContacts() {
+        QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
+        List<Account> accounts = accountRepository.findAllNotArchivedBy(questionPaper);
+        return ContactSummary.listOf(accounts);
+    }
 }
