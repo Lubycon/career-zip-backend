@@ -12,18 +12,23 @@ import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.question.service.QuestionService;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
+import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
+import com.careerzip.domain.questionpaperform.repository.QuestionPaperFormRepository;
+import com.careerzip.global.admin.dto.request.CreateQuestionPaperRequest;
 import com.careerzip.global.admin.dto.request.DateParameters;
 import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
 import com.careerzip.global.admin.dto.response.AdminQuestionPaperDetail;
 import com.careerzip.global.admin.dto.response.ArchiveRelatedData;
 import com.careerzip.global.error.exception.entity.ArchiveNotFoundException;
+import com.careerzip.global.error.exception.entity.QuestionPaperNotFoundException;
 import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.global.pagination.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -34,6 +39,7 @@ public class AdminService {
 
     private final ArchiveRepository archiveRepository;
     private final QuestionPaperRepository questionPaperRepository;
+    private final QuestionPaperFormRepository questionPaperFormRepository;
     private final ProjectService projectService;
     private final QuestionService questionService;
     private final AnswerService answerService;
@@ -58,5 +64,14 @@ public class AdminService {
     public List<AdminQuestionPaperDetail> findAllQuestionPapers() {
         List<QuestionPaper> questionPapers = questionPaperRepository.findAllByOrderByIdDesc();
         return AdminQuestionPaperDetail.listOf(questionPapers);
+    }
+
+    @Transactional
+    public AdminQuestionPaperDetail createQuestionPaper(CreateQuestionPaperRequest request) {
+        QuestionPaper questionPaper = questionPaperRepository.findLatest().orElseThrow(QuestionPaperNotFoundException::new);
+        questionPaper.finishPaper();
+        QuestionPaperForm questionPaperForm = questionPaperFormRepository.findFirstByOrderByIdDesc();
+        QuestionPaper newQuestionPaper = questionPaperRepository.save(request.toEntity(questionPaperForm));
+        return AdminQuestionPaperDetail.from(newQuestionPaper);
     }
 }
