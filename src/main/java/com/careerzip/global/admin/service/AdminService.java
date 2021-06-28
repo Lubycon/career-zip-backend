@@ -10,9 +10,12 @@ import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.domain.project.service.ProjectService;
 import com.careerzip.domain.question.entity.Question;
 import com.careerzip.domain.question.service.QuestionService;
+import com.careerzip.domain.questionpaper.entity.QuestionPaper;
+import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
 import com.careerzip.global.admin.dto.request.DateParameters;
 import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
+import com.careerzip.global.admin.dto.response.AdminQuestionPaperDetail;
 import com.careerzip.global.admin.dto.response.ArchiveRelatedData;
 import com.careerzip.global.error.exception.entity.ArchiveNotFoundException;
 import com.careerzip.global.pagination.CustomPageRequest;
@@ -31,6 +34,7 @@ import java.util.Set;
 public class AdminService {
 
     private final ArchiveRepository archiveRepository;
+    private final QuestionPaperRepository questionPaperRepository;
     private final ProjectService projectService;
     private final QuestionService questionService;
     private final AnswerService answerService;
@@ -50,5 +54,10 @@ public class AdminService {
         Set<ProjectSummary> projects = projectService.findSelectedProjectsBy(questionWithAnswers);
         Account account = archive.getAccount();
         return AdminArchiveResponse.of(archive, projects, account, questionWithAnswers);
+    }
+
+    public List<AdminQuestionPaperDetail> findAllQuestionPapers() {
+        List<QuestionPaper> questionPapers = questionPaperRepository.findAll();
+        return AdminQuestionPaperDetail.listOf(questionPapers);
     }
 }

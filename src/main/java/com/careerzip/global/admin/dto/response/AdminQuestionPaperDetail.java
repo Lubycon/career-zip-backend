@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class AdminQuestionPaperDetail {
@@ -44,5 +46,11 @@ public class AdminQuestionPaperDetail {
                                        .endDateTime(questionPaper.getEndDateTime())
                                        .opened(questionPaper.getOpened())
                                        .build();
+    }
+
+    public static List<AdminQuestionPaperDetail> listOf(List<QuestionPaper> questionPapers) {
+        return questionPapers.stream()
+                             .map(AdminQuestionPaperDetail::from)
+                             .collect(Collectors.toList());
     }
 }
