@@ -44,6 +44,7 @@ public class AdminQuestionPaperDetail {
                                        .title(questionPaper.getTitle())
                                        .startDateTime(questionPaper.getStartDateTime())
                                        .endDateTime(questionPaper.getEndDateTime())
+                                       .finishDateTime(questionPaper.getFinishDateTime())
                                        .opened(questionPaper.getOpened())
                                        .build();
     }
