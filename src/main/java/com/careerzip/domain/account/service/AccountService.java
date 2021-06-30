@@ -1,11 +1,14 @@
 package com.careerzip.domain.account.service;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.request.UtmSourceRequest;
 import com.careerzip.domain.account.dto.response.AccountArchiveExist;
 import com.careerzip.domain.account.dto.response.AccountDetail;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.domain.acquisition.entity.Acquisition;
+import com.careerzip.domain.acquisition.repository.AcquisitionRepository;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
 import com.careerzip.domain.questionpaper.repository.QuestionPaperRepository;
@@ -26,6 +29,7 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final ArchiveRepository archiveRepository;
     private final QuestionPaperRepository questionPaperRepository;
+    private final AcquisitionRepository acquisitionRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
     public String issueJwtToken(String authorizationHeader) {
@@ -58,5 +62,14 @@ public class AccountService {
         return archiveRepository.findBy(account, questionPaper)
                                 .map(AccountArchiveExist::hasArchived)
                                 .orElseGet(AccountArchiveExist::notArchived);
+    }
+
+    @Transactional
+    public Account addUtmSource(OAuthAccount loginAccount, UtmSourceRequest request) {
+        Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
+        String utmSource = request.getUtmSource();
+        Acquisition acquisition = acquisitionRepository.findByUtmSource(utmSource)
+                                                       .orElseGet(() -> acquisitionRepository.save(Acquisition.from(utmSource)));
+        return account.addAcquisition(acquisition);
     }
 }

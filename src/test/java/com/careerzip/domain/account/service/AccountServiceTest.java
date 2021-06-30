@@ -1,11 +1,14 @@
 package com.careerzip.domain.account.service;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.request.UtmSourceRequest;
 import com.careerzip.domain.account.dto.response.AccountArchiveExist;
 import com.careerzip.domain.account.dto.response.AccountDetail;
 import com.careerzip.domain.account.dto.response.AccountSummary;
 import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.repository.AccountRepository;
+import com.careerzip.domain.acquisition.entity.Acquisition;
+import com.careerzip.domain.acquisition.repository.AcquisitionRepository;
 import com.careerzip.domain.archive.entity.Archive;
 import com.careerzip.domain.archive.repository.ArchiveRepository;
 import com.careerzip.domain.questionpaper.entity.QuestionPaper;
@@ -48,6 +51,9 @@ class AccountServiceTest {
 
     @Mock
     QuestionPaperRepository questionPaperRepository;
+
+    @Mock
+    AcquisitionRepository acquisitionRepository;
 
     @Mock
     JwtTokenProvider jwtTokenProvider;
@@ -154,5 +160,27 @@ class AccountServiceTest {
         // then
         assertThat(accountArchiveExist.isArchived()).isFalse();
         assertThat(accountArchiveExist.getId()).isNull();
+    }
+
+    @Test
+    @DisplayName("Account에 UtmSource를 추가하는 메서드 테스트")
+    void addUtmSourceTest() {
+        // given
+        Account account = createMember();
+        OAuthAccount loginAccount = createOAuthAccountOf(account);
+
+        String utmSource = "utmSource";
+        UtmSourceRequest request = new UtmSourceRequest();
+        request.setUtmSource(utmSource);
+        Acquisition acquisition = Acquisition.from(utmSource);
+
+        // when
+        when(accountRepository.findById(loginAccount.getId())).thenReturn(Optional.of(account));
+        when(acquisitionRepository.findByUtmSource(utmSource)).thenReturn(Optional.of(acquisition));
+
+        Account updatedAccount = accountService.addUtmSource(loginAccount, request);
+
+        // then
+        assertThat(updatedAccount.getAcquisition()).usingRecursiveComparison().isEqualTo(acquisition);
     }
 }
