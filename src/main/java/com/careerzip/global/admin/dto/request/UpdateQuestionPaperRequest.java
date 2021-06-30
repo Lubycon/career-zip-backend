@@ -16,18 +16,12 @@ public class UpdateQuestionPaperRequest {
     private LocalDate endDate;
     private LocalDate finishDate;
 
-    public QuestionPaper toEntity(QuestionPaperForm questionPaperForm) {
+    public QuestionPaper toEntity(QuestionPaper questionPaper) {
         LocalTime startTime = LocalTime.of(0, 0, 0);
         LocalTime endTime = LocalTime.of(23, 59, 59);
         LocalTime finishTime = LocalTime.of(23, 55, 0);
 
-        return QuestionPaper.builder()
-                            .title(title)
-                            .startDateTime(LocalDateTime.of(startDate, startTime))
-                            .endDateTime(LocalDateTime.of(endDate, endTime))
-                            .finishDateTime(LocalDateTime.of(finishDate, finishTime))
-                            .opened(true)
-                            .questionPaperForm(questionPaperForm)
-                            .build();
+        return questionPaper.update(title, LocalDateTime.of(startDate, startTime), LocalDateTime.of(endDate, endTime), LocalDateTime.of(finishDate, finishTime));
+
     }
 }
