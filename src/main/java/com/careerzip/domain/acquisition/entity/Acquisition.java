@@ -1,4 +1,4 @@
-package com.careerzip.domain.acquisition;
+package com.careerzip.domain.acquisition.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;

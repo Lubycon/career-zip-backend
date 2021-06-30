@@ -1,6 +1,6 @@
 package com.careerzip.testobject.acquisition;
 
-import com.careerzip.domain.acquisition.dto.Acquisition;
+import com.careerzip.domain.acquisition.entity.Acquisition;
 
 public class AcquisitionFactory {
 

@@ -1,7 +1,7 @@
 package com.careerzip.domain.account.dto.response;
 
 import com.careerzip.domain.account.entity.Account;
-import com.careerzip.domain.acquisition.Acquisition;
+import com.careerzip.domain.acquisition.entity.Acquisition;
 import com.careerzip.domain.job.entity.Job;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
