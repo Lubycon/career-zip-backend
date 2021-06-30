@@ -89,6 +89,11 @@ public class Account extends BaseTimeEntity {
         return this;
     }
 
+    public Account addAcquisition(Acquisition acquisition) {
+        this.acquisition = acquisition;
+        return this;
+    }
+
     public void update(String name, String email) {
         this.name = name;
         this.email = email;

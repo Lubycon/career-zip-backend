@@ -1,9 +1,11 @@
 package com.careerzip.domain.account.entity;
 
+import com.careerzip.domain.acquisition.entity.Acquisition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.careerzip.testobject.account.AccountFactory.createMember;
+import static com.careerzip.testobject.acquisition.AcquisitionFactory.createAcquisition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +37,20 @@ class AccountTest {
 
         // then
         assertThat(updatedAccount.getSubmitCount()).isEqualTo(beforeCount + 1);
+    }
+
+    @Test
+    @DisplayName("Acquisition 추가 메서드 테스트")
+    void addAcquisitionTest() {
+        // given
+        Account account = createMember();
+        Acquisition acquisition = createAcquisition();
+
+        // when
+        Account updatedAccount = account.addAcquisition(acquisition);
+
+        // then
+        assertThat(updatedAccount.getAcquisition()).usingRecursiveComparison().isEqualTo(acquisition);
     }
 
     @Test
