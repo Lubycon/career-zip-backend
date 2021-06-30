@@ -1,9 +1,11 @@
 package com.careerzip.controller;
 
 import com.careerzip.domain.account.dto.request.AccountUpdateRequest;
+import com.careerzip.domain.account.dto.request.UtmSourceRequest;
 import com.careerzip.domain.account.dto.response.AccountArchiveExist;
 import com.careerzip.domain.account.dto.response.AccountDetail;
 import com.careerzip.domain.account.dto.response.AccountSummary;
+import com.careerzip.domain.account.entity.Account;
 import com.careerzip.domain.account.service.AccountService;
 import com.careerzip.global.api.ApiResponse;
 import com.careerzip.security.oauth.annotation.LoginAccount;
@@ -31,6 +33,13 @@ public class AccountController {
         AccountDetail account = accountService.findBy(authorizationHeader);
         response.addHeader(HttpHeaders.AUTHORIZATION, jwtToken);
         return ApiResponse.success(account);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/acquisition")
+    public ApiResponse<Long> authorize(@LoginAccount OAuthAccount loginAccount, @RequestBody UtmSourceRequest request) {
+        Account account = accountService.addUtmSource(loginAccount, request);
+        return ApiResponse.success(account.getId());
     }
 
     @ResponseStatus(HttpStatus.OK)
