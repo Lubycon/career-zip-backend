@@ -57,4 +57,12 @@ public class QuestionPaper {
         }
         this.opened = false;
     }
+
+    public QuestionPaper update(String title, LocalDateTime startDateTime, LocalDateTime endDateTime, LocalDateTime finishDateTime) {
+        this.title = title;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.finishDateTime = finishDateTime;
+        return this;
+    }
 }
