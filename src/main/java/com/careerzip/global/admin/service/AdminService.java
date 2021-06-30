@@ -16,6 +16,7 @@ import com.careerzip.domain.questionpaperform.entity.QuestionPaperForm;
 import com.careerzip.domain.questionpaperform.repository.QuestionPaperFormRepository;
 import com.careerzip.global.admin.dto.request.CreateQuestionPaperRequest;
 import com.careerzip.global.admin.dto.request.DateParameters;
+import com.careerzip.global.admin.dto.request.UpdateQuestionPaperRequest;
 import com.careerzip.global.admin.dto.response.AdminArchiveResponse;
 import com.careerzip.global.admin.dto.response.AdminArchivesResponse;
 import com.careerzip.global.admin.dto.response.AdminQuestionPaperDetail;
@@ -73,5 +74,12 @@ public class AdminService {
         QuestionPaperForm questionPaperForm = questionPaperFormRepository.findFirstByOrderByIdDesc();
         QuestionPaper newQuestionPaper = questionPaperRepository.save(request.toEntity(questionPaperForm));
         return AdminQuestionPaperDetail.from(newQuestionPaper);
+    }
+
+    @Transactional
+    public AdminQuestionPaperDetail updateQuestionPaper(Long questionPaperId, UpdateQuestionPaperRequest request) {
+        QuestionPaper questionPaper = questionPaperRepository.findById(questionPaperId).orElseThrow(QuestionPaperNotFoundException::new);
+        QuestionPaper updatedQuestionPaper = request.toEntity(questionPaper);
+        return AdminQuestionPaperDetail.from(updatedQuestionPaper);
     }
 }
