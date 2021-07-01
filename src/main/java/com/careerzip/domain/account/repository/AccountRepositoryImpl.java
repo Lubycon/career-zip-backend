@@ -40,10 +40,17 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
 
     @Override
     public List<Account> findAllNotArchivedBy(QuestionPaper questionPaper) {
+        List<Long> archivedIds = findAllArchivedIds(questionPaper);
+
         return queryFactory.selectFrom(account)
-                           .leftJoin(archive).on(account.eq(archive.account))
-                           .leftJoin(QQuestionPaper.questionPaper).on(archive.questionPaper.eq(questionPaper))
-                           .where(archive.id.isNull())
+                           .where(account.id.notIn(archivedIds))
+                           .fetch();
+    }
+
+    private List<Long> findAllArchivedIds(QuestionPaper questionPaper) {
+        return queryFactory.select(account.id).from(account)
+                           .innerJoin(archive).on(archive.account.eq(account))
+                           .where(archive.questionPaper.eq(questionPaper))
                            .fetch();
     }
 }
