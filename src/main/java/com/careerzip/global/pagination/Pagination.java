@@ -9,10 +9,23 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Getter
 public class Pagination {
+    private static final int DEFAULT_PAGE = 0;
+    private static final int DEFAULT_SIZE = 30;
+    private static final Direction DEFAULT_DIRECTION = ASC;
 
     private Integer page;
     private Integer size;
     private Direction direction;
+
+    public Pagination(Integer page, Integer size, Direction direction) {
+        this.page = page;
+        this.size = size;
+        this.direction = direction;
+    }
+
+    public static Pagination defaultPagination() {
+        return new Pagination(DEFAULT_PAGE, DEFAULT_SIZE, DEFAULT_DIRECTION);
+    }
 
     public void setPage(Integer page) {
         if (page == null || page < 1) {

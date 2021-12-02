@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface ArchiveRepository extends JpaRepository<Archive, Long>, ArchiveRepositoryCustom {
@@ -22,4 +23,8 @@ public interface ArchiveRepository extends JpaRepository<Archive, Long>, Archive
     Optional<Archive> findBy(Account account, Long archiveId);
 
     Optional<Archive> findBy(Account account, QuestionPaper questionPaper);
+
+    int deleteByIdIn(List<Long> ids);
+
+    Page<Archive> findByAccount_Id(long accountId, Pageable pageable);
 }

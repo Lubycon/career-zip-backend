@@ -5,6 +5,7 @@ import com.careerzip.domain.account.repository.AccountRepository;
 import com.careerzip.domain.answer.service.AnswerService;
 import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateAnswerDetail;
 import com.careerzip.domain.archive.dto.request.createarchiverequest.CreateArchiveRequest;
+import com.careerzip.domain.archive.dto.response.DeleteArchiveResponse;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ArchiveDetailResponse;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.ProjectSummary;
 import com.careerzip.domain.archive.dto.response.archivedetailresponse.QuestionWithAnswers;
@@ -27,6 +28,8 @@ import com.careerzip.global.pagination.CustomPageRequest;
 import com.careerzip.global.pagination.Pagination;
 import com.careerzip.security.oauth.dto.OAuthAccount;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -38,7 +41,7 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
+@Slf4j
 public class ArchiveService {
 
     private final ArchiveRepository archiveRepository;
@@ -48,6 +51,12 @@ public class ArchiveService {
     private final AnswerService answerService;
     private final ProjectService projectService;
 
+    @NotNull
+    private Account findByOrThrow(long userId) {
+        return accountRepository.findById(userId).orElseThrow(AccountNotFoundException::new);
+    }
+
+    @Transactional
     public ArchivesResponse findAll(OAuthAccount loginAccount, Pagination pagination) {
         PageRequest pageRequest = CustomPageRequest.of(pagination);
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
@@ -57,6 +66,7 @@ public class ArchiveService {
         return ArchivesResponse.of(archivePage, archives);
     }
 
+    @Transactional
     public ArchiveDetailResponse findBy(OAuthAccount loginAccount, Long archiveId) {
         Account account = accountRepository.findById(loginAccount.getId()).orElseThrow(AccountNotFoundException::new);
         Archive archive = archiveRepository.findBy(account, archiveId).orElseThrow(ArchiveNotFoundException::new);
@@ -81,5 +91,25 @@ public class ArchiveService {
         Account updatedAccount = account.addSubmitCount();
 
         return NewArchiveResponse.of(newArchive, updatedAccount);
+    }
+
+    // 지금은 페이지네이션이 없었군! 30개 디폴트로 낭낭하게 잡아두기
+    @Transactional
+    public DeleteArchiveResponse delete(long userId, @NotNull List<Long> deleteArchiveIds) {
+        Account account = findByOrThrow(userId);
+        int deletedCount = archiveRepository.deleteByIdIn(deleteArchiveIds);
+        Page<Archive> archivePages = archiveRepository.findAllBy(
+                account,
+                CustomPageRequest.of(Pagination.defaultPagination())
+        );
+        Set<RelatedProject> relatedProjects = projectService.findAllRelatedBy(archivePages);
+        List<ArchiveSummary> archives = ArchiveSummary.listOf(archivePages, relatedProjects);
+        DeleteArchiveResponse deleteArchiveResponse = new DeleteArchiveResponse(
+                deletedCount,
+                ArchivesResponse.of(archivePages, archives)
+        );
+
+        log.info("DeleteArchiveResponse for userId : {} -> {}", userId, deleteArchiveResponse);
+        return deleteArchiveResponse;
     }
 }

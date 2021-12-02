@@ -31,8 +31,10 @@ public enum ErrorCode {
     QUESTION_PAPER_NOT_FOUND(404, "해당 질문지를 찾을 수 없습니다."),
 
     // Project
-    PROJECT_NOT_FOUND(404, "해당 프로젝트를 찾을 수 없습니다.")
-    ;
+    PROJECT_NOT_FOUND(404, "해당 프로젝트를 찾을 수 없습니다."),
+
+    // Archive
+    ARCHIVE_DELETE_ID_EMPTY(400, "삭제하려는 아카이빙 아이디가 없습니다.");
 
     private final int statusCode;
     private final String message;
