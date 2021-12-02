@@ -1,6 +1,7 @@
 package com.careerzip.global.pagination;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -8,6 +9,7 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Getter
+@NoArgsConstructor
 public class Pagination {
     private static final int DEFAULT_PAGE = 0;
     private static final int DEFAULT_SIZE = 30;
